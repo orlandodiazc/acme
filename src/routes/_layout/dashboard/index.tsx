@@ -1,6 +1,6 @@
-import LatestInvoices from "@/components/dashboard/latest-invoices";
-import RevenueChart from "@/components/dashboard/revenue-chart";
-import StatCard from "@/components/dashboard/stat-card";
+import LatestInvoices from "@/components/dashboard/overview/latest-invoices";
+import RevenueChart from "@/components/dashboard/overview/revenue-chart";
+import StatCard from "@/components/dashboard/overview/stat-card";
 import { fetchOverview } from "@/lib/api";
 import { Overview } from "@/lib/api.types";
 import { formatCurrency } from "@/lib/utils";

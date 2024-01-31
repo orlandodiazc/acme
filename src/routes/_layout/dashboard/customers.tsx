@@ -1,4 +1,4 @@
-import CustomersTable from "@/components/dashboard/customers/customers-table";
+import CustomersTable from "@/components/dashboard/customers/table";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { fetchFilteredCustomers } from "@/lib/api";
