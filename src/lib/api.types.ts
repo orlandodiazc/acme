@@ -1,11 +1,13 @@
+// Generated using typescript-generator version 3.2.1263 on 2024-01-31 11:21:35.
+
 export interface CustomerFiltered {
     name: string;
     id: string;
-    email: string;
-    paidInvoicesTotal: number;
-    pendingInvoicesTotal: number;
     imageUrl: string;
     invoicesCount: number;
+    paidInvoicesTotal: number;
+    pendingInvoicesTotal: number;
+    email: string;
 }
 
 export interface CustomerSimple {
@@ -16,19 +18,19 @@ export interface CustomerSimple {
 export interface InvoiceDetails {
     name: string;
     id: string;
-    email: string;
-    amount: number;
     imageUrl: string;
+    amount: number;
+    email: string;
 }
 
 export interface InvoiceFiltered {
     name: string;
     id: string;
-    status: string;
-    email: string;
+    imageUrl: string;
     amount: number;
     processingDate: Date;
-    imageUrl: string;
+    status: string;
+    email: string;
 }
 
 export interface InvoiceTotalByStatus {
@@ -36,7 +38,7 @@ export interface InvoiceTotalByStatus {
     pendingInvoicesTotal: number;
 }
 
-export interface OverviewStats {
+export interface Overview {
     invoiceCount: number;
     customerCount: number;
     totalPaidInvoices: number;

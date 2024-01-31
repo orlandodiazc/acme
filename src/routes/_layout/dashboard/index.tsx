@@ -2,7 +2,7 @@ import LatestInvoices from "@/components/dashboard/latest-invoices";
 import RevenueChart from "@/components/dashboard/revenue-chart";
 import StatCard from "@/components/dashboard/stat-card";
 import { fetchOverview } from "@/lib/api";
-import { OverviewStats } from "@/lib/api.types";
+import { Overview } from "@/lib/api.types";
 import { formatCurrency } from "@/lib/utils";
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { Banknote, Clock, Inbox, Users } from "lucide-react";
@@ -22,7 +22,7 @@ function DashboardIndex() {
     latestInvoices,
   } = useLoaderData({
     from: "/_layout/dashboard/",
-  }) as OverviewStats;
+  }) as Overview;
   return (
     <main>
       <h1 className="mb-4 text-xl md:text-2xl">Dashboard</h1>
