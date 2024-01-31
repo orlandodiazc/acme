@@ -1,5 +1,5 @@
 import { InvoiceDetails } from "@/lib/api.types";
-import { cn } from "@/lib/utils";
+import { cn, formatCurrency } from "@/lib/utils";
 import { RefreshCcw } from "lucide-react";
 
 export default function LatestInvoices({
@@ -39,7 +39,7 @@ export default function LatestInvoices({
                   </div>
                 </div>
                 <p className="truncate text-sm font-medium md:text-base">
-                  {invoice.amount}
+                  {formatCurrency(invoice.amount)}
                 </p>
               </div>
             );
