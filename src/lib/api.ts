@@ -4,3 +4,9 @@ export async function fetchOverview() {
     const response = await fetch(BASE_URL + "/overview");
     return await response.json();
 }
+
+export async function fetchFilteredCustomers(searchString: string) {
+
+    const response = await fetch(BASE_URL + "/customers" + searchString);
+    return await response.json();
+}
