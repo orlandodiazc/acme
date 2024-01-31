@@ -1,4 +1,5 @@
 import {
+  Table,
   TableBody,
   TableCell,
   TableHead,
@@ -7,7 +8,6 @@ import {
 } from "@/components/ui/table";
 import { CustomerFiltered } from "@/lib/api.types";
 import { formatCurrency } from "@/lib/utils";
-import { Table } from "lucide-react";
 
 export default function CustomersTable({
   customers,
