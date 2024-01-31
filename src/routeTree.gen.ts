@@ -2,74 +2,74 @@
 
 // Import Routes
 
-import { Route as rootRoute } from "./routes/__root";
-import { Route as LoginImport } from "./routes/login";
-import { Route as LayoutImport } from "./routes/_layout";
-import { Route as IndexImport } from "./routes/index";
-import { Route as LayoutDashboardIndexImport } from "./routes/_layout/dashboard/index";
-import { Route as LayoutDashboardInvoicesImport } from "./routes/_layout/dashboard/invoices";
-import { Route as LayoutDashboardCustomersImport } from "./routes/_layout/dashboard/customers";
+import { Route as rootRoute } from './routes/__root'
+import { Route as LoginImport } from './routes/login'
+import { Route as LayoutImport } from './routes/_layout'
+import { Route as IndexImport } from './routes/index'
+import { Route as LayoutDashboardIndexImport } from './routes/_layout/dashboard/index'
+import { Route as LayoutDashboardInvoicesImport } from './routes/_layout/dashboard/invoices'
+import { Route as LayoutDashboardCustomersImport } from './routes/_layout/dashboard/customers'
 
 // Create/Update Routes
 
 const LoginRoute = LoginImport.update({
-  path: "/login",
+  path: '/login',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const LayoutRoute = LayoutImport.update({
-  id: "/_layout",
+  id: '/_layout',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const IndexRoute = IndexImport.update({
-  path: "/",
+  path: '/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const LayoutDashboardIndexRoute = LayoutDashboardIndexImport.update({
-  path: "/dashboard/",
+  path: '/dashboard/',
   getParentRoute: () => LayoutRoute,
-} as any);
+} as any)
 
 const LayoutDashboardInvoicesRoute = LayoutDashboardInvoicesImport.update({
-  path: "/dashboard/invoices",
+  path: '/dashboard/invoices',
   getParentRoute: () => LayoutRoute,
-} as any);
+} as any)
 
 const LayoutDashboardCustomersRoute = LayoutDashboardCustomersImport.update({
-  path: "/dashboard/customers",
+  path: '/dashboard/customers',
   getParentRoute: () => LayoutRoute,
-} as any);
+} as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/": {
-      preLoaderRoute: typeof IndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/_layout": {
-      preLoaderRoute: typeof LayoutImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/login": {
-      preLoaderRoute: typeof LoginImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/_layout/dashboard/customers": {
-      preLoaderRoute: typeof LayoutDashboardCustomersImport;
-      parentRoute: typeof LayoutImport;
-    };
-    "/_layout/dashboard/invoices": {
-      preLoaderRoute: typeof LayoutDashboardInvoicesImport;
-      parentRoute: typeof LayoutImport;
-    };
-    "/_layout/dashboard/": {
-      preLoaderRoute: typeof LayoutDashboardIndexImport;
-      parentRoute: typeof LayoutImport;
-    };
+    '/': {
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/_layout': {
+      preLoaderRoute: typeof LayoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/_layout/dashboard/customers': {
+      preLoaderRoute: typeof LayoutDashboardCustomersImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/dashboard/invoices': {
+      preLoaderRoute: typeof LayoutDashboardInvoicesImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/dashboard/': {
+      preLoaderRoute: typeof LayoutDashboardIndexImport
+      parentRoute: typeof LayoutImport
+    }
   }
 }
 
@@ -83,4 +83,4 @@ export const routeTree = rootRoute.addChildren([
     LayoutDashboardIndexRoute,
   ]),
   LoginRoute,
-]);
+])
