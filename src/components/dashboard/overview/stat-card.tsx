@@ -12,14 +12,14 @@ export default function StatCard({ Icon, title, value }: StatCard) {
     <Card>
       <CardHeader>
         <CardTitle>
-          <div className="flex gap-2 items-center">
+          <div className="flex items-center gap-2">
             {Icon ? <Icon className="h-5 w-5" strokeWidth={1.8} /> : null}
             <span>{title}</span>
           </div>
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-3xl text-center">{value}</p>
+        <p className="text-center text-3xl">{value}</p>
       </CardContent>
     </Card>
   );

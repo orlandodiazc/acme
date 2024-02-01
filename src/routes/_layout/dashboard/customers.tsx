@@ -46,7 +46,7 @@ export default function Customers() {
         />
         <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
       </div>
-      <div className="mt-6 border rounded-md">
+      <div className="mt-6 rounded-md border">
         <CustomersTable customers={customers} />
       </div>
     </div>

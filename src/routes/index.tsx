@@ -16,7 +16,7 @@ function Home() {
       </div>
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
         <div className="flex flex-col justify-center gap-6 rounded-lg  px-6 py-10 md:w-2/5 md:px-20">
-          <p className="text-xl md:text-3xl md:leading-normal tracking-tight">
+          <p className="text-xl tracking-tight md:text-3xl md:leading-normal">
             <strong>Welcome to Acme.</strong> This is the example for the{" "}
             <a href="https://nextjs.org/learn/" className="text-primary">
               Next.js Learn Course
@@ -25,7 +25,7 @@ function Home() {
           </p>
           <Link
             to="/login"
-            className={cn(buttonVariants({ size: "lg" }), "self-start gap-3")}
+            className={cn(buttonVariants({ size: "lg" }), "gap-3 self-start")}
           >
             <span className="text-lg">Log in</span>
             <ArrowRight size={26} />

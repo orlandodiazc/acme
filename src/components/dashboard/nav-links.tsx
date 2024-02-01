@@ -10,7 +10,7 @@ export default function NavLinks() {
         to="/dashboard"
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "gap-2 justify-start",
+          "justify-start gap-2",
         )}
       >
         <Home />
@@ -20,7 +20,7 @@ export default function NavLinks() {
         to="/dashboard/invoices"
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "gap-2 justify-start",
+          "justify-start gap-2",
         )}
       >
         <FileText />
@@ -30,7 +30,7 @@ export default function NavLinks() {
         to="/dashboard/customers"
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "gap-2 justify-start",
+          "justify-start gap-2",
         )}
       >
         <Users />

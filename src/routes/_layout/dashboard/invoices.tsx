@@ -60,7 +60,7 @@ function Invoices() {
         />
         <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
       </div>
-      <div className="my-6 border rounded-md">
+      <div className="my-6 rounded-md border">
         <InvoicesTable invoices={invoices} />
       </div>
       <DashboardPagination currentPage={search.page} totalPages={totalPages} />
