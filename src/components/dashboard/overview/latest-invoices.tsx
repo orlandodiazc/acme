@@ -17,7 +17,7 @@ export default function LatestInvoices({
               <div
                 key={invoice.id}
                 className={cn(
-                  "flex flex-row items-center justify-between py-4"
+                  "flex flex-row items-center justify-between py-4",
                 )}
               >
                 {/* fix border */}

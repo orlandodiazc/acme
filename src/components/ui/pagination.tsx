@@ -53,7 +53,7 @@ const PaginationLink = ({
         variant: isActive ? "outline" : "ghost",
         size,
       }),
-      className
+      className,
     )}
     {...props}
   />
@@ -71,7 +71,7 @@ const PaginationPrevious = ({
     className={cn(
       "gap-1 pl-2.5  ",
       disabled && "pointer-events-none opacity-50",
-      className
+      className,
     )}
     disabled={disabled}
     {...props}
@@ -93,7 +93,7 @@ const PaginationNext = ({
     className={cn(
       "gap-1 pr-2.5",
       disabled && "pointer-events-none opacity-50",
-      className
+      className,
     )}
     disabled={disabled}
     {...props}
