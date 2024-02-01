@@ -6,7 +6,11 @@ export async function fetchOverview() {
 }
 
 export async function fetchFilteredCustomers(searchString: string) {
-
     const response = await fetch(BASE_URL + "/customers" + searchString);
+    return await response.json();
+}
+
+export async function fetchFilteredInvoices(searchString: string) {
+    const response = await fetch(BASE_URL + "/invoices" + searchString);
     return await response.json();
 }

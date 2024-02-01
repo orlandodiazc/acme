@@ -1,5 +1,4 @@
 // Generated using typescript-generator version 3.2.1263 on 2024-01-31 11:21:35.
-
 export interface CustomerFiltered {
     name: string;
     id: string;
@@ -18,19 +17,24 @@ export interface CustomerSimple {
 export interface InvoiceDetails {
     name: string;
     id: string;
-    imageUrl: string;
     amount: number;
+    imageUrl: string;
     email: string;
 }
 
 export interface InvoiceFiltered {
     name: string;
     id: string;
-    imageUrl: string;
     amount: number;
     processingDate: Date;
+    imageUrl: string;
     status: string;
     email: string;
+}
+
+export interface InvoiceFilteredPageable {
+    invoices: InvoiceFiltered[];
+    totalPages: number;
 }
 
 export interface InvoiceTotalByStatus {
