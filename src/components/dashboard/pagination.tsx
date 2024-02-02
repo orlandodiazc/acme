@@ -1,4 +1,3 @@
-import { InvoiceSearch } from "@/routes/_layout/dashboard/invoices";
 import {
   Pagination,
   PaginationContent,
@@ -9,6 +8,7 @@ import {
   PaginationPrevious,
 } from "../ui/pagination";
 import { generatePagination } from "@/lib/utils";
+import { InvoiceSearch } from "@/routes/_layout/dashboard/invoices";
 import { Fragment } from "react";
 
 export default function DashboardPagination({

@@ -7,8 +7,9 @@ import { Route as LoginImport } from './routes/login'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as IndexImport } from './routes/index'
 import { Route as LayoutDashboardIndexImport } from './routes/_layout/dashboard/index'
-import { Route as LayoutDashboardInvoicesImport } from './routes/_layout/dashboard/invoices'
 import { Route as LayoutDashboardCustomersImport } from './routes/_layout/dashboard/customers'
+import { Route as LayoutDashboardInvoicesIndexImport } from './routes/_layout/dashboard/invoices/index'
+import { Route as LayoutDashboardInvoicesCreateImport } from './routes/_layout/dashboard/invoices/create'
 
 // Create/Update Routes
 
@@ -32,15 +33,22 @@ const LayoutDashboardIndexRoute = LayoutDashboardIndexImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutDashboardInvoicesRoute = LayoutDashboardInvoicesImport.update({
-  path: '/dashboard/invoices',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
 const LayoutDashboardCustomersRoute = LayoutDashboardCustomersImport.update({
   path: '/dashboard/customers',
   getParentRoute: () => LayoutRoute,
 } as any)
+
+const LayoutDashboardInvoicesIndexRoute =
+  LayoutDashboardInvoicesIndexImport.update({
+    path: '/dashboard/invoices/',
+    getParentRoute: () => LayoutRoute,
+  } as any)
+
+const LayoutDashboardInvoicesCreateRoute =
+  LayoutDashboardInvoicesCreateImport.update({
+    path: '/dashboard/invoices/create',
+    getParentRoute: () => LayoutRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -62,12 +70,16 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutDashboardCustomersImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/dashboard/invoices': {
-      preLoaderRoute: typeof LayoutDashboardInvoicesImport
-      parentRoute: typeof LayoutImport
-    }
     '/_layout/dashboard/': {
       preLoaderRoute: typeof LayoutDashboardIndexImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/dashboard/invoices/create': {
+      preLoaderRoute: typeof LayoutDashboardInvoicesCreateImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/dashboard/invoices/': {
+      preLoaderRoute: typeof LayoutDashboardInvoicesIndexImport
       parentRoute: typeof LayoutImport
     }
   }
@@ -79,8 +91,9 @@ export const routeTree = rootRoute.addChildren([
   IndexRoute,
   LayoutRoute.addChildren([
     LayoutDashboardCustomersRoute,
-    LayoutDashboardInvoicesRoute,
     LayoutDashboardIndexRoute,
+    LayoutDashboardInvoicesCreateRoute,
+    LayoutDashboardInvoicesIndexRoute,
   ]),
   LoginRoute,
 ])

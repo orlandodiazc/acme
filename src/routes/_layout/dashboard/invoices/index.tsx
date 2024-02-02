@@ -1,24 +1,26 @@
 import InvoicesTable from "@/components/dashboard/invoices/table";
 import DashboardPagination from "@/components/dashboard/pagination";
+import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { fetchInvoicesFiltered } from "@/lib/api";
 
-import { fetchFilteredInvoices } from "@/lib/api";
 import { InvoiceFilteredPageable } from "@/lib/api.types";
-import { Label } from "@radix-ui/react-label";
 import {
+  Link,
   createFileRoute,
   useLoaderData,
   useNavigate,
   useSearch,
 } from "@tanstack/react-router";
-import { Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 
 export interface InvoiceSearch {
   page: number;
   query: string | undefined;
 }
 
-export const Route = createFileRoute("/_layout/dashboard/invoices")({
+export const Route = createFileRoute("/_layout/dashboard/invoices/")({
   component: Invoices,
   validateSearch: (search: Record<string, unknown>): InvoiceSearch => {
     return {
@@ -31,20 +33,20 @@ export const Route = createFileRoute("/_layout/dashboard/invoices")({
     page,
   }),
   loader: ({ location: { searchStr } }) => {
-    return fetchFilteredInvoices(searchStr);
+    return fetchInvoicesFiltered(searchStr);
   },
 });
 
 function Invoices() {
   const { invoices, totalPages } = useLoaderData({
-    from: "/_layout/dashboard/invoices",
+    from: "/_layout/dashboard/invoices/",
   }) as InvoiceFilteredPageable;
   const navigate = useNavigate({ from: Route.fullPath });
-  const search = useSearch({ from: "/_layout/dashboard/invoices" });
+  const search = useSearch({ from: "/_layout/dashboard/invoices/" });
   return (
     <>
       <h1 className="mb-4 text-xl md:text-2xl">Invoices</h1>
-      <div className="relative flex flex-1 flex-shrink-0">
+      <div className="relative flex flex-1 flex-shrink-0 gap-2">
         <Label htmlFor="search-customers" className="sr-only">
           Search invoices
         </Label>
@@ -58,6 +60,9 @@ function Invoices() {
           className="pl-10"
           placeholder="Search customers..."
         />
+        <Link to="/dashboard/invoices/create" className={buttonVariants()}>
+          Create Invoice <Plus strokeWidth={1.5} className="ml-2" />
+        </Link>
         <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
       </div>
       <div className="my-6 rounded-md border">

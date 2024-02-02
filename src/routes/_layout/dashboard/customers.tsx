@@ -1,7 +1,7 @@
 import CustomersTable from "@/components/dashboard/customers/table";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { fetchFilteredCustomers } from "@/lib/api";
+import { fetchCustomersFiltered } from "@/lib/api";
 import { CustomerFiltered } from "@/lib/api.types";
 import {
   createFileRoute,
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/_layout/dashboard/customers")({
     query,
   }),
   loader: ({ location: { searchStr } }) => {
-    return fetchFilteredCustomers(searchStr);
+    return fetchCustomersFiltered(searchStr);
   },
 });
 
