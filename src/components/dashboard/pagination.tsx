@@ -25,10 +25,7 @@ export default function DashboardPagination({
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            search={(prev: InvoiceSearch) => {
-              if (prev.page <= 1) return prev;
-              return { ...prev, page: prev.page - 1 };
-            }}
+            search={(prev: InvoiceSearch) => ({ ...prev, page: prev.page - 1 })}
             disabled={currentPage <= 1}
           />
         </PaginationItem>
@@ -55,10 +52,7 @@ export default function DashboardPagination({
 
         <PaginationItem>
           <PaginationNext
-            search={(prev: InvoiceSearch) => {
-              if (prev.page >= totalPages) return prev;
-              return { ...prev, page: prev.page + 1 };
-            }}
+            search={(prev: InvoiceSearch) => ({ ...prev, page: prev.page + 1 })}
             disabled={currentPage >= totalPages}
           />
         </PaginationItem>
