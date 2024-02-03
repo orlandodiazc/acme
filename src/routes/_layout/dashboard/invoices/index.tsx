@@ -1,18 +1,11 @@
 import InvoicesTable from "@/components/dashboard/invoices/table";
 import DashboardPagination from "@/components/dashboard/pagination";
+import Spinner from "@/components/spinner";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { fetchInvoicesFiltered } from "@/lib/api";
-
-import { InvoiceFilteredPageable } from "@/lib/api.types";
-import {
-  Link,
-  createFileRoute,
-  useLoaderData,
-  useNavigate,
-  useSearch,
-} from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Plus, Search } from "lucide-react";
 
 export interface InvoiceSearch {
@@ -22,6 +15,12 @@ export interface InvoiceSearch {
 
 export const Route = createFileRoute("/_layout/dashboard/invoices/")({
   component: Invoices,
+  pendingComponent: () => (
+    <>
+      <h1 className="mb-4 text-xl md:text-2xl">Invoices</h1>
+      <Spinner />
+    </>
+  ),
   validateSearch: (search: Record<string, unknown>): InvoiceSearch => {
     return {
       page: Number(search?.page ?? 1),
@@ -38,11 +37,9 @@ export const Route = createFileRoute("/_layout/dashboard/invoices/")({
 });
 
 function Invoices() {
-  const { invoices, totalPages } = useLoaderData({
-    from: "/_layout/dashboard/invoices/",
-  }) as InvoiceFilteredPageable;
+  const { invoices, totalPages } = Route.useLoaderData();
   const navigate = useNavigate({ from: Route.fullPath });
-  const search = useSearch({ from: "/_layout/dashboard/invoices/" });
+  const { page } = Route.useSearch();
   return (
     <>
       <h1 className="mb-4 text-xl md:text-2xl">Invoices</h1>
@@ -53,7 +50,10 @@ function Invoices() {
         <Input
           onChange={(e) =>
             navigate({
-              search: { ...search, query: e.target.value || undefined },
+              search: (prev) => ({
+                ...prev,
+                query: e.target.value || undefined,
+              }),
             })
           }
           id="search-customers"
@@ -68,7 +68,7 @@ function Invoices() {
       <div className="my-6 rounded-md border">
         <InvoicesTable invoices={invoices} />
       </div>
-      <DashboardPagination currentPage={search.page} totalPages={totalPages} />
+      <DashboardPagination currentPage={page} totalPages={totalPages} />
     </>
   );
 }

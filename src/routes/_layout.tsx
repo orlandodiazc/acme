@@ -4,6 +4,7 @@ import { Outlet, createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/_layout")({
   component: DashboardLayout,
 });
+
 function DashboardLayout() {
   return (
     <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">

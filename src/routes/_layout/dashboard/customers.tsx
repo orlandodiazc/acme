@@ -1,17 +1,19 @@
 import CustomersTable from "@/components/dashboard/customers/table";
+import Spinner from "@/components/spinner";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { fetchCustomersFiltered } from "@/lib/api";
-import { CustomerFiltered } from "@/lib/api.types";
-import {
-  createFileRoute,
-  useLoaderData,
-  useNavigate,
-} from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Search } from "lucide-react";
 
 export const Route = createFileRoute("/_layout/dashboard/customers")({
   component: Customers,
+  pendingComponent: () => (
+    <>
+      <h1 className="mb-4 text-xl md:text-2xl">Customers</h1>
+      <Spinner />
+    </>
+  ),
   validateSearch: (search) =>
     search as {
       query: string | undefined;
@@ -19,15 +21,11 @@ export const Route = createFileRoute("/_layout/dashboard/customers")({
   loaderDeps: ({ search: { query } }) => ({
     query,
   }),
-  loader: ({ location: { searchStr } }) => {
-    return fetchCustomersFiltered(searchStr);
-  },
+  loader: ({ location: { searchStr } }) => fetchCustomersFiltered(searchStr),
 });
 
 export default function Customers() {
-  const customers = useLoaderData({
-    from: "/_layout/dashboard/customers",
-  }) as CustomerFiltered[];
+  const customers = Route.useLoaderData();
   const navigate = useNavigate({ from: Route.fullPath });
   return (
     <div>
@@ -38,7 +36,12 @@ export default function Customers() {
         </Label>
         <Input
           onChange={(e) =>
-            navigate({ search: { query: e.target.value || undefined } })
+            navigate({
+              search: (prev) => ({
+                ...prev,
+                query: e.target.value || undefined,
+              }),
+            })
           }
           id="search-customers"
           className="pl-10"
