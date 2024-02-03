@@ -1,21 +1,36 @@
+import {
+  CustomerFiltered,
+  CustomerSimple,
+  InvoiceFilteredPageable,
+  Overview,
+} from "./api.types";
+
 const BASE_URL = "http://localhost:8080/api";
 
-export async function fetchOverview() {
-  const response = await fetch(BASE_URL + "/overview");
+function sleep(ms: number) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+async function fetcher(...args: Parameters<typeof fetch>) {
+  const response = await fetch(...args);
   return await response.json();
 }
 
-export async function fetchCustomersFiltered(searchString: string) {
-  const response = await fetch(BASE_URL + "/customers" + searchString);
-  return await response.json();
+export function fetchOverview(): Promise<Overview> {
+  return fetcher(BASE_URL + "/overview");
 }
 
-export async function fetchInvoicesFiltered(searchString: string) {
-  const response = await fetch(BASE_URL + "/invoices" + searchString);
-  return await response.json();
+export function fetchInvoicesFiltered(
+  searchString: string,
+): Promise<InvoiceFilteredPageable> {
+  return fetcher(BASE_URL + "/invoices" + searchString);
 }
 
-export async function fetchCustomersSimple() {
-  const response = await fetch(BASE_URL + "/customers/base");
-  return await response.json();
+export function fetchCustomersFiltered(
+  searchString: string,
+): Promise<CustomerFiltered[]> {
+  return fetcher(BASE_URL + "/customers" + searchString);
+}
+
+export function fetchCustomersSimple(): Promise<CustomerSimple[]> {
+  return fetcher(BASE_URL + "/customers/base");
 }
