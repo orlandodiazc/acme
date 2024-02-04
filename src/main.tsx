@@ -6,6 +6,7 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import Spinner from "./components/spinner";
 import ErrorComponent from "./components/error";
+import { Toaster } from "./components/ui/sonner";
 
 const router = createRouter({
   routeTree,
@@ -28,6 +29,7 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
+      <Toaster richColors closeButton />
       <RouterProvider router={router} />
     </StrictMode>,
   );

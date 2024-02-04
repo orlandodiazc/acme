@@ -14,6 +14,7 @@ import { postInvoice } from "@/lib/api";
 import { RequestInvoice, CustomerSimple, Invoice } from "@/lib/api.types";
 import { Link, useRouter } from "@tanstack/react-router";
 import { Check, CircleDollarSign, Clock, UserCircle } from "lucide-react";
+import { toast } from "sonner";
 
 export default function CreateInvoiceForm({
   customers,
@@ -25,6 +26,7 @@ export default function CreateInvoiceForm({
     fn: postInvoice,
     onSuccess: () => {
       router.invalidate();
+      toast.success("Succesfully created invoice.");
       router.navigate({ to: "/dashboard/invoices", search: true });
     },
   });

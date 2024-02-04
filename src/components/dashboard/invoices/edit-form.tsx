@@ -14,6 +14,7 @@ import { type PutInvoice, putInvoice } from "@/lib/api";
 import { CustomerSimple, Invoice } from "@/lib/api.types";
 import { Link, useRouter } from "@tanstack/react-router";
 import { Check, CircleDollarSign, Clock, UserCircle } from "lucide-react";
+import { toast } from "sonner";
 
 export default function EditInvoiceForm({
   customers,
@@ -27,6 +28,7 @@ export default function EditInvoiceForm({
     fn: putInvoice,
     onSuccess: () => {
       router.invalidate();
+      toast.success("Succesfully edited invoice.");
       router.navigate({ to: "/dashboard/invoices", search: true });
     },
   });

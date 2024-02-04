@@ -13,6 +13,7 @@ import { InvoiceFiltered } from "@/lib/api.types";
 import { formatCurrency, formatDateToLocal } from "@/lib/utils";
 import { Link, useRouter } from "@tanstack/react-router";
 import { Pencil, Trash } from "lucide-react";
+import { toast } from "sonner";
 
 export default function InvoicesTable({
   invoices,
@@ -24,6 +25,7 @@ export default function InvoicesTable({
     fn: deleteInvoice,
     onSuccess: () => {
       router.invalidate();
+      toast.success("Succesfully deleted invoice.");
       router.navigate({ to: "/dashboard/invoices", search: true });
     },
   });
