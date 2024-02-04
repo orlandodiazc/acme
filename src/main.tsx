@@ -4,8 +4,18 @@ import "./index.css";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 
 import { routeTree } from "./routeTree.gen";
+import Spinner from "./components/spinner";
+import ErrorComponent from "./components/error";
 
-const router = createRouter({ routeTree });
+const router = createRouter({
+  routeTree,
+  defaultPendingComponent: () => (
+    <div className="grid h-full place-content-center">
+      <Spinner />
+    </div>
+  ),
+  defaultErrorComponent: ({ error }) => <ErrorComponent error={error} />,
+});
 
 declare module "@tanstack/react-router" {
   interface Register {

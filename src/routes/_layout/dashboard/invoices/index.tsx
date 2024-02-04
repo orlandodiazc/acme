@@ -1,6 +1,5 @@
 import InvoicesTable from "@/components/dashboard/invoices/table";
 import DashboardPagination from "@/components/dashboard/pagination";
-import Spinner from "@/components/spinner";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,12 +14,7 @@ export interface InvoiceSearch {
 
 export const Route = createFileRoute("/_layout/dashboard/invoices/")({
   component: Invoices,
-  pendingComponent: () => (
-    <>
-      <h1 className="mb-4 text-xl md:text-2xl">Invoices</h1>
-      <Spinner />
-    </>
-  ),
+
   validateSearch: (search: Record<string, unknown>): InvoiceSearch => {
     return {
       page: Number(search?.page ?? 1),

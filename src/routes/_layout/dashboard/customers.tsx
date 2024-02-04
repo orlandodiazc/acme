@@ -1,5 +1,5 @@
 import CustomersTable from "@/components/dashboard/customers/table";
-import Spinner from "@/components/spinner";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { fetchCustomersFiltered } from "@/lib/api";
@@ -8,12 +8,6 @@ import { Search } from "lucide-react";
 
 export const Route = createFileRoute("/_layout/dashboard/customers")({
   component: Customers,
-  pendingComponent: () => (
-    <>
-      <h1 className="mb-4 text-xl md:text-2xl">Customers</h1>
-      <Spinner />
-    </>
-  ),
   validateSearch: (search) =>
     search as {
       query: string | undefined;
