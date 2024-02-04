@@ -10,6 +10,7 @@ import { Route as LayoutDashboardIndexImport } from './routes/_layout/dashboard/
 import { Route as LayoutDashboardCustomersImport } from './routes/_layout/dashboard/customers'
 import { Route as LayoutDashboardInvoicesIndexImport } from './routes/_layout/dashboard/invoices/index'
 import { Route as LayoutDashboardInvoicesCreateImport } from './routes/_layout/dashboard/invoices/create'
+import { Route as LayoutDashboardInvoicesInvoiceIdEditImport } from './routes/_layout/dashboard/invoices/$invoiceId.edit'
 
 // Create/Update Routes
 
@@ -50,6 +51,12 @@ const LayoutDashboardInvoicesCreateRoute =
     getParentRoute: () => LayoutRoute,
   } as any)
 
+const LayoutDashboardInvoicesInvoiceIdEditRoute =
+  LayoutDashboardInvoicesInvoiceIdEditImport.update({
+    path: '/dashboard/invoices/$invoiceId/edit',
+    getParentRoute: () => LayoutRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -78,6 +85,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutDashboardInvoicesCreateImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/dashboard/invoices/$invoiceId/edit': {
+      preLoaderRoute: typeof LayoutDashboardInvoicesInvoiceIdEditImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/dashboard/invoices/': {
       preLoaderRoute: typeof LayoutDashboardInvoicesIndexImport
       parentRoute: typeof LayoutImport
@@ -93,6 +104,7 @@ export const routeTree = rootRoute.addChildren([
     LayoutDashboardCustomersRoute,
     LayoutDashboardIndexRoute,
     LayoutDashboardInvoicesCreateRoute,
+    LayoutDashboardInvoicesInvoiceIdEditRoute,
     LayoutDashboardInvoicesIndexRoute,
   ]),
   LoginRoute,

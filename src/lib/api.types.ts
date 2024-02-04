@@ -1,11 +1,18 @@
-// Generated using typescript-generator version 3.2.1263 on 2024-01-31 11:21:35.
+// Generated using typescript-generator version 3.2.1263 on 2024-02-03 15:23:20.
+
+export interface RequestInvoice {
+  customerId: string;
+  amount: number;
+  status: string;
+}
+
 export interface CustomerFiltered {
   name: string;
   id: string;
-  imageUrl: string;
-  invoicesCount: number;
   paidInvoicesTotal: number;
   pendingInvoicesTotal: number;
+  imageUrl: string;
+  invoicesCount: number;
   email: string;
 }
 
@@ -26,8 +33,8 @@ export interface InvoiceFiltered {
   name: string;
   id: string;
   amount: number;
-  processingDate: Date;
   imageUrl: string;
+  processingDate: Date;
   status: string;
   email: string;
 }
@@ -61,10 +68,10 @@ export interface Customer {
 
 export interface Invoice {
   id: string;
+  customerId: string;
   amount: number;
   status: string;
   processingDate: Date;
-  customerId: string;
 }
 
 export interface Revenue {

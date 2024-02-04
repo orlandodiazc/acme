@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -7,8 +7,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useMutation } from "@/hooks/useMutation";
+import { deleteInvoice } from "@/lib/api";
 import { InvoiceFiltered } from "@/lib/api.types";
 import { formatCurrency, formatDateToLocal } from "@/lib/utils";
+import { Link, useRouter } from "@tanstack/react-router";
 import { Pencil, Trash } from "lucide-react";
 
 export default function InvoicesTable({
@@ -16,6 +19,14 @@ export default function InvoicesTable({
 }: {
   invoices: InvoiceFiltered[];
 }) {
+  const router = useRouter();
+  const deleteInvoiceMutation = useMutation<string, Response>({
+    fn: deleteInvoice,
+    onSuccess: () => {
+      router.invalidate();
+      router.navigate({ to: "/dashboard/invoices", search: true });
+    },
+  });
   return (
     <Table>
       <TableHeader>
@@ -48,10 +59,25 @@ export default function InvoicesTable({
             <TableCell>{invoice.status}</TableCell>
             <TableCell>
               <div className="flex gap-1">
-                <Button variant="outline" size="icon">
+                <Link
+                  className={buttonVariants({
+                    variant: "outline",
+                    size: "icon",
+                  })}
+                  disabled={deleteInvoiceMutation.status === "pending"}
+                  to="/dashboard/invoices/$invoiceId/edit"
+                  params={{ invoiceId: invoice.id }}
+                >
                   <Pencil className="h-5 w-5" strokeWidth={1.7} />
-                </Button>
-                <Button variant="outline" size="icon">
+                </Link>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => {
+                    deleteInvoiceMutation.mutate(invoice.id);
+                  }}
+                  disabled={deleteInvoiceMutation.status === "pending"}
+                >
                   <Trash className="h-5 w-5" strokeWidth={1.7} />
                 </Button>
               </div>
