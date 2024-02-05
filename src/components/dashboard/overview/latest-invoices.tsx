@@ -1,5 +1,6 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { InvoiceDetails } from "@/lib/api.types";
-import { cn, formatCurrency } from "@/lib/utils";
+import { cn, formatCurrency, getInitials } from "@/lib/utils";
 import { RefreshCcw } from "lucide-react";
 
 export default function LatestInvoices({
@@ -10,35 +11,34 @@ export default function LatestInvoices({
   return (
     <div className="flex w-full flex-col md:col-span-4 lg:col-span-4">
       <h2 className="mb-4 text-xl md:text-2xl">Latest Invoices</h2>
-      <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
-        <div className="bg-white px-6">
+      <div className="flex grow flex-col rounded-xl border p-4">
+        <div className="px-1 md:px-3">
           {latestInvoices.map((invoice) => {
             return (
               <div
                 key={invoice.id}
                 className={cn(
-                  "flex flex-row items-center justify-between py-4",
+                  "flex flex-row items-center justify-between py-4 [&:not(:last-child)]:border-b",
                 )}
               >
-                {/* fix border */}
                 <div className="flex items-center">
-                  <img
-                    src={invoice.imageUrl}
-                    alt={`${invoice.name}'s profile picture`}
-                    className="mr-4 rounded-full"
-                    width={32}
-                    height={32}
-                  />
+                  <Avatar className="mr-4">
+                    <AvatarImage
+                      src={invoice.imageUrl}
+                      alt={`${invoice.name}'s profile picture`}
+                    />
+                    <AvatarFallback>{getInitials(invoice.name)}</AvatarFallback>
+                  </Avatar>
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold md:text-base">
+                    <p className="truncate text-sm font-medium md:text-base">
                       {invoice.name}
                     </p>
-                    <p className="hidden text-sm text-gray-500 sm:block">
+                    <p className="hidden text-sm text-muted-foreground sm:block">
                       {invoice.email}
                     </p>
                   </div>
                 </div>
-                <p className="truncate text-sm font-medium md:text-base">
+                <p className="truncate text-sm md:text-base">
                   {formatCurrency(invoice.amount)}
                 </p>
               </div>
@@ -46,8 +46,10 @@ export default function LatestInvoices({
           })}
         </div>
         <div className="flex items-center pb-2 pt-6">
-          <RefreshCcw className="h-5 w-5 text-gray-500" />
-          <h3 className="ml-2 text-sm text-gray-500 ">Updated just now</h3>
+          <RefreshCcw className="h-5 w-5 text-accent-foreground" />
+          <h3 className="ml-2 text-sm text-accent-foreground ">
+            Updated just now
+          </h3>
         </div>
       </div>
     </div>

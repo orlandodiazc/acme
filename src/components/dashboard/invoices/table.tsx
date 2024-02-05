@@ -10,10 +10,12 @@ import {
 import { useMutation } from "@/hooks/useMutation";
 import { deleteInvoice } from "@/lib/api";
 import { InvoiceFiltered } from "@/lib/api.types";
-import { formatCurrency, formatDateToLocal } from "@/lib/utils";
+import { formatCurrency, formatDateToLocal, getInitials } from "@/lib/utils";
 import { Link, useRouter } from "@tanstack/react-router";
 import { Pencil, Trash } from "lucide-react";
 import { toast } from "sonner";
+import InvoiceBadge from "./invoice-badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function InvoicesTable({
   invoices,
@@ -38,19 +40,19 @@ export default function InvoicesTable({
           <TableHead>Amount</TableHead>
           <TableHead>Date</TableHead>
           <TableHead>Status</TableHead>
-          <TableHead />
         </TableRow>
       </TableHeader>
       <TableBody>
         {invoices.map((invoice) => (
           <TableRow key={invoice.id}>
-            <TableCell className="flex items-center gap-2">
-              <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
-                <img
+            <TableCell className="flex items-center">
+              <Avatar className="mr-4">
+                <AvatarImage
                   src={invoice.imageUrl}
-                  className="aspect-square h-full w-full"
+                  alt={`${invoice.name}'s profile picture`}
                 />
-              </span>
+                <AvatarFallback>{getInitials(invoice.name)}</AvatarFallback>
+              </Avatar>
               <span>{invoice.name}</span>
             </TableCell>
             <TableCell>{invoice.email}</TableCell>
@@ -58,9 +60,11 @@ export default function InvoicesTable({
             <TableCell>
               {formatDateToLocal(invoice.processingDate.toString())}
             </TableCell>
-            <TableCell>{invoice.status}</TableCell>
             <TableCell>
-              <div className="flex gap-1">
+              <InvoiceBadge status={invoice.status} />
+            </TableCell>
+            <TableCell>
+              <div className="flex justify-end gap-1">
                 <Link
                   className={buttonVariants({
                     variant: "outline",
