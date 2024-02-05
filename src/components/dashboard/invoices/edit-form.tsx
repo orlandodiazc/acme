@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,11 +9,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useMutation } from "@/hooks/useMutation";
-import { type PutInvoice, putInvoice } from "@/lib/api";
-import { CustomerSimple, Invoice } from "@/lib/api.types";
+import { putInvoice, type PutInvoice } from "@/lib/api";
+import { CustomerSimple, Invoice, Status } from "@/lib/api.types";
 import { Link, useRouter } from "@tanstack/react-router";
-import { Check, CircleDollarSign, Clock, UserCircle } from "lucide-react";
+import { CircleDollarSign, UserCircle } from "lucide-react";
 import { toast } from "sonner";
+import InvoiceBadge from "./invoice-badge";
 
 export default function EditInvoiceForm({
   customers,
@@ -43,7 +43,7 @@ export default function EditInvoiceForm({
           putInvoice: {
             customerId: formData.get("customerId") as string,
             amount: Number(formData.get("amount")) as number,
-            status: formData.get("status") as string,
+            status: formData.get("status") as Status,
           },
           id: defaultValues.id,
         });
@@ -101,9 +101,7 @@ export default function EditInvoiceForm({
                   defaultChecked={defaultValues?.status === "pending"}
                 />
                 <Label htmlFor="pending" className="ml-2 cursor-pointer">
-                  <Badge className="flex gap-1" size="lg" variant="secondary">
-                    Pending <Clock className="h-4 w-4" />
-                  </Badge>
+                  <InvoiceBadge status="pending" />
                 </Label>
               </div>
               <div className="flex cursor-pointer items-center">
@@ -116,9 +114,7 @@ export default function EditInvoiceForm({
                   defaultChecked={defaultValues?.status === "paid"}
                 />
                 <Label htmlFor="paid" className="ml-2 cursor-pointer">
-                  <Badge variant="success" size="lg">
-                    Paid <Check className="h-4 w-4" />
-                  </Badge>
+                  <InvoiceBadge status="paid" />
                 </Label>
               </div>
             </div>

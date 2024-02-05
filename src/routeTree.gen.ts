@@ -85,12 +85,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutDashboardInvoicesCreateImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/dashboard/invoices/$invoiceId/edit': {
-      preLoaderRoute: typeof LayoutDashboardInvoicesInvoiceIdEditImport
-      parentRoute: typeof LayoutImport
-    }
     '/_layout/dashboard/invoices/': {
       preLoaderRoute: typeof LayoutDashboardInvoicesIndexImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/dashboard/invoices/$invoiceId/edit': {
+      preLoaderRoute: typeof LayoutDashboardInvoicesInvoiceIdEditImport
       parentRoute: typeof LayoutImport
     }
   }
@@ -104,8 +104,8 @@ export const routeTree = rootRoute.addChildren([
     LayoutDashboardCustomersRoute,
     LayoutDashboardIndexRoute,
     LayoutDashboardInvoicesCreateRoute,
-    LayoutDashboardInvoicesInvoiceIdEditRoute,
     LayoutDashboardInvoicesIndexRoute,
+    LayoutDashboardInvoicesInvoiceIdEditRoute,
   ]),
   LoginRoute,
 ])

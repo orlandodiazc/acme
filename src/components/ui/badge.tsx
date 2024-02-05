@@ -19,7 +19,7 @@ const badgeVariants = cva(
           "border-transparent bg-green-600 text-primary-foreground hover:bg-green-600/95",
       },
       size: {
-        lg: "py-1.5",
+        lg: "py-1",
       },
     },
     defaultVariants: {

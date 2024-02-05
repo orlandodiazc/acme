@@ -1,18 +1,10 @@
-// Generated using typescript-generator version 3.2.1263 on 2024-02-03 15:23:20.
-
-export interface RequestInvoice {
-  customerId: string;
-  amount: number;
-  status: string;
-}
-
 export interface CustomerFiltered {
   name: string;
   id: string;
-  paidInvoicesTotal: number;
-  pendingInvoicesTotal: number;
   imageUrl: string;
   invoicesCount: number;
+  paidInvoicesTotal: number;
+  pendingInvoicesTotal: number;
   email: string;
 }
 
@@ -24,19 +16,19 @@ export interface CustomerSimple {
 export interface InvoiceDetails {
   name: string;
   id: string;
-  amount: number;
   imageUrl: string;
   email: string;
+  amount: number;
 }
 
 export interface InvoiceFiltered {
   name: string;
   id: string;
-  amount: number;
   imageUrl: string;
-  processingDate: Date;
-  status: string;
+  status: Status;
   email: string;
+  amount: number;
+  processingDate: Date;
 }
 
 export interface InvoiceFilteredPageable {
@@ -58,6 +50,12 @@ export interface Overview {
   latestInvoices: InvoiceDetails[];
 }
 
+export interface RequestInvoice {
+  customerId: string;
+  amount: number;
+  status: Status;
+}
+
 export interface Customer {
   id: string;
   name: string;
@@ -70,7 +68,7 @@ export interface Invoice {
   id: string;
   customerId: string;
   amount: number;
-  status: string;
+  status: Status;
   processingDate: Date;
 }
 
@@ -78,3 +76,5 @@ export interface Revenue {
   monthName: string;
   revenue: number;
 }
+
+export type Status = "pending" | "paid";

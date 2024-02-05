@@ -16,6 +16,7 @@ const router = createRouter({
     </div>
   ),
   defaultErrorComponent: ({ error }) => <ErrorComponent error={error} />,
+  defaultPendingMs: 500,
 });
 
 declare module "@tanstack/react-router" {
