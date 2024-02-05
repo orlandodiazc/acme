@@ -10,13 +10,13 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-    <main className="flex min-h-screen flex-col p-6">
-      <div className="flex h-20 shrink-0 items-end rounded-lg bg-primary p-4 md:h-52">
+    <main className="flex min-h-screen flex-col p-3 lg:p-6">
+      <div className="flex h-28 shrink-0 items-end rounded-lg bg-primary p-4 lg:h-52">
         <AcmeLogo />
       </div>
-      <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
-        <div className="flex flex-col justify-center gap-6 rounded-lg  px-6 py-10 md:w-2/5 md:px-20">
-          <p className="text-xl tracking-tight md:text-3xl md:leading-normal">
+      <div className="mt-4 flex grow flex-col items-center gap-2 lg:mt-4 lg:flex-row">
+        <div className="flex flex-col justify-center gap-6 rounded-lg  p-5 lg:w-2/5 lg:px-20">
+          <p className="max-w-md text-xl tracking-tight lg:text-3xl lg:leading-normal">
             <strong>Welcome to Acme.</strong> This is the example for the{" "}
             <a href="https://nextjs.org/learn/" className="text-primary">
               Next.js Learn Course
@@ -31,9 +31,9 @@ function Home() {
             <ArrowRight size={26} />
           </Link>
         </div>
-        <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
-          <img className="md:hidden" src="hero-mobile.png" />
-          <img className="hidden md:block" src="hero-desktop.png" />
+        <div className="flex items-center justify-center p-4 lg:w-3/5 lg:px-28 lg:py-12">
+          <img className="lg:hidden" src="hero-mobile.png" />
+          <img className="hidden lg:block" src="hero-desktop.png" />
         </div>
       </div>
     </main>

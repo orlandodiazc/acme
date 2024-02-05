@@ -22,7 +22,7 @@ function DashboardIndex() {
   } = Route.useLoaderData();
   return (
     <main>
-      <h1 className="mb-4 text-xl md:text-2xl">Overview</h1>
+      <h1 className="mb-4 text-2xl md:text-2xl">Overview</h1>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           Icon={Banknote}

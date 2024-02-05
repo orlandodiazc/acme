@@ -1,41 +1,39 @@
 import { Link } from "@tanstack/react-router";
 import { FileText, Home, Users } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { buttonVariants } from "../ui/button";
+import { cn } from "@/lib/utils";
+
+const links = [
+  { name: "Home", href: "/dashboard", icon: Home },
+  {
+    name: "Invoices",
+    href: "/dashboard/invoices",
+    icon: FileText,
+  },
+  { name: "Customers", href: "/dashboard/customers", icon: Users },
+];
 
 export default function NavLinks() {
   return (
-    <div className="flex flex-col">
-      <Link
-        to="/dashboard"
-        className={cn(
-          buttonVariants({ variant: "ghost" }),
-          "justify-start gap-2",
-        )}
-      >
-        <Home />
-        <p className="hidden md:block">Home</p>
-      </Link>
-      <Link
-        to="/dashboard/invoices"
-        className={cn(
-          buttonVariants({ variant: "ghost" }),
-          "justify-start gap-2",
-        )}
-      >
-        <FileText />
-        <p className="hidden md:block">Invoices</p>
-      </Link>
-      <Link
-        to="/dashboard/customers"
-        className={cn(
-          buttonVariants({ variant: "ghost" }),
-          "justify-start gap-2",
-        )}
-      >
-        <Users />
-        <p className="hidden md:block">Customers</p>
-      </Link>
-    </div>
+    <>
+      {links.map((link) => {
+        const LinkIcon = link.icon;
+        return (
+          <Link
+            key={link.name}
+            to={link.href}
+            className={cn(
+              buttonVariants({ variant: "ghost", size: "lg" }),
+              "w-full justify-center gap-1 px-2 md:justify-start",
+            )}
+            activeProps={{ className: "bg-accent" }}
+            activeOptions={{ exact: true }}
+          >
+            <LinkIcon className="w-6" />
+            <p className="hidden md:block">{link.name}</p>
+          </Link>
+        );
+      })}
+    </>
   );
 }
