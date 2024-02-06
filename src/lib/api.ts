@@ -7,7 +7,7 @@ import {
   CustomerSummary,
 } from "./api.types";
 
-const BASE_URL = "http://localhost:8080/api";
+const BASE_URL = "https://acme-spring-dashboard.onrender.com/api";
 
 // function sleep(ms: number) {
 //   return new Promise((r) => setTimeout(r, ms));
