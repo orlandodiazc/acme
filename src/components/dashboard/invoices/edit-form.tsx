@@ -28,8 +28,11 @@ export default function EditInvoiceForm({
     fn: putInvoice,
     onSuccess: () => {
       router.invalidate();
-      toast.success("Succesfully edited invoice.");
+      toast.success("Succesfully edited invoice!");
       router.navigate({ to: "/dashboard/invoices", search: true });
+    },
+    onError: () => {
+      toast.error("Unable to edit invoice.");
     },
   });
 

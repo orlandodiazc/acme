@@ -31,8 +31,11 @@ export default function CreateInvoiceForm({
     fn: postInvoice,
     onSuccess: () => {
       router.invalidate();
-      toast.success("Succesfully created invoice.");
+      toast.success("Succesfully created invoice!");
       router.navigate({ to: "/dashboard/invoices", search: true });
+    },
+    onError: () => {
+      toast.error("Unable to create invoice.");
     },
   });
 

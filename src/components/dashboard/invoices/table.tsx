@@ -27,8 +27,11 @@ export default function InvoicesTable({
     fn: deleteInvoice,
     onSuccess: () => {
       router.invalidate();
-      toast.success("Succesfully deleted invoice.");
+      toast.success("Succesfully deleted invoice!");
       router.navigate({ to: "/dashboard/invoices", search: true });
+    },
+    onError: () => {
+      toast.error("Unable to delete invoice.");
     },
   });
   return (
