@@ -1,6 +1,6 @@
 import Breadcrumbs from "@/components/dashboard/breadcrumbs";
 import EditInvoiceForm from "@/components/dashboard/invoices/edit-form";
-import { fetchCustomersSimple, fetchInvoice } from "@/lib/api";
+import { fetchCustomersSummary, fetchInvoice } from "@/lib/api";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute(
@@ -9,7 +9,7 @@ export const Route = createFileRoute(
   component: EditInvoice,
   loader: async ({ params: { invoiceId } }) => {
     const [customers, invoice] = await Promise.all([
-      fetchCustomersSimple(),
+      fetchCustomersSummary(),
       fetchInvoice(invoiceId),
     ]);
     return { customers, invoice };

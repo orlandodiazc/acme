@@ -12,7 +12,7 @@ import { useMutation } from "@/hooks/useMutation";
 import { postInvoice } from "@/lib/api";
 import {
   RequestInvoice,
-  CustomerSimple,
+  CustomerSummary,
   Invoice,
   Status,
 } from "@/lib/api.types";
@@ -24,7 +24,7 @@ import InvoiceBadge from "./invoice-badge";
 export default function CreateInvoiceForm({
   customers,
 }: {
-  customers: CustomerSimple[];
+  customers: CustomerSummary[];
 }) {
   const router = useRouter();
   const createInvoiceMutation = useMutation<RequestInvoice, Invoice>({

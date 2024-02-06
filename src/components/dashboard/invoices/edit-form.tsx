@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import { useMutation } from "@/hooks/useMutation";
 import { putInvoice, type PutInvoice } from "@/lib/api";
-import { CustomerSimple, Invoice, Status } from "@/lib/api.types";
+import { CustomerSummary, Invoice, Status } from "@/lib/api.types";
 import { Link, useRouter } from "@tanstack/react-router";
 import { CircleDollarSign, UserCircle } from "lucide-react";
 import { toast } from "sonner";
@@ -20,7 +20,7 @@ export default function EditInvoiceForm({
   customers,
   defaultValues,
 }: {
-  customers: CustomerSimple[];
+  customers: CustomerSummary[];
   defaultValues: Invoice;
 }) {
   const router = useRouter();

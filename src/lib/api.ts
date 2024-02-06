@@ -1,10 +1,10 @@
 import {
   RequestInvoice,
   CustomerFiltered,
-  CustomerSimple,
   Invoice,
   InvoiceFilteredPageable,
   Overview,
+  CustomerSummary,
 } from "./api.types";
 
 const BASE_URL = "http://localhost:8080/api";
@@ -60,6 +60,6 @@ export function fetchCustomersFiltered(
   return fetcher(BASE_URL + "/customers" + searchString);
 }
 
-export function fetchCustomersSimple(): Promise<CustomerSimple[]> {
-  return fetcher(BASE_URL + "/customers/base");
+export function fetchCustomersSummary(): Promise<CustomerSummary[]> {
+  return fetcher(BASE_URL + "/customers/summary");
 }

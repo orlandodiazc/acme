@@ -1,3 +1,5 @@
+// Generated using typescript-generator version 3.2.1263 on 2024-02-05 19:14:13.
+
 export interface CustomerFiltered {
   name: string;
   id: string;
@@ -8,7 +10,7 @@ export interface CustomerFiltered {
   email: string;
 }
 
-export interface CustomerSimple {
+export interface CustomerSummary {
   name: string;
   id: string;
 }
@@ -16,19 +18,19 @@ export interface CustomerSimple {
 export interface InvoiceDetails {
   name: string;
   id: string;
+  amount: number;
   imageUrl: string;
   email: string;
-  amount: number;
 }
 
 export interface InvoiceFiltered {
   name: string;
   id: string;
+  amount: number;
+  processingDate: Date;
   imageUrl: string;
   status: Status;
   email: string;
-  amount: number;
-  processingDate: Date;
 }
 
 export interface InvoiceFilteredPageable {
