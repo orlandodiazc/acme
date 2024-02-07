@@ -1,9 +1,14 @@
-export default function Spinner() {
+import { cn } from "@/lib/utils";
+
+export default function Spinner({ className }: { className?: string }) {
   return (
     <div role="status">
       <svg
         aria-hidden="true"
-        className="h-8 w-8 animate-spin fill-primary text-secondary"
+        className={cn(
+          "h-8 w-8 animate-spin fill-primary text-secondary",
+          className,
+        )}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

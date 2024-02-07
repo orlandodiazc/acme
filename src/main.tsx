@@ -1,12 +1,18 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
+import {
+  ErrorComponent,
+  RouterProvider,
+  createRouter,
+} from "@tanstack/react-router";
 
 import { routeTree } from "./routeTree.gen";
 import Spinner from "./components/spinner";
-import ErrorComponent from "./components/error";
 import { Toaster } from "./components/ui/sonner";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+export const queryClient = new QueryClient();
 
 const router = createRouter({
   routeTree,
@@ -17,6 +23,7 @@ const router = createRouter({
   ),
   defaultErrorComponent: ({ error }) => <ErrorComponent error={error} />,
   defaultPendingMs: 500,
+  context: { queryClient },
 });
 
 declare module "@tanstack/react-router" {
@@ -30,8 +37,10 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <Toaster richColors closeButton />
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <Toaster richColors closeButton />
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </StrictMode>,
   );
 }

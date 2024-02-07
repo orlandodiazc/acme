@@ -1,3 +1,4 @@
+import Spinner from "@/components/spinner";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,28 +9,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useMutation } from "@/hooks/useMutation";
-import { putInvoice, type PutInvoice } from "@/lib/api";
-import { CustomerSummary, Invoice, Status } from "@/lib/api.types";
-import { Link, useRouter } from "@tanstack/react-router";
+import { putInvoice } from "@/lib/api";
+import { Status } from "@/lib/api.types";
+import { customersSummaryQuery, invoiceQuery } from "@/lib/queryOptions";
+import { cn } from "@/lib/utils";
+import { queryClient } from "@/main";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { Link, useNavigate, useParams } from "@tanstack/react-router";
 import { CircleDollarSign, UserCircle } from "lucide-react";
 import { toast } from "sonner";
 import InvoiceBadge from "./invoice-badge";
 
-export default function EditInvoiceForm({
-  customers,
-  defaultValues,
-}: {
-  customers: CustomerSummary[];
-  defaultValues: Invoice;
-}) {
-  const router = useRouter();
-  const editInvoiceMutation = useMutation<PutInvoice, Invoice>({
-    fn: putInvoice,
+export default function EditInvoiceForm() {
+  const { invoiceId } = useParams({
+    from: "/_layout/dashboard/invoices/$invoiceId/edit",
+  });
+  const { data: customers } = useSuspenseQuery(customersSummaryQuery);
+  const { data: defaultValues } = useSuspenseQuery(invoiceQuery(invoiceId));
+  const navigate = useNavigate();
+  const editInvoiceMutation = useMutation({
+    mutationKey: ["invoices", "edit", invoiceId],
+    mutationFn: putInvoice,
     onSuccess: () => {
-      router.invalidate();
+      queryClient.resetQueries({ queryKey: ["invoices"] });
+      navigate({ to: "/dashboard/invoices", search: true });
       toast.success("Succesfully edited invoice!");
-      router.navigate({ to: "/dashboard/invoices", search: true });
     },
     onError: () => {
       toast.error("Unable to edit invoice.");
@@ -125,10 +129,19 @@ export default function EditInvoiceForm({
         </fieldset>
       </div>
       <div className="mt-6 flex items-center justify-end gap-4">
-        <Link to="../" className={buttonVariants({ variant: "secondary" })}>
+        <Link
+          to="../"
+          className={cn(
+            buttonVariants({ variant: "secondary" }),
+            editInvoiceMutation.isPending && "pointer-events-none opacity-50",
+          )}
+        >
           Cancel
         </Link>
-        <Button>Edit Invoice</Button>
+        <Button disabled={editInvoiceMutation.isPending} className="gap-2">
+          {editInvoiceMutation.isPending && <Spinner className="h-5 w-5" />}
+          Edit Invoice
+        </Button>
       </div>
     </form>
   );

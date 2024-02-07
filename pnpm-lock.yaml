@@ -17,6 +17,9 @@ dependencies:
   "@radix-ui/react-slot":
     specifier: ^1.0.2
     version: 1.0.2(@types/react@18.2.48)(react@18.2.0)
+  "@tanstack/react-query":
+    specifier: ^5.18.1
+    version: 5.18.1(react@18.2.0)
   "@tanstack/react-router":
     specifier: ^1.15.7
     version: 1.15.7(react-dom@18.2.0)(react@18.2.0)
@@ -32,6 +35,9 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  react-error-boundary:
+    specifier: ^4.0.12
+    version: 4.0.12(react@18.2.0)
   sonner:
     specifier: ^1.4.0
     version: 1.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -1475,6 +1481,25 @@ packages:
         integrity: sha512-lhm4aRy+B3yK3TgfFnjVYaSqrWobr0sOxF3z+6ZNJQoKaJ+ga+se5J+woozN/RHIZorfa+H71fevF82MXUsoIA==,
       }
     engines: { node: ">=12" }
+    dev: false
+
+  /@tanstack/query-core@5.18.1:
+    resolution:
+      {
+        integrity: sha512-fYhrG7bHgSNbnkIJF2R4VUXb4lF7EBiQjKkDc5wOlB7usdQOIN4LxxHpDxyE3qjqIst1WBGvDtL48T0sHJGKCw==,
+      }
+    dev: false
+
+  /@tanstack/react-query@5.18.1(react@18.2.0):
+    resolution:
+      {
+        integrity: sha512-PdI07BbsahZ+04PxSuDQsQvBWe008eWFk/YYWzt8fvzt2sALUM0TpAJa/DFpqa7+SSo7j1EQR6Jx6znXNHyaXw==,
+      }
+    peerDependencies:
+      react: ^18.0.0
+    dependencies:
+      "@tanstack/query-core": 5.18.1
+      react: 18.2.0
     dev: false
 
   /@tanstack/react-router@1.15.7(react-dom@18.2.0)(react@18.2.0):
@@ -3272,6 +3297,18 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-error-boundary@4.0.12(react@18.2.0):
+    resolution:
+      {
+        integrity: sha512-kJdxdEYlb7CPC1A0SeUY38cHpjuu6UkvzKiAmqmOFL21VRfMhOcWxTCBgLVCO0VEMh9JhFNcVaXlV4/BTpiwOA==,
+      }
+    peerDependencies:
+      react: ">=16.13.1"
+    dependencies:
+      "@babel/runtime": 7.23.9
+      react: 18.2.0
     dev: false
 
   /react-remove-scroll-bar@2.3.4(@types/react@18.2.48)(react@18.2.0):

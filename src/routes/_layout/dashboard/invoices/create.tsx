@@ -1,15 +1,15 @@
 import Breadcrumbs from "@/components/dashboard/breadcrumbs";
 import CreateInvoiceForm from "@/components/dashboard/invoices/create-form";
-import { fetchCustomersSummary } from "@/lib/api";
+import { customersSummaryQuery } from "@/lib/queryOptions";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_layout/dashboard/invoices/create")({
   component: CreateInvoice,
-  loader: () => fetchCustomersSummary(),
+  loader: ({ context: { queryClient } }) =>
+    queryClient.ensureQueryData(customersSummaryQuery),
 });
 
 function CreateInvoice() {
-  const customers = Route.useLoaderData();
   return (
     <main>
       <Breadcrumbs
@@ -22,7 +22,7 @@ function CreateInvoice() {
           },
         ]}
       />
-      <CreateInvoiceForm customers={customers} />
+      <CreateInvoiceForm />
     </main>
   );
 }

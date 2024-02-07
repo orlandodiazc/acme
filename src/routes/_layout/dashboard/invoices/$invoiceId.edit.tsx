@@ -1,23 +1,19 @@
 import Breadcrumbs from "@/components/dashboard/breadcrumbs";
 import EditInvoiceForm from "@/components/dashboard/invoices/edit-form";
-import { fetchCustomersSummary, fetchInvoice } from "@/lib/api";
+import { customersSummaryQuery, invoiceQuery } from "@/lib/queryOptions";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute(
   "/_layout/dashboard/invoices/$invoiceId/edit",
 )({
   component: EditInvoice,
-  loader: async ({ params: { invoiceId } }) => {
-    const [customers, invoice] = await Promise.all([
-      fetchCustomersSummary(),
-      fetchInvoice(invoiceId),
-    ]);
-    return { customers, invoice };
+  loader: async ({ context: { queryClient }, params: { invoiceId } }) => {
+    queryClient.ensureQueryData(customersSummaryQuery);
+    queryClient.ensureQueryData(invoiceQuery(invoiceId));
   },
 });
 
 function EditInvoice() {
-  const { customers, invoice } = Route.useLoaderData();
   return (
     <main>
       <Breadcrumbs
@@ -30,7 +26,7 @@ function EditInvoice() {
           },
         ]}
       />
-      <EditInvoiceForm customers={customers} defaultValues={invoice} />
+      <EditInvoiceForm />
     </main>
   );
 }

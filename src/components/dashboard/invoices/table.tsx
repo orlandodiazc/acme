@@ -1,3 +1,4 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Table,
@@ -7,33 +8,77 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useMutation } from "@/hooks/useMutation";
 import { deleteInvoice } from "@/lib/api";
-import { InvoiceFiltered } from "@/lib/api.types";
-import { formatCurrency, formatDateToLocal, getInitials } from "@/lib/utils";
-import { Link, useRouter } from "@tanstack/react-router";
+import { InvoiceFiltered, InvoiceFilteredPageable } from "@/lib/api.types";
+import {
+  cn,
+  formatCurrency,
+  formatDateToLocal,
+  getInitials,
+} from "@/lib/utils";
+import { queryClient } from "@/main";
+import { useMutation } from "@tanstack/react-query";
+import {
+  Link,
+  defaultStringifySearch,
+  useNavigate,
+  useSearch,
+} from "@tanstack/react-router";
 import { Pencil, Trash } from "lucide-react";
 import { toast } from "sonner";
 import InvoiceBadge from "./invoice-badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function InvoicesTable({
   invoices,
 }: {
   invoices: InvoiceFiltered[];
 }) {
-  const router = useRouter();
-  const deleteInvoiceMutation = useMutation<string, Response>({
-    fn: deleteInvoice,
-    onSuccess: () => {
-      router.invalidate();
-      toast.success("Succesfully deleted invoice!");
-      router.navigate({ to: "/dashboard/invoices", search: true });
+  const search = useSearch({ from: "/_layout/dashboard/invoices/" });
+  const searchString = defaultStringifySearch(search);
+  const navigate = useNavigate();
+  const deleteInvoiceMutation = useMutation({
+    mutationKey: ["invoices", "delete"],
+    mutationFn: deleteInvoice,
+    onMutate: async (deleteId) => {
+      await queryClient.cancelQueries({
+        queryKey: ["invoices", "delete", deleteId],
+      });
+      const previousInvoices =
+        queryClient.getQueryData<InvoiceFilteredPageable>([
+          "invoices",
+          searchString,
+        ]);
+      queryClient.setQueryData<InvoiceFilteredPageable>(
+        ["invoices", searchString],
+        (prev) => {
+          if (!prev) return;
+          return {
+            ...prev,
+            invoices: prev.invoices.filter(
+              (invoice) => invoice.id !== deleteId,
+            ),
+          };
+        },
+      );
+      return { previousInvoices };
     },
-    onError: () => {
-      toast.error("Unable to delete invoice.");
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["invoices", searchString] });
+      navigate({
+        to: "/dashboard/invoices",
+        search: true,
+      });
+      toast.success("Succesfully deleted invoice!");
+    },
+    onError: (err, deleteId, context) => {
+      queryClient.setQueryData(
+        ["invoices", searchString],
+        context?.previousInvoices,
+      );
+      toast.error("Unable to deleted invoice.");
     },
   });
+
   return (
     <Table>
       <TableHeader>
@@ -69,11 +114,14 @@ export default function InvoicesTable({
             <TableCell>
               <div className="flex justify-end gap-1">
                 <Link
-                  className={buttonVariants({
-                    variant: "outline",
-                    size: "icon",
-                  })}
-                  disabled={deleteInvoiceMutation.status === "pending"}
+                  className={cn(
+                    buttonVariants({
+                      variant: "outline",
+                      size: "icon",
+                    }),
+                    deleteInvoiceMutation.isPending &&
+                      "pointer-events-none opacity-50",
+                  )}
                   to="/dashboard/invoices/$invoiceId/edit"
                   params={{ invoiceId: invoice.id }}
                 >
@@ -85,7 +133,7 @@ export default function InvoicesTable({
                   onClick={() => {
                     deleteInvoiceMutation.mutate(invoice.id);
                   }}
-                  disabled={deleteInvoiceMutation.status === "pending"}
+                  disabled={deleteInvoiceMutation.isPending}
                 >
                   <Trash className="h-5 w-5" strokeWidth={1.7} />
                 </Button>
