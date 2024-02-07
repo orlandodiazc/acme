@@ -15,25 +15,28 @@ const links = [
 
 export default function NavLinks() {
   return (
-    <>
-      {links.map((link) => {
-        const LinkIcon = link.icon;
-        return (
-          <Link
-            key={link.name}
-            to={link.href}
-            className={cn(
-              buttonVariants({ variant: "ghost", size: "lg" }),
-              "w-full justify-center gap-1 px-2 md:justify-start",
-            )}
-            activeProps={{ className: "bg-accent" }}
-            activeOptions={{ exact: true }}
-          >
-            <LinkIcon className="w-6" />
-            <p className="hidden md:block">{link.name}</p>
-          </Link>
-        );
-      })}
-    </>
+    <nav>
+      <ul>
+        {links.map((link) => {
+          const LinkIcon = link.icon;
+          return (
+            <li key={link.name}>
+              <Link
+                to={link.href}
+                className={cn(
+                  buttonVariants({ variant: "ghost", size: "lg" }),
+                  "w-full justify-center gap-1 px-2 md:justify-start",
+                )}
+                activeProps={{ className: "bg-accent" }}
+                activeOptions={{ exact: true }}
+              >
+                <LinkIcon className="w-6" />
+                <p className="hidden md:block">{link.name}</p>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
   );
 }
