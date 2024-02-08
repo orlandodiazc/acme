@@ -1,17 +1,18 @@
 import {
-  RequestInvoice,
   CustomerFiltered,
+  CustomerSummary,
   Invoice,
   InvoiceFilteredPageable,
   Overview,
-  CustomerSummary,
+  RequestInvoice,
 } from "./api.types";
 
-const BASE_URL = "https://acme-spring-dashboard.onrender.com/api";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // function sleep(ms: number) {
 //   return new Promise((r) => setTimeout(r, ms));
 // }
+
 async function fetcher(...args: Parameters<typeof fetch>) {
   const response = await fetch(...args);
   return await response.json();
