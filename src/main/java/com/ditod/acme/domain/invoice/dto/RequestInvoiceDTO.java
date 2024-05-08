@@ -1,6 +1,6 @@
-package com.ditod.acme.dto;
+package com.ditod.acme.domain.invoice.dto;
 
-import com.ditod.acme.model.Status;
+import com.ditod.acme.domain.invoice.Status;
 
 import java.util.UUID;
 

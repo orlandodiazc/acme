@@ -1,6 +1,6 @@
-package com.ditod.acme.entity;
+package com.ditod.acme.domain.invoice;
 
-import com.ditod.acme.model.Status;
+import com.ditod.acme.domain.customer.Customer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Generated;

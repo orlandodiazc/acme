@@ -1,7 +1,5 @@
-package com.ditod.acme.controller;
+package com.ditod.acme.web.overview;
 
-import com.ditod.acme.dto.OverviewDTO;
-import com.ditod.acme.service.OverviewService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,5 +16,6 @@ public class OverviewController {
     OverviewDTO overview() {
         return overviewService.findOverview();
     }
+
 
 }

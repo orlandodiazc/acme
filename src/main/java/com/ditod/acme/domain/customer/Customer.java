@@ -1,5 +1,6 @@
-package com.ditod.acme.entity;
+package com.ditod.acme.domain.customer;
 
+import com.ditod.acme.domain.invoice.Invoice;
 import jakarta.persistence.*;
 
 import java.util.List;

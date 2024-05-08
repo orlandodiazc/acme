@@ -1,9 +1,8 @@
-package com.ditod.acme.repository;
+package com.ditod.acme.domain.invoice;
 
-import com.ditod.acme.dto.InvoiceDetailsDTO;
-import com.ditod.acme.dto.InvoiceFilteredDTO;
-import com.ditod.acme.dto.InvoiceTotalByStatusDTO;
-import com.ditod.acme.entity.Invoice;
+import com.ditod.acme.domain.invoice.dto.InvoiceDetailsDTO;
+import com.ditod.acme.domain.invoice.dto.InvoiceFilteredDTO;
+import com.ditod.acme.domain.invoice.dto.InvoiceTotalByStatusDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

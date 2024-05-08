@@ -1,7 +1,6 @@
-package com.ditod.acme.repository;
+package com.ditod.acme.domain.revenue;
 
 
-import com.ditod.acme.entity.Revenue;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RevenueRepository extends JpaRepository<Revenue, String> {

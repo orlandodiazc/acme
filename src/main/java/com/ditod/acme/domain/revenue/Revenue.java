@@ -1,4 +1,4 @@
-package com.ditod.acme.entity;
+package com.ditod.acme.domain.revenue;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

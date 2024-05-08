@@ -1,8 +1,6 @@
-package com.ditod.acme.service;
+package com.ditod.acme.domain.invoice;
 
-import com.ditod.acme.dto.*;
-import com.ditod.acme.entity.Invoice;
-import com.ditod.acme.repository.InvoiceRepository;
+import com.ditod.acme.domain.invoice.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

@@ -1,8 +1,7 @@
-package com.ditod.acme.repository;
+package com.ditod.acme.domain.customer;
 
-import com.ditod.acme.dto.CustomerFilteredDTO;
-import com.ditod.acme.dto.CustomerSummaryDTO;
-import com.ditod.acme.entity.Customer;
+import com.ditod.acme.domain.customer.dto.CustomerFilteredDTO;
+import com.ditod.acme.domain.customer.dto.CustomerSummaryDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

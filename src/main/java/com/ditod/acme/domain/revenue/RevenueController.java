@@ -1,7 +1,5 @@
-package com.ditod.acme.controller;
+package com.ditod.acme.domain.revenue;
 
-import com.ditod.acme.entity.Revenue;
-import com.ditod.acme.repository.RevenueRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

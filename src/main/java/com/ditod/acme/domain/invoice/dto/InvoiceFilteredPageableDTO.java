@@ -1,4 +1,4 @@
-package com.ditod.acme.dto;
+package com.ditod.acme.domain.invoice.dto;
 
 import java.util.List;
 

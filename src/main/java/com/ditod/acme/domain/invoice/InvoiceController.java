@@ -1,11 +1,9 @@
-package com.ditod.acme.controller;
+package com.ditod.acme.domain.invoice;
 
-import com.ditod.acme.dto.InvoiceDetailsDTO;
-import com.ditod.acme.dto.InvoiceFilteredPageableDTO;
-import com.ditod.acme.dto.RequestInvoiceDTO;
-import com.ditod.acme.entity.Invoice;
-import com.ditod.acme.exception.InvoiceNotFoundException;
-import com.ditod.acme.service.InvoiceService;
+import com.ditod.acme.domain.exception.InvoiceNotFoundException;
+import com.ditod.acme.domain.invoice.dto.InvoiceDetailsDTO;
+import com.ditod.acme.domain.invoice.dto.InvoiceFilteredPageableDTO;
+import com.ditod.acme.domain.invoice.dto.RequestInvoiceDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

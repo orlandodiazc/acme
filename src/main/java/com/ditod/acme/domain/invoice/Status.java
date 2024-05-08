@@ -1,4 +1,4 @@
-package com.ditod.acme.model;
+package com.ditod.acme.domain.invoice;
 
 public enum Status {
     pending("pending"),

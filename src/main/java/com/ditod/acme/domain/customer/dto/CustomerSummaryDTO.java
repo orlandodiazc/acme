@@ -1,4 +1,4 @@
-package com.ditod.acme.dto;
+package com.ditod.acme.domain.customer.dto;
 
 import java.util.UUID;
 

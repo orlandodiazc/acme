@@ -1,8 +1,7 @@
-package com.ditod.acme.controller;
+package com.ditod.acme.domain.customer;
 
-import com.ditod.acme.dto.CustomerFilteredDTO;
-import com.ditod.acme.dto.CustomerSummaryDTO;
-import com.ditod.acme.repository.CustomerRepository;
+import com.ditod.acme.domain.customer.dto.CustomerFilteredDTO;
+import com.ditod.acme.domain.customer.dto.CustomerSummaryDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
