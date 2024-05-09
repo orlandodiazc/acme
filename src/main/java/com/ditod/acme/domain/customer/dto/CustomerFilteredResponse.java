@@ -1,15 +1,17 @@
 package com.ditod.acme.domain.customer.dto;
 
+import com.ditod.acme.domain.customer_image.dto.ImageSummary;
+
 import java.util.UUID;
 
-public interface CustomerFilteredDTO {
+public interface CustomerFilteredResponse {
     UUID getId();
 
     String getName();
 
     String getEmail();
 
-    String getImageUrl();
+    ImageSummary getImage();
 
     Integer getInvoicesCount();
 

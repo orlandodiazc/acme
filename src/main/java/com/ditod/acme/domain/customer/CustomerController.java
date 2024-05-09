@@ -1,14 +1,16 @@
 package com.ditod.acme.domain.customer;
 
-import com.ditod.acme.domain.customer.dto.CustomerFilteredDTO;
-import com.ditod.acme.domain.customer.dto.CustomerSummaryDTO;
+import com.ditod.acme.domain.customer.dto.CustomerFilteredResponse;
+import com.ditod.acme.domain.customer.dto.CustomerSummaryResponse;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/customers")
 public class CustomerController {
     private final CustomerRepository repository;
 
@@ -16,14 +18,14 @@ public class CustomerController {
         this.repository = repository;
     }
 
-    @GetMapping("/customers/summary")
-    List<CustomerSummaryDTO> all() {
-        return repository.findSimpleAll();
+    @GetMapping("/summary")
+    List<CustomerSummaryResponse> allCustomersSummary() {
+        return repository.findAll(CustomerSummaryResponse.class);
     }
 
-    @GetMapping("/customers")
-    List<CustomerFilteredDTO> findByQuery(@RequestParam(required = false, defaultValue
-            = "") String query) {
-        return repository.findFilteredCustomers(query);
+    @GetMapping()
+    List<CustomerFilteredResponse> findCustomerByTerm(
+            @RequestParam(required = false, defaultValue = "") String searchTerm) {
+        return repository.findFilteredCustomers(searchTerm);
     }
 }

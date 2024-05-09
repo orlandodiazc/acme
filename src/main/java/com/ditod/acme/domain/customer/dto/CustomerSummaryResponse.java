@@ -2,7 +2,7 @@ package com.ditod.acme.domain.customer.dto;
 
 import java.util.UUID;
 
-public interface CustomerSummaryDTO {
+public interface CustomerSummaryResponse {
     UUID getId();
     String getName();
 }

@@ -1,6 +1,6 @@
 package com.ditod.acme.domain.invoice;
 
-import com.ditod.acme.domain.exception.InvoiceNotFoundException;
+import com.ditod.acme.domain.exception.EntityNotFoundException;
 import com.ditod.acme.domain.invoice.dto.InvoiceDetailsDTO;
 import com.ditod.acme.domain.invoice.dto.InvoiceFilteredPageableDTO;
 import com.ditod.acme.domain.invoice.dto.RequestInvoiceDTO;
@@ -19,9 +19,9 @@ public class InvoiceController {
     }
 
     @GetMapping("/invoices")
-    InvoiceFilteredPageableDTO filteredInvoices(@RequestParam(required = false,
-            defaultValue = "") String query, @RequestParam(required = false,
-            defaultValue = "1") Integer page) {
+    InvoiceFilteredPageableDTO filteredInvoices(
+            @RequestParam(required = false, defaultValue = "") String query,
+            @RequestParam(required = false, defaultValue = "1") Integer page) {
         return invoiceService.findFilteredInvoices(query, page);
     }
 
@@ -32,8 +32,10 @@ public class InvoiceController {
 
     @GetMapping("/invoices/{id}")
     Invoice one(@PathVariable UUID id) {
-        return invoiceService.findInvoiceById(id).orElseThrow(() -> new InvoiceNotFoundException(id));
+        return invoiceService.findInvoiceById(id)
+                .orElseThrow(() -> new EntityNotFoundException("invoice", id));
     }
+
     @PostMapping("/invoices")
     Invoice newInvoice(@RequestBody RequestInvoiceDTO newInvoice) {
         return invoiceService.saveInvoice(newInvoice);
@@ -41,7 +43,7 @@ public class InvoiceController {
 
     @PutMapping("/invoices/{id}")
     Invoice editInvoice(@RequestBody RequestInvoiceDTO newInvoice,
-                        @PathVariable UUID id) {
+            @PathVariable UUID id) {
         return invoiceService.updateInvoice(newInvoice, id);
     }
 
