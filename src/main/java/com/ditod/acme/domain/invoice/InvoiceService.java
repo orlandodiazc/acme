@@ -1,73 +1,78 @@
 package com.ditod.acme.domain.invoice;
 
+
+import com.ditod.acme.domain.customer.Customer;
+import com.ditod.acme.domain.customer.CustomerService;
+import com.ditod.acme.domain.exception.EntityNotFoundException;
 import com.ditod.acme.domain.invoice.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class InvoiceService {
-    private final InvoiceRepository repository;
+    private final InvoiceRepository invoiceRepository;
 
-    public InvoiceService(InvoiceRepository repository) {
-        this.repository = repository;
+    private final CustomerService customerService;
+
+    public InvoiceService(InvoiceRepository invoiceRepository,
+            CustomerService customerService) {
+        this.invoiceRepository = invoiceRepository;
+        this.customerService = customerService;
     }
 
-    public List<InvoiceDetailsDTO> findLatestInvoices() {
-        Pageable pageable = PageRequest.of(0, 5);
-        return repository.findLatestInvoices(pageable);
+    public List<InvoiceSummaryResponse> findLatestInvoices() {
+
+        return invoiceRepository.findTop5ByOrderByCreatedAtDesc();
     }
 
-    public InvoiceFilteredPageableDTO findFilteredInvoices(@RequestParam String query,
-                                                           @RequestParam Integer currentPage) {
+    public InvoiceFilteredResponse findFilteredInvoices(String searchTerm,
+            Integer currentPage) {
         Pageable pageable;
         if (currentPage < 1) {
             pageable = PageRequest.of(0, 6);
         } else {
             pageable = PageRequest.of(currentPage - 1, 6);
         }
-        Page<InvoiceFilteredDTO> result = repository.findFilteredInvoices(query,
-                pageable);
-        return new InvoiceFilteredPageableDTO(result.getContent(),
-                result.getTotalPages());
+        Page<InvoiceFilteredPageable> invoicePage = invoiceRepository.findFilteredInvoices(searchTerm, pageable);
+        return new InvoiceFilteredResponse(invoicePage.getContent(), invoicePage.getTotalPages());
     }
 
-    public Optional<Invoice> findInvoiceById(UUID id) {
-        return repository.findById(id);
+    public Invoice findById(UUID id) {
+        return invoiceRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("invoice", id));
     }
 
-    public InvoiceTotalByStatusDTO findInvoiceTotalByStatus() {
-        return repository.findInvoiceTotalByStatus();
+    public InvoiceTotalByStatus findInvoiceTotalByStatus() {
+        return invoiceRepository.findInvoiceTotalByStatus();
     }
 
     public Long countInvoices() {
-        return repository.count();
+        return invoiceRepository.count();
     }
 
-    public Invoice saveInvoice(RequestInvoiceDTO newInvoice) {
-        Invoice invoice = new Invoice(newInvoice.customerId(), newInvoice.amount(),
-                newInvoice.status());
-        return repository.save(invoice);
+    public Invoice saveInvoice(InvoiceRequest newInvoice, UUID customerId) {
+        Customer owner = customerService.findById(customerId);
+        return invoiceRepository.save(new Invoice(newInvoice.amount(), newInvoice.status(), owner));
     }
 
     public void deleteById(UUID id) {
-        repository.deleteById(id);
+        invoiceRepository.deleteById(id);
     }
 
-    public Invoice updateInvoice(RequestInvoiceDTO newInvoice, UUID id) {
-        return repository.findById(id)
-                         .map(invoice -> {
-                             invoice.setCustomerId(newInvoice.customerId());
-                             invoice.setAmount(newInvoice.amount());
-                             invoice.setStatus(newInvoice.status());
-                             return repository.save(invoice);
-                         })
-                         .orElseGet(() -> this.saveInvoice(newInvoice));
+    public Invoice updateInvoice(InvoiceRequest newInvoice, UUID customerId,
+            UUID ownerId) {
+        Customer owner = customerService.findById(ownerId);
+        return invoiceRepository.findById(customerId)
+                .map(invoice -> {
+                    invoice.setAmount(newInvoice.amount());
+                    invoice.setStatus(newInvoice.status());
+                    return invoiceRepository.save(invoice);
+                })
+                .orElseGet(() -> invoiceRepository.save(new Invoice(newInvoice.amount(), newInvoice.status(), owner)));
     }
 }

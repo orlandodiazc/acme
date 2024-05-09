@@ -26,6 +26,6 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> {
             GROUP BY c.id
             ORDER BY c.name ASC
             """)
-    List<CustomerFilteredResponse> findFilteredCustomers(
+    List<CustomerFilteredResponse> findFilteredCustomer(
             @Param("term") String query);
 }

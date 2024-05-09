@@ -12,20 +12,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/customers")
 public class CustomerController {
-    private final CustomerRepository repository;
+    private final CustomerService customerService;
 
-    public CustomerController(CustomerRepository repository) {
-        this.repository = repository;
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
     }
 
     @GetMapping("/summary")
     List<CustomerSummaryResponse> allCustomersSummary() {
-        return repository.findAll(CustomerSummaryResponse.class);
+        return customerService.findAllSummary();
     }
 
     @GetMapping()
-    List<CustomerFilteredResponse> findCustomerByTerm(
+    List<CustomerFilteredResponse> customersByTerm(
             @RequestParam(required = false, defaultValue = "") String searchTerm) {
-        return repository.findFilteredCustomers(searchTerm);
+        return customerService.findCustomerByTerm(searchTerm);
     }
 }

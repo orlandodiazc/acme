@@ -2,8 +2,8 @@ package com.ditod.acme.web.overview;
 
 import com.ditod.acme.domain.customer.CustomerRepository;
 import com.ditod.acme.domain.invoice.InvoiceService;
-import com.ditod.acme.domain.invoice.dto.InvoiceDetailsDTO;
-import com.ditod.acme.domain.invoice.dto.InvoiceTotalByStatusDTO;
+import com.ditod.acme.domain.invoice.dto.InvoiceSummaryResponse;
+import com.ditod.acme.domain.invoice.dto.InvoiceTotalByStatus;
 import com.ditod.acme.domain.revenue.Revenue;
 import com.ditod.acme.domain.revenue.RevenueRepository;
 import org.springframework.stereotype.Service;
@@ -27,8 +27,8 @@ public class OverviewService {
     public OverviewDTO findOverview() {
         Long invoiceCount = invoiceService.countInvoices();
         Long customerCount = customerRepository.count();
-        InvoiceTotalByStatusDTO invoiceTotalByStatus = invoiceService.findInvoiceTotalByStatus();
-        List<InvoiceDetailsDTO> latestInvoices = invoiceService.findLatestInvoices();
+        InvoiceTotalByStatus invoiceTotalByStatus = invoiceService.findInvoiceTotalByStatus();
+        List<InvoiceSummaryResponse> latestInvoices = invoiceService.findLatestInvoices();
         List<Revenue> revenues = revenueRepository.findAll();
 
         return new OverviewDTO(invoiceCount, customerCount, invoiceTotalByStatus.getPaidInvoicesTotal(), invoiceTotalByStatus.getPendingInvoicesTotal(), revenues, latestInvoices);

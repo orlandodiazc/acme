@@ -1,43 +1,36 @@
 package com.ditod.acme.domain.invoice;
 
+import com.ditod.acme.domain.DateTimeAudit;
 import com.ditod.acme.domain.customer.Customer;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Generated;
+import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "invoices")
-public class Invoice {
+public class Invoice extends DateTimeAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-
-    @Column(name = "customer_id")
-    private UUID customerId;
-
+    @NotNull
     private int amount;
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Status status;
-
-    @Column(insertable = false, updatable = false)
-    @Generated
-    private LocalDate processingDate;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
-    @JsonIgnore
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "ownerId")
+    @JsonBackReference
     private Customer customer;
 
     public Invoice() {
     }
 
-    public Invoice(UUID customerId, int amount, Status status) {
-        this.customerId = customerId;
+    public Invoice(int amount, Status status, Customer customer) {
         this.amount = amount;
         this.status = status;
+        this.customer = customer;
     }
 
     public UUID getId() {
@@ -46,14 +39,6 @@ public class Invoice {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public UUID getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(UUID customerId) {
-        this.customerId = customerId;
     }
 
     public int getAmount() {
@@ -70,14 +55,6 @@ public class Invoice {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public LocalDate getProcessingDate() {
-        return processingDate;
-    }
-
-    public void setProcessingDate(LocalDate processingDate) {
-        this.processingDate = processingDate;
     }
 
     public Customer getCustomer() {

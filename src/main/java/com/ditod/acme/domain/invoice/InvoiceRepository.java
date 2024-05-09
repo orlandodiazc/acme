@@ -1,8 +1,8 @@
 package com.ditod.acme.domain.invoice;
 
-import com.ditod.acme.domain.invoice.dto.InvoiceDetailsDTO;
-import com.ditod.acme.domain.invoice.dto.InvoiceFilteredDTO;
-import com.ditod.acme.domain.invoice.dto.InvoiceTotalByStatusDTO;
+import com.ditod.acme.domain.invoice.dto.InvoiceFilteredPageable;
+import com.ditod.acme.domain.invoice.dto.InvoiceSummaryResponse;
+import com.ditod.acme.domain.invoice.dto.InvoiceTotalByStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,12 +14,15 @@ import java.util.UUID;
 
 public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
 
-    @Query(value = """
-            SELECT i.id as id, i.amount as amount, c.name as name, c.imageUrl as imageUrl, c.email as email
-            FROM Invoice i JOIN i.customer c
-            ORDER BY i.processingDate
-            """)
-    List<InvoiceDetailsDTO> findLatestInvoices(Pageable pageable);
+//    @Query(value = """
+//            SELECT i.id as id, i.amount as amount, c.name as name, c.imageUrl as imageUrl, c.email as email
+//            FROM Invoice i JOIN i.customer c
+//            ORDER BY i.createdAt
+//            """)
+//    List<InvoiceSummaryResponse> findLatestInvoices(Pageable pageable);
+
+
+    List<InvoiceSummaryResponse> findTop5ByOrderByCreatedAtDesc();
 
     @Query(value = """
             SELECT
@@ -27,21 +30,21 @@ public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
             SUM(CASE WHEN i.status = 'pending' THEN amount ELSE 0 END) AS pendingInvoicesTotal
             FROM Invoice i
              """)
-    InvoiceTotalByStatusDTO findInvoiceTotalByStatus();
+    InvoiceTotalByStatus findInvoiceTotalByStatus();
 
     @Query(value = """
-            SELECT i.id as id, i.amount as amount, i.processingDate as processingDate,
-                        i.status as status, c.name as name, c.email as email, c.imageUrl as imageUrl
+            SELECT i.id as id, i.amount as amount, i.createdAt as createdAt,
+                        i.status as status, c.name as name, c.email as email, c.image as image
             FROM Invoice i
             JOIN i.customer c
             WHERE
                 LOWER(c.name) LIKE LOWER(CONCAT('%', :term, '%'))
                 OR LOWER(c.email) LIKE LOWER(CONCAT('%', :term, '%'))
                 OR CAST(i.amount AS string) LIKE LOWER(CONCAT('%', :term, '%'))
-                OR CAST(i.processingDate AS string) LIKE LOWER(CONCAT('%', :term, '%'))
+                OR CAST(i.createdAt AS string) LIKE LOWER(CONCAT('%', :term, '%'))
                 OR CAST(i.status AS string) LIKE LOWER(CONCAT('%', :term, '%'))
-            ORDER BY i.processingDate DESC
+            ORDER BY i.createdAt DESC
               """)
-    Page<InvoiceFilteredDTO> findFilteredInvoices(@Param("term") String query,
-                                                  Pageable pageable);
+    Page<InvoiceFilteredPageable> findFilteredInvoices(
+            @Param("term") String query, Pageable pageable);
 }

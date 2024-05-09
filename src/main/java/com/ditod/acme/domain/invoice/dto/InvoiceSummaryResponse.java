@@ -2,14 +2,10 @@ package com.ditod.acme.domain.invoice.dto;
 
 import java.util.UUID;
 
-public interface InvoiceDetailsDTO {
+public interface InvoiceSummaryResponse {
     UUID getId();
 
     Integer getAmount();
 
-    String getName();
-
-    String getImageUrl();
-
-    String getEmail();
+    InvoiceFilteredPageable.CustomerSummary getCustomer();
 }

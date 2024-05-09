@@ -4,5 +4,6 @@ import java.util.UUID;
 
 public interface CustomerSummaryResponse {
     UUID getId();
+
     String getName();
 }
