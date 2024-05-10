@@ -30,6 +30,14 @@ public class Customer extends DateTimeAudit {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private CustomerImage image;
 
+    public Customer() {
+    }
+
+    public Customer(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
     public UUID getId() {
         return id;
     }
