@@ -1,7 +1,5 @@
 package com.ditod.acme.domain.customer.dto;
 
-import com.ditod.acme.domain.customer_image.dto.ImageSummary;
-
 import java.util.UUID;
 
 public interface CustomerFilteredResponse {
@@ -11,11 +9,12 @@ public interface CustomerFilteredResponse {
 
     String getEmail();
 
-    ImageSummary getImage();
+    UUID getImageId();
 
     Integer getInvoicesCount();
 
-    Integer getPaidInvoicesTotal();
+    Long getPendingTotal();
 
-    Integer getPendingInvoicesTotal();
+    Long getPaidTotal();
+
 }

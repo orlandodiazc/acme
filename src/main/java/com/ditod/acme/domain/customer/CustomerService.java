@@ -23,11 +23,10 @@ public class CustomerService {
     }
 
     public List<CustomerSummaryResponse> findAllSummary() {
-        return customerRepository.findAll(CustomerSummaryResponse.class);
+        return customerRepository.findAllBy(CustomerSummaryResponse.class);
     }
 
-    public List<CustomerFilteredResponse> findCustomerByTerm(
-            String searchTerm) {
-        return customerRepository.findFilteredCustomer(searchTerm);
+    public List<CustomerFilteredResponse> findCustomerByQuery(String query) {
+        return customerRepository.findFilteredCustomer(query);
     }
 }

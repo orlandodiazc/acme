@@ -24,8 +24,8 @@ public class CustomerController {
     }
 
     @GetMapping()
-    List<CustomerFilteredResponse> customersByTerm(
-            @RequestParam(required = false, defaultValue = "") String searchTerm) {
-        return customerService.findCustomerByTerm(searchTerm);
+    List<CustomerFilteredResponse> customersByQuery(
+            @RequestParam(required = false, defaultValue = "") String q) {
+        return customerService.findCustomerByQuery(q);
     }
 }

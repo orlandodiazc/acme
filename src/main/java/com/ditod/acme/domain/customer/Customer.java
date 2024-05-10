@@ -27,7 +27,7 @@ public class Customer extends DateTimeAudit {
     private List<Invoice> invoices = new ArrayList<>();
 
     @JsonManagedReference
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private CustomerImage image;
 
     public Customer() {

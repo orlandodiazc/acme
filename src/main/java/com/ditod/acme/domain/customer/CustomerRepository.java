@@ -9,23 +9,23 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CustomerRepository extends JpaRepository<Customer, UUID> {
-    <T> List<T> findAll(Class<T> type);
+    <T> List<T> findAllBy(Class<T> type);
 
-    @Query(value = """   
-            SELECT
-                c.id as id,
-                c.name as name,
-                c.email as email,
-                c.image as image,
-                COUNT(i.id) as invoicesCount,
-                SUM(CASE WHEN i.status = 'pending' THEN i.amount ELSE 0 END) AS pendingInvoicesTotal,
-                SUM(CASE WHEN i.status = 'paid' THEN i.amount ELSE 0 END) AS paidInvoicesTotal
+    @Query(value = """
+            SELECT c.id as id, c.name as name, c.email as email, ci.id as imageId,
+                   COUNT(i.id) AS invoicesCount,
+                   SUM(CASE WHEN i.status = 'pending' THEN i.amount ELSE 0 END) AS pendingTotal,
+                   SUM(CASE WHEN i.status = 'paid' THEN i.amount ELSE 0 END) AS paidTotal
             FROM Customer c
+            LEFT JOIN c.image ci
             LEFT JOIN c.invoices i
-            WHERE LOWER(c.name) LIKE LOWER(CONCAT('%', :term, '%')) OR LOWER(c.email) LIKE LOWER(CONCAT('%', :term, '%'))
-            GROUP BY c.id
+            WHERE c.name LIKE LOWER(CONCAT('%', :query, '%'))
+                          OR LOWER(c.email) LIKE LOWER(CONCAT('%', :query, '%'))
+            GROUP BY c.id, ci.id
             ORDER BY c.name ASC
             """)
     List<CustomerFilteredResponse> findFilteredCustomer(
-            @Param("term") String query);
+            @Param("query") String query);
+
+
 }
