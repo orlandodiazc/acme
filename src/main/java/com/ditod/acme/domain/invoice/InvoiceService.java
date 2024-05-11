@@ -30,7 +30,7 @@ public class InvoiceService {
         return invoiceRepository.findTop5ByOrderByCreatedAtDesc();
     }
 
-    public InvoiceFilteredResponse findFilteredInvoices(String searchTerm,
+    public InvoiceFilteredResponse findFilteredInvoices(String query,
             Integer currentPage) {
         Pageable pageable;
         if (currentPage < 1) {
@@ -38,7 +38,7 @@ public class InvoiceService {
         } else {
             pageable = PageRequest.of(currentPage - 1, 6);
         }
-        Page<InvoiceFilteredPageable> invoicePage = invoiceRepository.findFilteredInvoices(searchTerm, pageable);
+        Page<InvoiceFilteredPageable> invoicePage = invoiceRepository.findFilteredInvoices(query, pageable);
         return new InvoiceFilteredResponse(invoicePage.getContent(), invoicePage.getTotalPages());
     }
 

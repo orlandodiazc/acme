@@ -20,9 +20,9 @@ public class InvoiceController {
 
     @GetMapping("/invoices")
     InvoiceFilteredResponse filteredInvoices(
-            @RequestParam(required = false, defaultValue = "") String query,
+            @RequestParam(required = false, defaultValue = "") String q,
             @RequestParam(required = false, defaultValue = "1") Integer page) {
-        return invoiceService.findFilteredInvoices(query, page);
+        return invoiceService.findFilteredInvoices(q, page);
     }
 
     @GetMapping("/invoices/latest")
@@ -30,27 +30,27 @@ public class InvoiceController {
         return invoiceService.findLatestInvoices();
     }
 
-    @GetMapping("/invoices/{id}")
-    Invoice oneInvoice(@PathVariable UUID id) {
-        return invoiceService.findById(id);
+    @GetMapping("/invoices/{invoiceId}")
+    Invoice oneInvoice(@PathVariable UUID invoiceId) {
+        return invoiceService.findById(invoiceId);
 
     }
 
     @PostMapping("/invoices")
     Invoice newInvoice(@RequestBody InvoiceRequest newInvoice,
-            @RequestParam UUID customerId) {
+            @PathVariable UUID customerId) {
         return invoiceService.saveInvoice(newInvoice, customerId);
     }
 
-    @PutMapping("/invoices/{id}")
+    @PutMapping("/invoices/{invoiceId}")
     Invoice putInvoice(@RequestBody InvoiceRequest newInvoice,
-            @PathVariable UUID ownerId, @PathVariable UUID invoiceId) {
-        return invoiceService.updateInvoice(newInvoice, invoiceId, ownerId);
+            @PathVariable UUID customerId, @PathVariable UUID invoiceId) {
+        return invoiceService.updateInvoice(newInvoice, invoiceId, customerId);
     }
 
-    @DeleteMapping("/invoices/{id}")
-    void deleteInvoice(@PathVariable UUID id) {
-        invoiceService.deleteById(id);
+    @DeleteMapping("/invoices/{invoiceId}")
+    void deleteInvoice(@PathVariable UUID invoiceId) {
+        invoiceService.deleteById(invoiceId);
     }
 
 }

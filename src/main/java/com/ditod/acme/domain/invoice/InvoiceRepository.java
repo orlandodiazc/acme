@@ -34,7 +34,7 @@ public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
 
     @Query(value = """
             SELECT i.id as id, i.amount as amount, i.createdAt as createdAt,
-                        i.status as status, c.name as name, c.email as email, c.image as image
+                        i.status as status, c.name as name, c.email as email, c.image.id as imageId
             FROM Invoice i
             JOIN i.customer c
             WHERE

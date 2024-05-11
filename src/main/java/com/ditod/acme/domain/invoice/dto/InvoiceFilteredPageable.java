@@ -1,6 +1,5 @@
 package com.ditod.acme.domain.invoice.dto;
 
-import com.ditod.acme.domain.customer_image.dto.ImageSummary;
 import com.ditod.acme.domain.invoice.Status;
 
 import java.time.Instant;
@@ -15,13 +14,10 @@ public interface InvoiceFilteredPageable {
 
     Status getStatus();
 
-    CustomerSummary getCustomer();
+    String getName();
 
-    interface CustomerSummary {
-        String getName();
+    UUID getImageId();
 
-        ImageSummary getImage();
+    String getEmail();
 
-        String getEmail();
-    }
 }
