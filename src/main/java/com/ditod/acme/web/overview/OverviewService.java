@@ -6,6 +6,7 @@ import com.ditod.acme.domain.invoice.dto.InvoiceSummaryResponse;
 import com.ditod.acme.domain.invoice.dto.InvoiceTotalByStatus;
 import com.ditod.acme.domain.revenue.Revenue;
 import com.ditod.acme.domain.revenue.RevenueRepository;
+import com.ditod.acme.web.overview.dto.OverviewResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,13 +25,13 @@ public class OverviewService {
         this.revenueRepository = revenueRepository;
     }
 
-    public OverviewDTO findOverview() {
+    public OverviewResponse findOverview() {
         Long invoiceCount = invoiceService.countInvoices();
         Long customerCount = customerRepository.count();
         InvoiceTotalByStatus invoiceTotalByStatus = invoiceService.findInvoiceTotalByStatus();
         List<InvoiceSummaryResponse> latestInvoices = invoiceService.findLatestInvoices();
         List<Revenue> revenues = revenueRepository.findAll();
 
-        return new OverviewDTO(invoiceCount, customerCount, invoiceTotalByStatus.getPaidInvoicesTotal(), invoiceTotalByStatus.getPendingInvoicesTotal(), revenues, latestInvoices);
+        return new OverviewResponse(invoiceCount, customerCount, invoiceTotalByStatus.getPaidInvoicesTotal(), invoiceTotalByStatus.getPendingInvoicesTotal(), revenues, latestInvoices);
     }
 }

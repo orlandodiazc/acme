@@ -24,11 +24,11 @@ public class InvoiceController {
             @RequestParam(required = false, defaultValue = "1") Integer page) {
         return invoiceService.findFilteredInvoices(q, page);
     }
-
     @GetMapping("/invoices/latest")
     List<InvoiceSummaryResponse> latestInvoices() {
         return invoiceService.findLatestInvoices();
     }
+    // TODO: update response object
 
     @GetMapping("/invoices/{invoiceId}")
     Invoice oneInvoice(@PathVariable UUID invoiceId) {

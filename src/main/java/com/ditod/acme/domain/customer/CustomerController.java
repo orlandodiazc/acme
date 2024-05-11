@@ -26,6 +26,6 @@ public class CustomerController {
     @GetMapping()
     List<CustomerFilteredResponse> customersByQuery(
             @RequestParam(required = false, defaultValue = "") String q) {
-        return customerService.findCustomerByQuery(q);
+        return customerService.findCustomersByQuery(q);
     }
 }

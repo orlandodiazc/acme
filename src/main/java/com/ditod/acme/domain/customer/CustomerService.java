@@ -26,7 +26,7 @@ public class CustomerService {
         return customerRepository.findAllBy(CustomerSummaryResponse.class);
     }
 
-    public List<CustomerFilteredResponse> findCustomerByQuery(String query) {
-        return customerRepository.findFilteredCustomer(query);
+    public List<CustomerFilteredResponse> findCustomersByQuery(String query) {
+        return customerRepository.findFilteredCustomers(query);
     }
 }

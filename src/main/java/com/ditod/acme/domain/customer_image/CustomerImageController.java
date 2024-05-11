@@ -21,7 +21,7 @@ public class CustomerImageController {
     }
 
     @GetMapping("/{imageId}")
-    ResponseEntity<?> oneUserImage(@PathVariable UUID imageId) {
+    ResponseEntity<?> oneCustomerImage(@PathVariable UUID imageId) {
         CustomerImage customerImage = userImageRepository.findById(imageId)
                 .orElseThrow(() -> new EntityNotFoundException("customer image", imageId));
         HttpHeaders responseHeaders = new HttpHeaders();
