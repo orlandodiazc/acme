@@ -11,6 +11,14 @@ public class Revenue {
     @NotNull
     private int revenue;
 
+    public Revenue() {
+    }
+
+    public Revenue(String monthName, int revenue) {
+        this.monthName = monthName;
+        this.revenue = revenue;
+    }
+
     public String getMonthName() {
         return monthName;
     }
