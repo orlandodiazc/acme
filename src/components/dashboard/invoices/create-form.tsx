@@ -9,9 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { postInvoice } from "@/lib/api";
-import { Status } from "@/lib/api.types";
-import { customersSummaryQuery } from "@/lib/queryOptions";
+
 import { cn } from "@/lib/utils";
 import { queryClient } from "@/main";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
@@ -19,6 +17,9 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { CircleDollarSign, UserCircle } from "lucide-react";
 import { toast } from "sonner";
 import InvoiceBadge from "./invoice-badge";
+import { postInvoice } from "@/lib/api";
+import { customersSummaryQuery } from "@/lib/api/queryOptions";
+import { ApiSchema } from "@/lib/api/apiSchema";
 
 export default function CreateInvoiceForm() {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ export default function CreateInvoiceForm() {
       toast.error("Unable to create invoice.");
     },
   });
-  const { data: customers } = useSuspenseQuery(customersSummaryQuery);
+  const { data: customers } = useSuspenseQuery(customersSummaryQuery());
   return (
     <form
       onSubmit={(event) => {
@@ -42,9 +43,11 @@ export default function CreateInvoiceForm() {
         event.stopPropagation();
         const formData = new FormData(event.target as HTMLFormElement);
         createInvoiceMutation.mutate({
-          customerId: formData.get("customerId") as string,
-          amount: Number(formData.get("amount")) as number,
-          status: formData.get("status") as Status,
+          invoice: {
+            amount: Number(formData.get("amount")) as number,
+            status: formData.get("status") as ApiSchema["Invoice"]["status"],
+          },
+          customerId: "",
         });
       }}
     >

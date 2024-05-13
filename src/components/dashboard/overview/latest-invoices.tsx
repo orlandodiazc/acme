@@ -1,12 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { InvoiceDetails } from "@/lib/api.types";
+import { ApiSchema } from "@/lib/api/apiSchema";
 import { cn, formatCurrency, getInitials } from "@/lib/utils";
 import { RefreshCcw } from "lucide-react";
 
 export default function LatestInvoices({
   latestInvoices,
 }: {
-  latestInvoices: InvoiceDetails[];
+  latestInvoices: ApiSchema["InvoiceSummaryResponse"][];
 }) {
   return (
     <div className="flex w-full flex-col md:col-span-4 lg:col-span-4">
@@ -24,14 +24,16 @@ export default function LatestInvoices({
                 <div className="flex items-center">
                   <Avatar className="mr-4">
                     <AvatarImage
-                      src={invoice.imageUrl}
-                      alt={`${invoice.name}'s profile picture`}
+                      src={invoice?.imageId}
+                      alt={`${invoice?.name}'s profile picture`}
                     />
-                    <AvatarFallback>{getInitials(invoice.name)}</AvatarFallback>
+                    <AvatarFallback>
+                      {getInitials(invoice?.name)}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="min-w-0">
                     <p className="truncate text-sm font-medium md:text-base">
-                      {invoice.name}
+                      {invoice?.name}
                     </p>
                     <p className="hidden text-sm text-muted-foreground sm:block">
                       {invoice.email}

@@ -9,9 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { putInvoice } from "@/lib/api";
-import { Status } from "@/lib/api.types";
-import { customersSummaryQuery, invoiceQuery } from "@/lib/queryOptions";
 import { cn } from "@/lib/utils";
 import { queryClient } from "@/main";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
@@ -19,24 +16,27 @@ import { Link, useNavigate, useParams } from "@tanstack/react-router";
 import { CircleDollarSign, UserCircle } from "lucide-react";
 import { toast } from "sonner";
 import InvoiceBadge from "./invoice-badge";
+import { putInvoice } from "@/lib/api";
+import { customersSummaryQuery, invoiceQuery } from "@/lib/api/queryOptions";
+import { ApiSchema } from "@/lib/api/apiSchema";
 
 export default function EditInvoiceForm() {
   const { invoiceId } = useParams({
     from: "/_layout/dashboard/invoices/$invoiceId/edit",
   });
-  const { data: customers } = useSuspenseQuery(customersSummaryQuery);
+  const { data: customers } = useSuspenseQuery(customersSummaryQuery());
   const { data: defaultValues } = useSuspenseQuery(invoiceQuery(invoiceId));
   const navigate = useNavigate();
   const editInvoiceMutation = useMutation({
     mutationKey: ["invoices", "edit", invoiceId],
     mutationFn: putInvoice,
     onSuccess: () => {
-      queryClient.resetQueries({ queryKey: ["invoices"] });
+      queryClient.invalidateQueries({ queryKey: ["invoices"] });
       navigate({ to: "/dashboard/invoices", search: true });
       toast.success("Succesfully edited invoice!");
     },
-    onError: () => {
-      toast.error("Unable to edit invoice.");
+    onError: ({ message }) => {
+      toast.error(message);
     },
   });
 
@@ -47,19 +47,19 @@ export default function EditInvoiceForm() {
         event.stopPropagation();
         const formData = new FormData(event.target as HTMLFormElement);
         editInvoiceMutation.mutate({
-          putInvoice: {
-            customerId: formData.get("customerId") as string,
+          invoice: {
             amount: Number(formData.get("amount")) as number,
-            status: formData.get("status") as Status,
+            status: formData.get("status") as ApiSchema["Invoice"]["status"],
           },
-          id: defaultValues.id,
+          customerId: defaultValues.customer.id,
+          invoiceId: invoiceId,
         });
       }}
     >
       <div className="rounded-md border p-4 md:p-6">
         <div className="mb-4">
           <Label htmlFor="customer">Choose customer</Label>
-          <Select name="customerId" defaultValue={defaultValues?.customerId}>
+          <Select name="customerId" defaultValue={defaultValues.customer.id}>
             <SelectTrigger className="relative">
               <SelectValue placeholder="Select a customer" />
               <UserCircle className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
@@ -86,6 +86,7 @@ export default function EditInvoiceForm() {
               placeholder="Enter USD amount"
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               defaultValue={defaultValues?.amount}
+              required
             />
             <CircleDollarSign className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>

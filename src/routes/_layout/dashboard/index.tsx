@@ -3,7 +3,7 @@ import RevenueChart from "@/components/dashboard/overview/revenue-chart";
 import StatCard from "@/components/dashboard/overview/stat-card";
 import ErrorComponent from "@/components/error";
 import Spinner from "@/components/spinner";
-import { overviewQuery } from "@/lib/queryOptions";
+import { overviewQuery } from "@/lib/api/queryOptions";
 import { formatCurrency } from "@/lib/utils";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -14,7 +14,7 @@ import { ErrorBoundary } from "react-error-boundary";
 export const Route = createFileRoute("/_layout/dashboard/")({
   component: DashboardIndex,
   loader: ({ context: { queryClient } }) => {
-    queryClient.ensureQueryData(overviewQuery);
+    queryClient.ensureQueryData(overviewQuery());
   },
 });
 
@@ -32,7 +32,7 @@ function DashboardIndex() {
 }
 
 function Overview() {
-  const { data: overview } = useSuspenseQuery(overviewQuery);
+  const { data: overview } = useSuspenseQuery(overviewQuery());
   return (
     <>
       <div className="mb-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

@@ -8,8 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteInvoice } from "@/lib/api";
-import { InvoiceFiltered, InvoiceFilteredPageable } from "@/lib/api.types";
 import {
   cn,
   formatCurrency,
@@ -27,11 +25,13 @@ import {
 import { Pencil, Trash } from "lucide-react";
 import { toast } from "sonner";
 import InvoiceBadge from "./invoice-badge";
+import { ApiSchema } from "@/lib/api/apiSchema";
+import { deleteInvoice } from "@/lib/api";
 
 export default function InvoicesTable({
   invoices,
 }: {
-  invoices: InvoiceFiltered[];
+  invoices: ApiSchema["InvoiceFilteredResponse"]["invoices"];
 }) {
   const search = useSearch({ from: "/_layout/dashboard/invoices/" });
   const searchString = defaultStringifySearch(search);
@@ -43,12 +43,10 @@ export default function InvoicesTable({
       await queryClient.cancelQueries({
         queryKey: ["invoices", "delete", deleteId],
       });
-      const previousInvoices =
-        queryClient.getQueryData<InvoiceFilteredPageable>([
-          "invoices",
-          searchString,
-        ]);
-      queryClient.setQueryData<InvoiceFilteredPageable>(
+      const previousInvoices = queryClient.getQueryData<
+        ApiSchema["InvoiceFilteredResponse"]
+      >(["invoices", searchString]);
+      queryClient.setQueryData<ApiSchema["InvoiceFilteredResponse"]>(
         ["invoices", searchString],
         (prev) => {
           if (!prev) return;
@@ -96,7 +94,7 @@ export default function InvoicesTable({
             <TableCell className="flex items-center">
               <Avatar className="mr-4">
                 <AvatarImage
-                  src={invoice.imageUrl}
+                  src={invoice?.imageId}
                   alt={`${invoice.name}'s profile picture`}
                 />
                 <AvatarFallback>{getInitials(invoice.name)}</AvatarFallback>
@@ -106,7 +104,7 @@ export default function InvoicesTable({
             <TableCell>{invoice.email}</TableCell>
             <TableCell>{formatCurrency(invoice.amount)}</TableCell>
             <TableCell>
-              {formatDateToLocal(invoice.processingDate.toString())}
+              {formatDateToLocal(invoice.createdAt.toString())}
             </TableCell>
             <TableCell>
               <InvoiceBadge status={invoice.status} />

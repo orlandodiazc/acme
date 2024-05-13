@@ -4,11 +4,15 @@
 // https://www.chartjs.org/
 // https://airbnb.io/visx/
 
-import { Revenue } from "@/lib/api.types";
+import { ApiSchema } from "@/lib/api/apiSchema";
 import { generateYAxis } from "@/lib/utils";
 import { Calendar } from "lucide-react";
 
-export default function RevenueChart({ revenues }: { revenues: Revenue[] }) {
+export default function RevenueChart({
+  revenues,
+}: {
+  revenues: ApiSchema["Revenue"][];
+}) {
   const chartHeight = 350;
 
   const { yAxisLabels, topLabel } = generateYAxis(revenues);

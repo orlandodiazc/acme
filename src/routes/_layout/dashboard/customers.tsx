@@ -4,7 +4,7 @@ import Spinner from "@/components/spinner";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { customersQuery } from "@/lib/queryOptions";
+import { customersQuery } from "@/lib/api/queryOptions";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   createFileRoute,

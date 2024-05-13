@@ -1,5 +1,5 @@
 import { Badge, BadgeProps } from "@/components/ui/badge";
-import { Status } from "@/lib/api.types";
+import { ApiSchema } from "@/lib/api/apiSchema";
 import { Check, Clock, LucideIcon } from "lucide-react";
 
 interface Variant {
@@ -7,7 +7,7 @@ interface Variant {
   description: string;
   styleVariant: BadgeProps["variant"];
 }
-const invoiceBadgeVariants: Record<Status, Variant> = {
+const invoiceBadgeVariants: Record<ApiSchema["Invoice"]["status"], Variant> = {
   paid: {
     Icon: Check,
     description: "Paid",
@@ -20,7 +20,11 @@ const invoiceBadgeVariants: Record<Status, Variant> = {
   },
 };
 
-export default function InvoiceBadge({ status }: { status: Status }) {
+export default function InvoiceBadge({
+  status,
+}: {
+  status: ApiSchema["Invoice"]["status"];
+}) {
   const { styleVariant, description, Icon } = invoiceBadgeVariants[status];
   return (
     <Badge className="gap-1.5" variant={styleVariant} size="lg">

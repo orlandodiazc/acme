@@ -7,13 +7,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CustomerFiltered } from "@/lib/api.types";
+import { ApiSchema } from "@/lib/api/apiSchema";
 import { formatCurrency, getInitials } from "@/lib/utils";
 
 export default function CustomersTable({
   customers,
 }: {
-  customers: CustomerFiltered[];
+  customers: ApiSchema["CustomerFilteredResponse"][];
 }) {
   return (
     <Table>
@@ -32,7 +32,7 @@ export default function CustomersTable({
             <TableCell className="flex items-center">
               <Avatar className="mr-4">
                 <AvatarImage
-                  src={customer.imageUrl}
+                  src={customer?.imageId}
                   alt={`${customer.name}'s profile picture`}
                 />
                 <AvatarFallback>{getInitials(customer.name)}</AvatarFallback>
@@ -42,10 +42,8 @@ export default function CustomersTable({
             </TableCell>
             <TableCell>{customer.email}</TableCell>
             <TableCell>{customer.invoicesCount}</TableCell>
-            <TableCell>
-              {formatCurrency(customer.pendingInvoicesTotal)}
-            </TableCell>
-            <TableCell>{formatCurrency(customer.paidInvoicesTotal)}</TableCell>
+            <TableCell>{formatCurrency(customer.pendingTotal)}</TableCell>
+            <TableCell>{formatCurrency(customer.paidTotal)}</TableCell>
           </TableRow>
         ))}
       </TableBody>

@@ -1,12 +1,12 @@
 import Breadcrumbs from "@/components/dashboard/breadcrumbs";
 import CreateInvoiceForm from "@/components/dashboard/invoices/create-form";
-import { customersSummaryQuery } from "@/lib/queryOptions";
+import { customersSummaryQuery } from "@/lib/api/queryOptions";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_layout/dashboard/invoices/create")({
   component: CreateInvoice,
   loader: ({ context: { queryClient } }) =>
-    queryClient.ensureQueryData(customersSummaryQuery),
+    queryClient.ensureQueryData(customersSummaryQuery()),
 });
 
 function CreateInvoice() {

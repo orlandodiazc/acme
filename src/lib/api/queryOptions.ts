@@ -5,12 +5,13 @@ import {
   fetchInvoice,
   fetchInvoicesFiltered,
   fetchOverview,
-} from "./api";
+} from ".";
 
-export const overviewQuery = queryOptions({
-  queryKey: ["overview"],
-  queryFn: () => fetchOverview(),
-});
+export const overviewQuery = () =>
+  queryOptions({
+    queryKey: ["overview"],
+    queryFn: fetchOverview,
+  });
 
 export const invoicesQuery = (searchString: string) =>
   queryOptions({
@@ -30,7 +31,8 @@ export const customersQuery = (searchString: string) =>
     queryFn: () => fetchCustomersFiltered(searchString),
   });
 
-export const customersSummaryQuery = queryOptions({
-  queryKey: ["customers", "summary"],
-  queryFn: () => fetchCustomersSummary(),
-});
+export const customersSummaryQuery = () =>
+  queryOptions({
+    queryKey: ["customers", "summary"],
+    queryFn: fetchCustomersSummary,
+  });

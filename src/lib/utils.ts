@@ -1,11 +1,11 @@
 import { ClassNameValue, twMerge } from "tailwind-merge";
-import { Revenue } from "./api.types";
+import { ApiSchema } from "./api/apiSchema";
 
 export function cn(...inputs: ClassNameValue[]) {
   return twMerge(inputs);
 }
 
-export const generateYAxis = (revenue: Revenue[]) => {
+export const generateYAxis = (revenue: ApiSchema["Revenue"][]) => {
   const yAxisLabels = [];
   const highestRecord = Math.max(...revenue.map((month) => month.revenue));
   const topLabel = Math.ceil(highestRecord / 1000) * 1000;
@@ -71,7 +71,8 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
   ];
 };
 
-export function getInitials(name: string) {
+export function getInitials(name?: string) {
+  if (!name) return "US";
   return name
     .split(" ")
     .slice(0, 2)

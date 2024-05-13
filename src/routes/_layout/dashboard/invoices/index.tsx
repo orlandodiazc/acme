@@ -5,7 +5,7 @@ import Spinner from "@/components/spinner";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { invoicesQuery } from "@/lib/queryOptions";
+import { invoicesQuery } from "@/lib/api/queryOptions";
 import { cn } from "@/lib/utils";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
