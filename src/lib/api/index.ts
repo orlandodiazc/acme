@@ -7,71 +7,73 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 // }
 
 async function fetcher(...args: Parameters<typeof fetch>) {
-  const response = await fetch(...args);
-  return await response.json();
+  const [url, opts] = args;
+  const response = await fetch(
+    `${BASE_URL}${url}`,
+
+    opts,
+  );
+  let data;
+  try {
+    data = await response.json();
+  } catch (e) {
+    console.error(response);
+    throw response;
+  }
+  if (!response.ok) throw data;
+  return data;
 }
 
 export function fetchOverview(): Promise<ApiSchema["OverviewResponse"]> {
-  return fetcher(BASE_URL + "/overview");
+  return fetcher("/overview");
 }
 
 export function fetchInvoicesFiltered(
-  searchString: string,
+  searchString?: string,
 ): Promise<ApiSchema["InvoiceFilteredResponse"]> {
-  return fetcher(BASE_URL + "/customers" + "/invoices" + searchString);
+  return fetcher("/invoices" + searchString);
 }
 
 export function fetchInvoice(id: string): Promise<ApiSchema["Invoice"]> {
-  return fetcher(BASE_URL + "/invoices/" + id);
+  return fetcher("/invoices/" + id);
 }
 
-export function postInvoice({
-  invoice,
-  customerId,
-}: {
-  invoice: ApiSchema["InvoiceRequest"];
-  customerId: string;
-}): Promise<ApiSchema["Invoice"]> {
-  return fetcher(BASE_URL + "/customers/" + customerId + "/invoices", {
+export function postInvoice(formData: FormData): Promise<ApiSchema["Invoice"]> {
+  return fetcher("/invoices", {
     method: "POST",
-    body: JSON.stringify(invoice),
+    body: formData,
     headers: { "Content-Type": "application/json" },
   });
 }
 
 interface PutInvoice {
-  invoice: ApiSchema["InvoiceRequest"];
-  customerId: string;
+  invoice: FormData;
   invoiceId: string;
 }
 
 export function putInvoice({
   invoice,
-  customerId,
   invoiceId,
 }: PutInvoice): Promise<ApiSchema["Invoice"]> {
-  return fetcher(
-    BASE_URL + "/customers/" + customerId + "/invoices/" + invoiceId,
-    {
-      method: "PUT",
-      body: JSON.stringify(invoice),
-      headers: { "Content-Type": "application/json" },
-    },
-  );
+  return fetcher("/invoices/" + invoiceId, {
+    method: "PUT",
+    body: invoice,
+    headers: { "Content-Type": "application/json" },
+  });
 }
 
 export async function deleteInvoice(id: string): Promise<Response> {
-  return fetch(BASE_URL + "/invoices/" + id, { method: "DELETE" });
+  return fetch("/invoices/" + id, { method: "DELETE" });
 }
 
 export function fetchCustomersFiltered(
-  searchString: string,
+  searchString?: string,
 ): Promise<ApiSchema["CustomerFilteredResponse"][]> {
-  return fetcher(BASE_URL + "/customers" + searchString);
+  return fetcher("/customers" + searchString);
 }
 
 export function fetchCustomersSummary(): Promise<
   ApiSchema["CustomerSummaryResponse"][]
 > {
-  return fetcher(BASE_URL + "/customers/summary");
+  return fetcher("/customers/summary");
 }
