@@ -5,33 +5,29 @@
 
 
 export interface paths {
-  "/customers/{customerId}/invoices/{invoiceId}": {
+  "/invoices/{invoiceId}": {
+    get: operations["oneInvoice"];
     put: operations["putInvoice"];
+    delete: operations["deleteInvoice"];
   };
-  "/customers/{customerId}/invoices": {
+  "/invoices": {
+    get: operations["filteredInvoices"];
     post: operations["newInvoice"];
   };
   "/revenues": {
-    get: operations["all"];
+    get: operations["allRevenues"];
   };
   "/overview": {
     get: operations["overview"];
   };
+  "/invoices/latest": {
+    get: operations["latestInvoices"];
+  };
   "/customers": {
-    get: operations["customersByQuery"];
+    get: operations["filteredCustomers"];
   };
   "/customers/summary": {
     get: operations["allCustomersSummary"];
-  };
-  "/customers/invoices": {
-    get: operations["filteredInvoices"];
-  };
-  "/customers/invoices/{invoiceId}": {
-    get: operations["oneInvoice"];
-    delete: operations["deleteInvoice"];
-  };
-  "/customers/invoices/latest": {
-    get: operations["latestInvoices"];
   };
   "/customer-image/{imageId}": {
     get: operations["oneCustomerImage"];
@@ -43,6 +39,8 @@ export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
     InvoiceRequest: {
+      /** Format: uuid */
+      customerId?: string;
       /** Format: int32 */
       amount?: number;
       /** @enum {string} */
@@ -111,25 +109,6 @@ export interface components {
       revenues: components["schemas"]["Revenue"][];
       latestInvoices: components["schemas"]["InvoiceSummaryResponse"][];
     };
-    CustomerFilteredResponse: {
-      name?: string;
-      /** Format: uuid */
-      id: string;
-      email: string;
-      /** Format: uuid */
-      imageId?: string;
-      /** Format: int32 */
-      invoicesCount: number;
-      /** Format: int64 */
-      pendingTotal: number;
-      /** Format: int64 */
-      paidTotal: number;
-    };
-    CustomerSummaryResponse: {
-      name?: string;
-      /** Format: uuid */
-      id: string;
-    };
     InvoiceFilteredPageable: {
       name?: string;
       /** Format: uuid */
@@ -149,6 +128,33 @@ export interface components {
       /** Format: int32 */
       totalPages: number;
     };
+    InvoiceBaseResponse: {
+      /** @enum {string} */
+      status?: "pending" | "paid";
+      /** Format: int32 */
+      amount?: number;
+      /** Format: uuid */
+      customerId?: string;
+    };
+    CustomerFilteredResponse: {
+      name?: string;
+      /** Format: uuid */
+      id: string;
+      email: string;
+      /** Format: uuid */
+      imageId?: string;
+      /** Format: int32 */
+      invoicesCount: number;
+      /** Format: int64 */
+      pendingTotal: number;
+      /** Format: int64 */
+      paidTotal: number;
+    };
+    CustomerSummaryResponse: {
+      name?: string;
+      /** Format: uuid */
+      id: string;
+    };
   };
   responses: never;
   parameters: never;
@@ -163,110 +169,26 @@ export type external = Record<string, never>;
 
 export interface operations {
 
-  putInvoice: {
+  oneInvoice: {
     parameters: {
       path: {
-        customerId: string;
         invoiceId: string;
       };
     };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["InvoiceRequest"];
-      };
-    };
     responses: {
       /** @description OK */
       200: {
         content: {
-          "*/*": components["schemas"]["Invoice"];
+          "*/*": components["schemas"]["InvoiceBaseResponse"];
         };
       };
     };
   };
-  newInvoice: {
+  putInvoice: {
     parameters: {
-      path: {
-        customerId: string;
+      query: {
+        newInvoice: components["schemas"]["InvoiceRequest"];
       };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["InvoiceRequest"];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "*/*": components["schemas"]["Invoice"];
-        };
-      };
-    };
-  };
-  all: {
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "*/*": components["schemas"]["Revenue"][];
-        };
-      };
-    };
-  };
-  overview: {
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "*/*": components["schemas"]["OverviewResponse"];
-        };
-      };
-    };
-  };
-  customersByQuery: {
-    parameters: {
-      query?: {
-        q?: string;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "*/*": components["schemas"]["CustomerFilteredResponse"][];
-        };
-      };
-    };
-  };
-  allCustomersSummary: {
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "*/*": components["schemas"]["CustomerSummaryResponse"][];
-        };
-      };
-    };
-  };
-  filteredInvoices: {
-    parameters: {
-      query?: {
-        q?: string;
-        page?: number;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "*/*": components["schemas"]["InvoiceFilteredResponse"];
-        };
-      };
-    };
-  };
-  oneInvoice: {
-    parameters: {
       path: {
         invoiceId: string;
       };
@@ -293,12 +215,88 @@ export interface operations {
       };
     };
   };
+  filteredInvoices: {
+    parameters: {
+      query?: {
+        searchQuery?: string;
+        page?: number;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "*/*": components["schemas"]["InvoiceFilteredResponse"];
+        };
+      };
+    };
+  };
+  newInvoice: {
+    parameters: {
+      query: {
+        newInvoice: components["schemas"]["InvoiceRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "*/*": components["schemas"]["Invoice"];
+        };
+      };
+    };
+  };
+  allRevenues: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "*/*": components["schemas"]["Revenue"][];
+        };
+      };
+    };
+  };
+  overview: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "*/*": components["schemas"]["OverviewResponse"];
+        };
+      };
+    };
+  };
   latestInvoices: {
     responses: {
       /** @description OK */
       200: {
         content: {
           "*/*": components["schemas"]["InvoiceSummaryResponse"][];
+        };
+      };
+    };
+  };
+  filteredCustomers: {
+    parameters: {
+      query?: {
+        searchQuery?: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "*/*": components["schemas"]["CustomerFilteredResponse"][];
+        };
+      };
+    };
+  };
+  allCustomersSummary: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "*/*": components["schemas"]["CustomerSummaryResponse"][];
         };
       };
     };
