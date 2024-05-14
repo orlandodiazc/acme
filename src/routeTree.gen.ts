@@ -9,7 +9,7 @@ import { Route as IndexImport } from './routes/index'
 import { Route as LayoutDashboardIndexImport } from './routes/_layout/dashboard/index'
 import { Route as LayoutDashboardCustomersImport } from './routes/_layout/dashboard/customers'
 import { Route as LayoutDashboardInvoicesIndexImport } from './routes/_layout/dashboard/invoices/index'
-import { Route as LayoutDashboardInvoicesCreateImport } from './routes/_layout/dashboard/invoices/create'
+import { Route as LayoutDashboardInvoicesNewImport } from './routes/_layout/dashboard/invoices/new'
 import { Route as LayoutDashboardInvoicesInvoiceIdEditImport } from './routes/_layout/dashboard/invoices/$invoiceId.edit'
 
 // Create/Update Routes
@@ -45,11 +45,12 @@ const LayoutDashboardInvoicesIndexRoute =
     getParentRoute: () => LayoutRoute,
   } as any)
 
-const LayoutDashboardInvoicesCreateRoute =
-  LayoutDashboardInvoicesCreateImport.update({
-    path: '/dashboard/invoices/create',
+const LayoutDashboardInvoicesNewRoute = LayoutDashboardInvoicesNewImport.update(
+  {
+    path: '/dashboard/invoices/new',
     getParentRoute: () => LayoutRoute,
-  } as any)
+  } as any,
+)
 
 const LayoutDashboardInvoicesInvoiceIdEditRoute =
   LayoutDashboardInvoicesInvoiceIdEditImport.update({
@@ -81,8 +82,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutDashboardIndexImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/dashboard/invoices/create': {
-      preLoaderRoute: typeof LayoutDashboardInvoicesCreateImport
+    '/_layout/dashboard/invoices/new': {
+      preLoaderRoute: typeof LayoutDashboardInvoicesNewImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/dashboard/invoices/': {
@@ -103,7 +104,7 @@ export const routeTree = rootRoute.addChildren([
   LayoutRoute.addChildren([
     LayoutDashboardCustomersRoute,
     LayoutDashboardIndexRoute,
-    LayoutDashboardInvoicesCreateRoute,
+    LayoutDashboardInvoicesNewRoute,
     LayoutDashboardInvoicesIndexRoute,
     LayoutDashboardInvoicesInvoiceIdEditRoute,
   ]),

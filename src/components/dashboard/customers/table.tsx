@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { ApiSchema } from "@/lib/api/apiSchema";
 import { formatCurrency, getInitials } from "@/lib/utils";
-
+// TODO: getImageUrl from imageId
 export default function CustomersTable({
   customers,
 }: {
