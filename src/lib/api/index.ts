@@ -1,3 +1,4 @@
+import { recordToURLSearchParams } from "../utils";
 import { ApiSchema } from "./apiSchema";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -8,17 +9,13 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 async function fetcher(...args: Parameters<typeof fetch>) {
   const [url, opts] = args;
-  const response = await fetch(
-    `${BASE_URL}${url}`,
-
-    opts,
-  );
+  const response = await fetch(`${BASE_URL}${url}`, opts);
   let data;
   try {
     data = await response.json();
   } catch (e) {
     console.error(response);
-    throw response;
+    if (!response.ok) throw response;
   }
   if (!response.ok) throw data;
   return data;
@@ -29,9 +26,9 @@ export function fetchOverview(): Promise<ApiSchema["OverviewResponse"]> {
 }
 
 export function fetchInvoicesFiltered(
-  searchString?: string,
+  searchParams?: Record<string, unknown>,
 ): Promise<ApiSchema["InvoiceFilteredResponse"]> {
-  return fetcher("/invoices" + searchString);
+  return fetcher("/invoices?" + recordToURLSearchParams(searchParams));
 }
 
 export function fetchInvoice(id: string): Promise<ApiSchema["Invoice"]> {
@@ -42,34 +39,30 @@ export function postInvoice(formData: FormData): Promise<ApiSchema["Invoice"]> {
   return fetcher("/invoices", {
     method: "POST",
     body: formData,
-    headers: { "Content-Type": "application/json" },
   });
 }
 
-interface PutInvoice {
-  invoice: FormData;
-  invoiceId: string;
-}
-
 export function putInvoice({
-  invoice,
+  formData,
   invoiceId,
-}: PutInvoice): Promise<ApiSchema["Invoice"]> {
+}: {
+  formData: FormData;
+  invoiceId: string;
+}): Promise<ApiSchema["Invoice"]> {
   return fetcher("/invoices/" + invoiceId, {
     method: "PUT",
-    body: invoice,
-    headers: { "Content-Type": "application/json" },
+    body: formData,
   });
 }
 
 export async function deleteInvoice(id: string): Promise<Response> {
-  return fetch("/invoices/" + id, { method: "DELETE" });
+  return fetch(BASE_URL + "/invoices/" + id, { method: "DELETE" });
 }
 
 export function fetchCustomersFiltered(
-  searchString?: string,
+  searchParams?: Record<string, unknown>,
 ): Promise<ApiSchema["CustomerFilteredResponse"][]> {
-  return fetcher("/customers" + searchString);
+  return fetcher("/customers?" + recordToURLSearchParams(searchParams));
 }
 
 export function fetchCustomersSummary(): Promise<

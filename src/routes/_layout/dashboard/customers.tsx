@@ -6,31 +6,24 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { customersQuery } from "@/lib/api/queryOptions";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import {
-  createFileRoute,
-  defaultStringifySearch,
-  useNavigate,
-} from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { Search } from "lucide-react";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 export const Route = createFileRoute("/_layout/dashboard/customers")({
   component: CustomersIndex,
-  validateSearch: (search) =>
-    search as {
-      query?: string;
-    },
-  loaderDeps: ({ search: { query } }) => ({
-    query,
+  validateSearch: (search) => search as { searchQuery?: string },
+  loaderDeps: ({ search: { searchQuery } }) => ({
+    searchQuery,
   }),
-  loader: ({ context: { queryClient }, location: { searchStr } }) => {
-    queryClient.ensureQueryData(customersQuery(searchStr));
+  loader: ({ context: { queryClient }, deps }) => {
+    queryClient.ensureQueryData(customersQuery(deps));
   },
 });
-
+// TODO: update search bar
 export default function CustomersIndex() {
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
   const search = Route.useSearch();
   return (
     <main>
@@ -42,13 +35,13 @@ export default function CustomersIndex() {
         <Input
           onChange={(e) =>
             navigate({
-              search: { query: e.target.value || undefined },
+              search: { searchQuery: e.target.value || undefined },
             })
           }
           id="search-customers"
           className="pl-10"
           placeholder="Search customers..."
-          defaultValue={search.query}
+          defaultValue={search.searchQuery}
         />
         <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
       </div>
@@ -64,8 +57,8 @@ export default function CustomersIndex() {
 }
 
 function CustomersData() {
-  const searchString = defaultStringifySearch(Route.useSearch());
-  const { data: customers } = useSuspenseQuery(customersQuery(searchString));
+  const validateSearch = Route.useSearch();
+  const { data: customers } = useSuspenseQuery(customersQuery(validateSearch));
   return (
     <div className="rounded-md border">
       <CustomersTable customers={customers} />

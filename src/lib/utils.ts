@@ -5,6 +5,21 @@ export function cn(...inputs: ClassNameValue[]) {
   return twMerge(inputs);
 }
 
+export const recordToURLSearchParams = (
+  query?: Record<string, unknown>,
+): URLSearchParams => {
+  const searchParams = new URLSearchParams();
+  if (!query) return searchParams;
+
+  for (const [key, value] of Object.entries(query)) {
+    if (value) {
+      searchParams.append(key, String(value));
+    }
+  }
+
+  return searchParams;
+};
+
 export const generateYAxis = (revenue: ApiSchema["Revenue"][]) => {
   const yAxisLabels = [];
   const highestRecord = Math.max(...revenue.map((month) => month.revenue));

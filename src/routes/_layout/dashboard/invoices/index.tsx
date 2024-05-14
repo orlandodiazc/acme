@@ -29,8 +29,8 @@ export const Route = createFileRoute("/_layout/dashboard/invoices/")({
     return { page: Number(search?.page ?? 1), query: search.query as string };
   },
   loaderDeps: ({ search: { query, page } }) => ({ query, page }),
-  loader: ({ context: { queryClient }, location }) => {
-    queryClient.ensureQueryData(invoicesQuery(location.searchStr));
+  loader: ({ context: { queryClient }, deps }) => {
+    queryClient.ensureQueryData(invoicesQuery(deps));
   },
 });
 
@@ -62,7 +62,7 @@ function InvoicesIndex() {
           <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
         </div>
         <Link
-          to="/dashboard/invoices/create"
+          to="/dashboard/invoices/new"
           className={cn(buttonVariants(), "order-first md:order-last")}
         >
           Create Invoice <Plus strokeWidth={1.5} className="ml-2" />
@@ -79,9 +79,7 @@ function InvoicesIndex() {
 
 function InvoicesData() {
   const search = Route.useSearch();
-  const { data } = useSuspenseQuery(
-    invoicesQuery(defaultStringifySearch(search)),
-  );
+  const { data } = useSuspenseQuery(invoicesQuery(search));
   const { invoices, totalPages } = data;
   return (
     <>
