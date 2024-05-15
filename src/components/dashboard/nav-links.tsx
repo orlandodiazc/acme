@@ -28,7 +28,9 @@ export default function NavLinks() {
                   "w-full justify-center gap-1 px-2 md:justify-start",
                 )}
                 activeProps={{ className: "bg-accent" }}
-                activeOptions={{ exact: true }}
+                activeOptions={{
+                  exact: link.href === "/dashboard" ? true : false,
+                }}
               >
                 <LinkIcon className="w-6" />
                 <p className="hidden md:block">{link.name}</p>
