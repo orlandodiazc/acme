@@ -10,7 +10,7 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-    <main className="flex min-h-screen flex-col p-3 lg:p-6">
+    <main className="flex flex-col p-3 lg:p-6">
       <div className="flex h-28 shrink-0 items-end rounded-lg bg-primary p-4 lg:h-52">
         <AcmeLogo />
       </div>

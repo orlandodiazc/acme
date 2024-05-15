@@ -17,12 +17,12 @@ export const queryClient = new QueryClient();
 const router = createRouter({
   routeTree,
   defaultPendingComponent: () => (
-    <div className="grid h-full place-content-center">
+    <div className="grid h-full place-content-center text-primary">
       <Spinner />
     </div>
   ),
   defaultErrorComponent: ({ error }) => <ErrorComponent error={error} />,
-  defaultPendingMs: 500,
+  defaultPendingMs: 300,
   context: { queryClient },
 });
 
