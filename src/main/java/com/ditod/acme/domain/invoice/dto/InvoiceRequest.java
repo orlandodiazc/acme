@@ -2,5 +2,7 @@ package com.ditod.acme.domain.invoice.dto;
 
 import com.ditod.acme.domain.invoice.Status;
 
-public record InvoiceRequest(int amount, Status status) {
+import java.util.UUID;
+
+public record InvoiceRequest(UUID customerId, int amount, Status status) {
 }

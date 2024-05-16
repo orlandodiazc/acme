@@ -1,5 +1,6 @@
 package com.ditod.acme.domain.invoice;
 
+import com.ditod.acme.domain.invoice.dto.InvoiceBaseResponse;
 import com.ditod.acme.domain.invoice.dto.InvoiceFilteredResponse;
 import com.ditod.acme.domain.invoice.dto.InvoiceRequest;
 import com.ditod.acme.domain.invoice.dto.InvoiceSummaryResponse;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/customers/{customerId}")
+@RequestMapping("/invoices")
 public class InvoiceController {
 
     private final InvoiceService invoiceService;
@@ -18,37 +19,35 @@ public class InvoiceController {
         this.invoiceService = invoiceService;
     }
 
-    @GetMapping("/invoices")
+    @GetMapping()
     InvoiceFilteredResponse filteredInvoices(
-            @RequestParam(required = false, defaultValue = "") String q,
+            @RequestParam(required = false, defaultValue = "") String searchQuery,
             @RequestParam(required = false, defaultValue = "1") Integer page) {
-        return invoiceService.findFilteredInvoices(q, page);
+        return invoiceService.findFilteredInvoices(searchQuery, page);
     }
-    @GetMapping("/invoices/latest")
+
+    @GetMapping("/latest")
     List<InvoiceSummaryResponse> latestInvoices() {
         return invoiceService.findLatestInvoices();
     }
-    // TODO: update response object
 
-    @GetMapping("/invoices/{invoiceId}")
-    Invoice oneInvoice(@PathVariable UUID invoiceId) {
+    @GetMapping("/{invoiceId}")
+    InvoiceBaseResponse oneInvoice(@PathVariable UUID invoiceId) {
         return invoiceService.findById(invoiceId);
-
     }
 
-    @PostMapping("/invoices")
-    Invoice newInvoice(@RequestBody InvoiceRequest newInvoice,
-            @PathVariable UUID customerId) {
-        return invoiceService.saveInvoice(newInvoice, customerId);
+    @PostMapping()
+    Invoice newInvoice(@ModelAttribute InvoiceRequest newInvoice) {
+        return invoiceService.saveInvoice(newInvoice);
     }
 
-    @PutMapping("/invoices/{invoiceId}")
-    Invoice putInvoice(@RequestBody InvoiceRequest newInvoice,
-            @PathVariable UUID customerId, @PathVariable UUID invoiceId) {
-        return invoiceService.updateInvoice(newInvoice, invoiceId, customerId);
+    @PutMapping("/{invoiceId}")
+    Invoice putInvoice(@ModelAttribute InvoiceRequest newInvoice,
+            @PathVariable UUID invoiceId) {
+        return invoiceService.updateInvoice(newInvoice, invoiceId);
     }
 
-    @DeleteMapping("/invoices/{invoiceId}")
+    @DeleteMapping("/{invoiceId}")
     void deleteInvoice(@PathVariable UUID invoiceId) {
         invoiceService.deleteById(invoiceId);
     }

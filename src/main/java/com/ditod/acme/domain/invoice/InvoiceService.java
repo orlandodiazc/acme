@@ -26,11 +26,10 @@ public class InvoiceService {
     }
 
     public List<InvoiceSummaryResponse> findLatestInvoices() {
-
         return invoiceRepository.findTop5ByOrderByCreatedAtDesc();
     }
 
-    public InvoiceFilteredResponse findFilteredInvoices(String query,
+    public InvoiceFilteredResponse findFilteredInvoices(String searchQuery,
             Integer currentPage) {
         Pageable pageable;
         if (currentPage < 1) {
@@ -38,12 +37,12 @@ public class InvoiceService {
         } else {
             pageable = PageRequest.of(currentPage - 1, 6);
         }
-        Page<InvoiceFilteredPageable> invoicePage = invoiceRepository.findFilteredInvoices(query, pageable);
+        Page<InvoiceFilteredPageable> invoicePage = invoiceRepository.findFilteredInvoices(searchQuery, pageable);
         return new InvoiceFilteredResponse(invoicePage.getContent(), invoicePage.getTotalPages());
     }
 
-    public Invoice findById(UUID id) {
-        return invoiceRepository.findById(id)
+    public InvoiceBaseResponse findById(UUID id) {
+        return invoiceRepository.findById(id, InvoiceBaseResponse.class)
                 .orElseThrow(() -> new EntityNotFoundException("invoice", id));
     }
 
@@ -55,8 +54,8 @@ public class InvoiceService {
         return invoiceRepository.count();
     }
 
-    public Invoice saveInvoice(InvoiceRequest newInvoice, UUID customerId) {
-        Customer owner = customerService.findById(customerId);
+    public Invoice saveInvoice(InvoiceRequest newInvoice) {
+        Customer owner = customerService.findById(newInvoice.customerId());
         return invoiceRepository.save(new Invoice(newInvoice.amount(), newInvoice.status(), owner));
     }
 
@@ -64,10 +63,9 @@ public class InvoiceService {
         invoiceRepository.deleteById(id);
     }
 
-    public Invoice updateInvoice(InvoiceRequest newInvoice, UUID customerId,
-            UUID ownerId) {
-        Customer owner = customerService.findById(ownerId);
-        return invoiceRepository.findById(customerId)
+    public Invoice updateInvoice(InvoiceRequest newInvoice, UUID invoiceId) {
+        Customer owner = customerService.findById(newInvoice.customerId());
+        return invoiceRepository.findById(invoiceId)
                 .map(invoice -> {
                     invoice.setAmount(newInvoice.amount());
                     invoice.setStatus(newInvoice.status());
