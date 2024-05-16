@@ -5,6 +5,7 @@ import com.ditod.acme.domain.customer.Customer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.ColumnTransformer;
 
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ public class Invoice extends DateTimeAudit {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @NotNull
+    @ColumnTransformer(write = "?*100")
     private int amount;
     @NotNull
     @Enumerated(EnumType.STRING)
