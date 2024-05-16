@@ -5,7 +5,7 @@ import {
   invoiceQuery,
   usePutInvoiceMutation,
 } from "@/lib/api/queryOptions";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 
@@ -22,10 +22,13 @@ export const Route = createFileRoute(
 function EditInvoice() {
   const { invoiceId } = Route.useParams();
   const { mutate, status } = usePutInvoiceMutation(invoiceId);
-  const { data } = useQuery(invoiceQuery(invoiceId));
+  const { data } = useSuspenseQuery(invoiceQuery(invoiceId));
+  const navigate = Route.useNavigate();
+
   function handleSubmit(formData: FormData) {
     mutate(formData, {
       onSuccess() {
+        navigate({ to: "/dashboard/invoices", search: { page: 1 } });
         toast.success("Succesfully edited invoice.");
       },
       onError() {

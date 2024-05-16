@@ -110,7 +110,8 @@ export default function InvoiceForm({
       </div>
       <div className="mt-6 flex items-center justify-end gap-4">
         <Link
-          to="../"
+          to="/dashboard/invoices"
+          search={{ page: 1 }}
           className={cn(
             buttonVariants({ variant: "secondary" }),
             status === "pending" && "pointer-events-none opacity-50",

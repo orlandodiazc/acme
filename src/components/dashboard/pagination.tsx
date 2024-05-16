@@ -1,3 +1,5 @@
+import { generatePagination } from "@/lib/utils";
+import { Fragment } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -7,9 +9,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../ui/pagination";
-import { generatePagination } from "@/lib/utils";
-import { InvoiceSearch } from "@/routes/_layout/dashboard/invoices";
-import { Fragment } from "react";
 
 export default function DashboardPagination({
   currentPage,
@@ -25,7 +24,10 @@ export default function DashboardPagination({
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            search={(prev: InvoiceSearch) => ({ ...prev, page: prev.page - 1 })}
+            search={(prev: { page: number; searchQuery?: string }) => ({
+              ...prev,
+              page: prev.page - 1,
+            })}
             disabled={currentPage <= 1}
           />
         </PaginationItem>
@@ -52,7 +54,10 @@ export default function DashboardPagination({
 
         <PaginationItem>
           <PaginationNext
-            search={(prev: InvoiceSearch) => ({ ...prev, page: prev.page + 1 })}
+            search={(prev: { page: number; searchQuery?: string }) => ({
+              ...prev,
+              page: prev.page + 1,
+            })}
             disabled={currentPage >= totalPages}
           />
         </PaginationItem>
