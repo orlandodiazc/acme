@@ -10,17 +10,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
 
-//    @Query(value = """
-//            SELECT i.id as id, i.amount as amount, c.name as name, c.imageUrl as imageUrl, c.email as email
-//            FROM Invoice i JOIN i.customer c
-//            ORDER BY i.createdAt
-//            """)
-//    List<InvoiceSummaryResponse> findLatestInvoices(Pageable pageable);
-
+    <T> Optional<T> findById(UUID id, Class<T> type);
 
     List<InvoiceSummaryResponse> findTop5ByOrderByCreatedAtDesc();
 
@@ -34,17 +29,17 @@ public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
 
     @Query(value = """
             SELECT i.id as id, i.amount as amount, i.createdAt as createdAt,
-                        i.status as status, c.name as name, c.email as email, c.image.id as imageId
+                i.status as status, c.name as name, c.email as email, ci.id as imageId
             FROM Invoice i
             JOIN i.customer c
-            WHERE
-                LOWER(c.name) LIKE LOWER(CONCAT('%', :term, '%'))
-                OR LOWER(c.email) LIKE LOWER(CONCAT('%', :term, '%'))
-                OR CAST(i.amount AS string) LIKE LOWER(CONCAT('%', :term, '%'))
-                OR CAST(i.createdAt AS string) LIKE LOWER(CONCAT('%', :term, '%'))
-                OR CAST(i.status AS string) LIKE LOWER(CONCAT('%', :term, '%'))
+            LEFT JOIN c.image ci
+            WHERE LOWER(c.name) LIKE LOWER(CONCAT('%', :searchQuery, '%')) OR
+                LOWER(c.email) LIKE LOWER(CONCAT('%', :searchQuery, '%')) OR
+                LOWER(CAST(i.amount AS string)) LIKE LOWER(CONCAT('%', :searchQuery, '%')) OR
+                LOWER(CAST(i.createdAt AS string)) LIKE LOWER(CONCAT('%', :searchQuery, '%')) OR
+                LOWER(i.status) LIKE LOWER(CONCAT('%', :searchQuery, '%'))
             ORDER BY i.createdAt DESC
               """)
     Page<InvoiceFilteredPageable> findFilteredInvoices(
-            @Param("term") String query, Pageable pageable);
+            @Param("searchQuery") String searchQuery, Pageable pageable);
 }

@@ -19,13 +19,13 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> {
             FROM Customer c
             LEFT JOIN c.image ci
             LEFT JOIN c.invoices i
-            WHERE c.name LIKE LOWER(CONCAT('%', :query, '%'))
-                          OR LOWER(c.email) LIKE LOWER(CONCAT('%', :query, '%'))
+            WHERE c.name LIKE LOWER(CONCAT('%', :searchQuery, '%'))
+                          OR LOWER(c.email) LIKE LOWER(CONCAT('%', :searchQuery, '%'))
             GROUP BY c.id, ci.id
             ORDER BY c.name ASC
             """)
     List<CustomerFilteredResponse> findFilteredCustomers(
-            @Param("query") String query);
+            @Param("searchQuery") String searchQuery);
 
 
 }
