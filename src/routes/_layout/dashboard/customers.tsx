@@ -1,13 +1,11 @@
 import CustomersTable from "@/components/dashboard/customers/table";
+import { SearchBar } from "@/components/dashboard/search-bar";
 import ErrorComponent from "@/components/error";
 import Spinner from "@/components/spinner";
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { customersQuery } from "@/lib/api/queryOptions";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { Search } from "lucide-react";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -29,25 +27,25 @@ export default function CustomersIndex() {
     <main>
       <h1 className="mb-4 text-xl md:text-3xl">Customers</h1>
       <div className="relative mb-6">
-        <Label htmlFor="search-customers" className="sr-only">
-          Search Customers
-        </Label>
-        <Input
-          onChange={(e) =>
+        <SearchBar
+          handleChange={(value?: string) =>
             navigate({
-              search: { searchQuery: e.target.value || undefined },
+              to: "/dashboard/customers",
+              search: { searchQuery: value },
             })
           }
-          id="search-customers"
-          className="pl-10"
-          placeholder="Search customers..."
           defaultValue={search.searchQuery}
         />
-        <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
       </div>
-      <div className="flex flex-col">
+      <div className="flex h-full flex-col">
         <ErrorBoundary FallbackComponent={ErrorComponent}>
-          <Suspense fallback={<Spinner />}>
+          <Suspense
+            fallback={
+              <div className="flex justify-center text-primary">
+                <Spinner />
+              </div>
+            }
+          >
             <CustomersData />
           </Suspense>
         </ErrorBoundary>
@@ -57,11 +55,17 @@ export default function CustomersIndex() {
 }
 
 function CustomersData() {
-  const validateSearch = Route.useSearch();
-  const { data: customers } = useSuspenseQuery(customersQuery(validateSearch));
+  const search = Route.useSearch();
+  const { data: customers } = useSuspenseQuery(customersQuery(search));
   return (
     <div className="rounded-md border">
-      <CustomersTable customers={customers} />
+      {customers.length > 0 ? (
+        <CustomersTable customers={customers} />
+      ) : (
+        <p className="text-center text-muted-foreground">
+          No customers have been found.
+        </p>
+      )}
     </div>
   );
 }
