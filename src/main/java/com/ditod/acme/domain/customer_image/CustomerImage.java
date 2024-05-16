@@ -8,8 +8,10 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
+// TODO: Add CustomerImageRequest for creation
 @Entity
 public class CustomerImage extends DateTimeAudit {
+    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

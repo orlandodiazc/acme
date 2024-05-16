@@ -1,20 +1,21 @@
 package com.ditod.acme.domain.customer.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.util.UUID;
 
 public interface CustomerFilteredResponse {
-    UUID getId();
+    @NotNull UUID getId();
 
     String getName();
 
-    String getEmail();
+    @NotNull String getEmail();
 
     UUID getImageId();
 
-    Integer getInvoicesCount();
+    @NotNull Integer getInvoicesCount();
 
-    Long getPendingTotal();
+    @NotNull Integer getPendingTotal();
 
-    Long getPaidTotal();
-
+    @NotNull Integer getPaidTotal();
 }
