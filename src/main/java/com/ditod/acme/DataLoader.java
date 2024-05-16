@@ -2,7 +2,6 @@ package com.ditod.acme;
 
 import com.ditod.acme.domain.customer.Customer;
 import com.ditod.acme.domain.customer.CustomerRepository;
-import com.ditod.acme.domain.customer_image.CustomerImage;
 import com.ditod.acme.domain.customer_image.CustomerImageRepository;
 import com.ditod.acme.domain.invoice.Invoice;
 import com.ditod.acme.domain.invoice.InvoiceRepository;
@@ -39,7 +38,6 @@ public class DataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Customer orlando = new Customer("Orlando Diaz", "orlando@example.com");
         Customer ejemplo = new Customer("Ejemplo Diaz", "ejemplo@example.com");
-        CustomerImage orlandoImage = new CustomerImage("test", "PNG", null, orlando);
         Invoice orlandoInvoice = new Invoice(1000, Status.pending, orlando);
         Invoice orlandoInvoice2 = new Invoice(200, Status.paid, orlando);
         Invoice ejemploInvoice = new Invoice(900, Status.pending, ejemplo);
@@ -47,7 +45,6 @@ public class DataLoader implements ApplicationRunner {
 
         revenueRepository.saveAll(List.of(new Revenue("Jan", 2000), new Revenue("Feb", 1800), new Revenue("Mar", 2200), new Revenue("Apr", 2500), new Revenue("May", 2300), new Revenue("Jun", 3200), new Revenue("Jul", 3500), new Revenue("Aug", 3700), new Revenue("Sep", 2500), new Revenue("Oct", 2800), new Revenue("Nov", 3000), new Revenue("Dec", 4800)));
         customerRepository.saveAll(List.of(orlando, ejemplo));
-        customerImageRepository.save(orlandoImage);
         invoiceRepository.saveAll(List.of(orlandoInvoice, orlandoInvoice2, ejemploInvoice, ejemploInvoice2));
     }
 }
