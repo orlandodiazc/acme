@@ -1,5 +1,6 @@
 import { ClassNameValue, twMerge } from "tailwind-merge";
 import { ApiSchema } from "./api/apiSchema";
+import { API_BASE_URL } from "./api";
 
 export function cn(...inputs: ClassNameValue[]) {
   return twMerge(inputs);
@@ -86,8 +87,12 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
   ];
 };
 
+export function getCustomerImageSrc(imageId?: string) {
+  return `${API_BASE_URL}/customer-image/${imageId}`;
+}
+
 export function getInitials(name?: string) {
-  if (!name) return "US";
+  if (!name) return;
   return name
     .split(" ")
     .slice(0, 2)

@@ -8,8 +8,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ApiSchema } from "@/lib/api/apiSchema";
-import { formatCurrency, getInitials } from "@/lib/utils";
-// TODO: getImageUrl from imageId
+import { formatCurrency, getCustomerImageSrc, getInitials } from "@/lib/utils";
+
 export default function CustomersTable({
   customers,
 }: {
@@ -32,10 +32,13 @@ export default function CustomersTable({
             <TableCell className="flex items-center">
               <Avatar className="mr-4">
                 <AvatarImage
-                  src={customer?.imageId}
+                  src={getCustomerImageSrc(customer?.imageId)}
                   alt={`${customer.name}'s profile picture`}
                 />
-                <AvatarFallback>{getInitials(customer.name)}</AvatarFallback>
+                <AvatarFallback>
+                  {getInitials(customer.name) ??
+                    customer.email.charAt(0).toUpperCase()}
+                </AvatarFallback>
               </Avatar>
 
               <span>{customer.name}</span>

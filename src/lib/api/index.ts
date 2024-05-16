@@ -1,7 +1,7 @@
 import { recordToURLSearchParams } from "../utils";
 import { ApiSchema } from "./apiSchema";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // function sleep(ms: number) {
 //   return new Promise((r) => setTimeout(r, ms));
@@ -9,7 +9,7 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 async function fetcher(...args: Parameters<typeof fetch>) {
   const [url, opts] = args;
-  const response = await fetch(`${BASE_URL}${url}`, opts);
+  const response = await fetch(`${API_BASE_URL}${url}`, opts);
   let data;
   try {
     data = await response.json();
@@ -56,7 +56,7 @@ export function putInvoice({
 }
 
 export async function deleteInvoice(id: string): Promise<Response> {
-  return fetch(BASE_URL + "/invoices/" + id, { method: "DELETE" });
+  return fetch(API_BASE_URL + "/invoices/" + id, { method: "DELETE" });
 }
 
 export function fetchCustomersFiltered(

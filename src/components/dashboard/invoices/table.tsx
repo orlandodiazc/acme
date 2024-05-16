@@ -14,13 +14,10 @@ import {
   cn,
   formatCurrency,
   formatDateToLocal,
+  getCustomerImageSrc,
   getInitials,
 } from "@/lib/utils";
-import {
-  Link,
-  defaultStringifySearch,
-  useSearch,
-} from "@tanstack/react-router";
+import { Link, useSearch } from "@tanstack/react-router";
 import { Pencil, Trash } from "lucide-react";
 import InvoiceBadge from "./invoice-badge";
 
@@ -30,53 +27,11 @@ export default function InvoicesTable({
   invoices: ApiSchema["InvoiceFilteredResponse"]["invoices"];
 }) {
   const search = useSearch({ from: "/_layout/dashboard/invoices/" });
-  const searchString = defaultStringifySearch(search);
 
-  const { mutate, status, variables } = useDeleteInvoiceMutation(searchString);
-  console.log(variables, status);
-  // const deleteInvoiceMutation = useMutation({
-  //   mutationKey: ["invoices", "delete"],
-  //   mutationFn: deleteInvoice,
-  //   onMutate: async (deleteId) => {
-  //     await queryClient.cancelQueries({
-  //       queryKey: ["invoices", "delete", deleteId],
-  //     });
-  //     const previousInvoices = queryClient.getQueryData<
-  //       ApiSchema["InvoiceFilteredResponse"]
-  //     >(["invoices", searchString]);
-  //     queryClient.setQueryData<ApiSchema["InvoiceFilteredResponse"]>(
-  //       ["invoices", searchString],
-  //       (prev) => {
-  //         if (!prev) return;
-  //         return {
-  //           ...prev,
-  //           invoices: prev.invoices.filter(
-  //             (invoice) => invoice.id !== deleteId,
-  //           ),
-  //         };
-  //       },
-  //     );
-  //     return { previousInvoices };
-  //   },
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["invoices", searchString] });
-  //     navigate({
-  //       to: "/dashboard/invoices",
-  //       search: true,
-  //     });
-  //     toast.success("Succesfully deleted invoice!");
-  //   },
-  //   onError: (err, deleteId, context) => {
-  //     queryClient.setQueryData(
-  //       ["invoices", searchString],
-  //       context?.previousInvoices,
-  //     );
-  //     toast.error("Unable to deleted invoice.");
-  //   },
-  // });
+  const { mutate, status } = useDeleteInvoiceMutation(search);
 
   return (
-    <Table>
+    <Table className={status === "pending" ? "animate-pulse" : ""}>
       <TableHeader>
         <TableRow>
           <TableHead>Customer</TableHead>
@@ -92,10 +47,13 @@ export default function InvoicesTable({
             <TableCell className="flex items-center">
               <Avatar className="mr-4">
                 <AvatarImage
-                  src={invoice?.imageId}
+                  src={getCustomerImageSrc(invoice?.imageId)}
                   alt={`${invoice.name}'s profile picture`}
                 />
-                <AvatarFallback>{getInitials(invoice.name)}</AvatarFallback>
+                <AvatarFallback>
+                  {getInitials(invoice.name) ??
+                    invoice.email.charAt(0).toUpperCase()}
+                </AvatarFallback>
               </Avatar>
               <span>{invoice.name}</span>
             </TableCell>

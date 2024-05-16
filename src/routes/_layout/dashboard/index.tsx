@@ -23,7 +23,13 @@ function DashboardIndex() {
     <main>
       <h1 className="mb-4 text-2xl md:text-3xl">Overview</h1>
       <ErrorBoundary FallbackComponent={ErrorComponent}>
-        <Suspense fallback={<Spinner />}>
+        <Suspense
+          fallback={
+            <div className="flex justify-center text-primary">
+              <Spinner />
+            </div>
+          }
+        >
           <Overview />
         </Suspense>
       </ErrorBoundary>

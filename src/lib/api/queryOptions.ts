@@ -48,7 +48,7 @@ export const usePutInvoiceMutation = (invoiceId: string) =>
   });
 
 export const useDeleteInvoiceMutation = (
-  searchParams?: Record<string, unknown>,
+  searchParams: Record<string, unknown>,
 ) =>
   useMutation({
     mutationFn: deleteInvoice,
