@@ -1,11 +1,13 @@
 package com.ditod.acme.domain.revenue;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/revenues")
 public class RevenueController {
     private final RevenueRepository repository;
 
@@ -13,8 +15,8 @@ public class RevenueController {
         this.repository = repository;
     }
 
-    @GetMapping("/revenues")
-    List<Revenue> all() {
+    @GetMapping()
+    List<Revenue> allRevenues() {
         return repository.findAll();
     }
 }
