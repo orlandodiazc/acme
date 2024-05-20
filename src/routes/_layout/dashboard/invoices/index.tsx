@@ -1,7 +1,7 @@
 import InvoicesTable from "@/components/dashboard/invoices/table";
 import DashboardPagination from "@/components/dashboard/pagination";
 import { SearchBar } from "@/components/dashboard/search-bar";
-import ErrorComponent from "@/components/error";
+import { ErrorPageComponent } from "@/components/errors";
 import Spinner from "@/components/spinner";
 import { buttonVariants } from "@/components/ui/button";
 import { invoicesQuery } from "@/lib/api/queryOptions";
@@ -55,7 +55,7 @@ function InvoicesIndex() {
           Create Invoice <Plus strokeWidth={1.5} className="ml-2" />
         </Link>
       </div>
-      <ErrorBoundary FallbackComponent={ErrorComponent}>
+      <ErrorBoundary FallbackComponent={ErrorPageComponent}>
         <Suspense
           fallback={
             <div className="flex justify-center text-primary">

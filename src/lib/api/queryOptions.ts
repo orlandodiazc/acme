@@ -2,14 +2,18 @@ import { queryClient } from "@/main";
 import { queryOptions, useMutation } from "@tanstack/react-query";
 import {
   deleteInvoice,
+  fetchAuthUser,
   fetchCustomersFiltered,
   fetchCustomersSummary,
   fetchInvoice,
   fetchInvoicesFiltered,
   fetchOverview,
   postInvoice,
+  postLogin,
+  postLogout,
   putInvoice,
 } from ".";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 
 export const overviewQuery = () =>
   queryOptions({
@@ -70,3 +74,33 @@ export const customersSummaryQuery = () =>
     queryKey: ["customers", "summary"],
     queryFn: fetchCustomersSummary,
   });
+
+export const authUserQuery = () =>
+  queryOptions({
+    queryFn: fetchAuthUser,
+    queryKey: ["auth", "user"],
+  });
+
+export const useLogoutMutation = () => {
+  return useMutation({
+    mutationKey: ["auth", "logout"],
+    mutationFn: postLogout,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: authUserQuery().queryKey });
+    },
+  });
+};
+
+export const useLoginMutation = () => {
+  return useMutation({
+    mutationKey: ["auth", "login"],
+    mutationFn: postLogin,
+    onError(error: Response) {
+      return error;
+    },
+    onSuccess(data) {
+      queryClient.setQueryData(authUserQuery().queryKey, data);
+    },
+    throwOnError: false,
+  });
+};

@@ -1,29 +1,35 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import {
-  ErrorComponent,
-  RouterProvider,
-  createRouter,
-} from "@tanstack/react-router";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
 
 import { routeTree } from "./routeTree.gen";
 import Spinner from "./components/spinner";
 import { Toaster } from "./components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ErrorPageComponent, NotFound } from "./components/errors";
+import { AuthProvider, useAuth } from "./auth";
 
 export const queryClient = new QueryClient();
 
 const router = createRouter({
   routeTree,
+  context: {
+    queryClient,
+    auth: undefined,
+  },
+  defaultPreload: "intent",
+  defaultErrorComponent: ({ error }) => <ErrorPageComponent error={error} />,
+  defaultNotFoundComponent: NotFound,
   defaultPendingComponent: () => (
-    <div className="grid h-full place-content-center text-primary">
+    <div className="grid h-full w-full place-content-center">
       <Spinner />
     </div>
   ),
-  defaultErrorComponent: ({ error }) => <ErrorComponent error={error} />,
-  defaultPendingMs: 300,
-  context: { queryClient },
+
+  // Since we're using React Query, we don't want loader calls to ever be stale
+  // This will ensure that the loader is always called when the route is preloaded or visited
+  defaultPreloadStaleTime: 0,
 });
 
 declare module "@tanstack/react-router" {
@@ -32,15 +38,22 @@ declare module "@tanstack/react-router" {
   }
 }
 
+function AuthRouter() {
+  const auth = useAuth();
+  return <RouterProvider router={router} context={{ auth }} />;
+}
+
 const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <Toaster richColors closeButton />
-        <RouterProvider router={router} />
+        <AuthProvider>
+          <AuthRouter />
+        </AuthProvider>
       </QueryClientProvider>
+      <Toaster richColors closeButton />
     </StrictMode>,
   );
 }

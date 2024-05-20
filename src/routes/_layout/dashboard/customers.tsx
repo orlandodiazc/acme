@@ -1,6 +1,6 @@
 import CustomersTable from "@/components/dashboard/customers/table";
 import { SearchBar } from "@/components/dashboard/search-bar";
-import ErrorComponent from "@/components/error";
+import { ErrorPageComponent } from "@/components/errors";
 import Spinner from "@/components/spinner";
 
 import { customersQuery } from "@/lib/api/queryOptions";
@@ -38,7 +38,7 @@ export default function CustomersIndex() {
         />
       </div>
       <div className="flex h-full flex-col">
-        <ErrorBoundary FallbackComponent={ErrorComponent}>
+        <ErrorBoundary FallbackComponent={ErrorPageComponent}>
           <Suspense
             fallback={
               <div className="flex justify-center text-primary">

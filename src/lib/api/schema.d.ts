@@ -14,6 +14,12 @@ export interface paths {
     get: operations["filteredInvoices"];
     post: operations["newInvoice"];
   };
+  "/auth/logout": {
+    post: operations["logout"];
+  };
+  "/auth/login": {
+    post: operations["login"];
+  };
   "/revenues": {
     get: operations["allRevenues"];
   };
@@ -31,6 +37,9 @@ export interface paths {
   };
   "/customer-image/{imageId}": {
     get: operations["oneCustomerImage"];
+  };
+  "/auth/user": {
+    get: operations["authUser"];
   };
 }
 
@@ -66,7 +75,7 @@ export interface components {
       /** Format: uuid */
       id: string;
       contentType: string;
-      blob?: string[];
+      blob: string[];
       customer: components["schemas"]["Customer"];
     };
     Invoice: {
@@ -81,6 +90,26 @@ export interface components {
       /** @enum {string} */
       status: "pending" | "paid";
       customer: components["schemas"]["Customer"];
+    };
+    LoginRequest: {
+      email: string;
+      password: string;
+    };
+    AuthUserDto: {
+      /** Format: uuid */
+      id: string;
+      email: string;
+      roles?: components["schemas"]["RoleSummary"][];
+    };
+    AuthUserResponse: {
+      user?: components["schemas"]["AuthUserDto"];
+    };
+    PermissionSummary: {
+      authority?: string;
+    };
+    RoleSummary: {
+      name?: string;
+      permissions?: components["schemas"]["PermissionSummary"][];
     };
     Revenue: {
       monthName: string;
@@ -130,11 +159,11 @@ export interface components {
     };
     InvoiceBaseResponse: {
       /** @enum {string} */
-      status?: "pending" | "paid";
+      status: "pending" | "paid";
       /** Format: int32 */
-      amount?: number;
+      amount: number;
       /** Format: uuid */
-      customerId?: string;
+      customerId: string;
     };
     CustomerFilteredResponse: {
       name?: string;
@@ -145,9 +174,9 @@ export interface components {
       imageId?: string;
       /** Format: int32 */
       invoicesCount: number;
-      /** Format: int64 */
+      /** Format: int32 */
       pendingTotal: number;
-      /** Format: int64 */
+      /** Format: int32 */
       paidTotal: number;
     };
     CustomerSummaryResponse: {
@@ -246,6 +275,29 @@ export interface operations {
       };
     };
   };
+  logout: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
+      };
+    };
+  };
+  login: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["LoginRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "*/*": components["schemas"]["AuthUserResponse"];
+        };
+      };
+    };
+  };
   allRevenues: {
     responses: {
       /** @description OK */
@@ -312,6 +364,16 @@ export interface operations {
       200: {
         content: {
           "*/*": Record<string, never>;
+        };
+      };
+    };
+  };
+  authUser: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "*/*": components["schemas"]["AuthUserResponse"];
         };
       };
     };

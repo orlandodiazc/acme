@@ -1,7 +1,7 @@
 import LatestInvoices from "@/components/dashboard/overview/latest-invoices";
 import RevenueChart from "@/components/dashboard/overview/revenue-chart";
 import StatCard from "@/components/dashboard/overview/stat-card";
-import ErrorComponent from "@/components/error";
+import { ErrorPageComponent } from "@/components/errors";
 import Spinner from "@/components/spinner";
 import { overviewQuery } from "@/lib/api/queryOptions";
 import { formatCurrency } from "@/lib/utils";
@@ -22,7 +22,7 @@ function DashboardIndex() {
   return (
     <main>
       <h1 className="mb-4 text-2xl md:text-3xl">Overview</h1>
-      <ErrorBoundary FallbackComponent={ErrorComponent}>
+      <ErrorBoundary FallbackComponent={ErrorPageComponent}>
         <Suspense
           fallback={
             <div className="flex justify-center text-primary">

@@ -1,5 +1,6 @@
 import { recordToURLSearchParams } from "../utils";
 import { ApiSchema } from "./apiSchema";
+import Cookies from "js-cookie";
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -7,9 +8,20 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 //   return new Promise((r) => setTimeout(r, ms));
 // }
 
+function getCsrfHeader():
+  | Record<"X-XSRF-TOKEN", string>
+  | Record<string, never> {
+  const token = Cookies.get("XSRF-TOKEN");
+  if (!token) return {};
+  return { "X-XSRF-TOKEN": token };
+}
+
 async function fetcher(...args: Parameters<typeof fetch>) {
   const [url, opts] = args;
-  const response = await fetch(`${API_BASE_URL}${url}`, opts);
+  const response = await fetch(`${API_BASE_URL}${url}`, {
+    ...opts,
+    credentials: "include",
+  });
   let data;
   try {
     data = await response.json();
@@ -69,4 +81,32 @@ export function fetchCustomersSummary(): Promise<
   ApiSchema["CustomerSummaryResponse"][]
 > {
   return fetcher("/customers/summary");
+}
+
+export function login(formData: FormData) {
+  return fetcher("/auth/login", { body: formData, method: "POST" });
+}
+
+export function postLogin(
+  formData: FormData,
+): Promise<ApiSchema["AuthUserResponse"]> {
+  return fetcher("/auth/login", {
+    method: "POST",
+    body: formData,
+    credentials: "include",
+    headers: getCsrfHeader(),
+  });
+}
+
+export async function postLogout() {
+  const response = await fetch(API_BASE_URL + "/auth/logout", {
+    method: "POST",
+    credentials: "include",
+    headers: getCsrfHeader(),
+  });
+  if (!response.ok) throw response;
+}
+
+export function fetchAuthUser(): Promise<ApiSchema["AuthUserResponse"]> {
+  return fetcher("/auth/user");
 }
