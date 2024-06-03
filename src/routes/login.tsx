@@ -2,7 +2,7 @@ import AcmeLogo from "@/components/acme-logo";
 import { StatusButton } from "@/components/ui/status-button";
 import { useLoginMutation } from "@/lib/api/queryOptions";
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { AlertCircle, ArrowRight, AtSign, Key } from "lucide-react";
+import { AlertCircle, AtSign, Key } from "lucide-react";
 import React, { useState } from "react";
 
 export const Route = createFileRoute("/login")({
@@ -27,9 +27,8 @@ function Login() {
       },
       onError(response: Response) {
         if (response.status === 401) {
-          return setErrorMessage("Invalid email or password");
+          setErrorMessage("Invalid username or password");
         }
-        throw response;
       },
     });
   }

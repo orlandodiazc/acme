@@ -27,7 +27,7 @@ async function fetcher(...args: Parameters<typeof fetch>) {
     data = await response.json();
   } catch (e) {
     console.error(response);
-    if (!response.ok) throw response;
+    throw response;
   }
   if (!response.ok) throw data;
   return data;
@@ -51,6 +51,7 @@ export function postInvoice(formData: FormData): Promise<ApiSchema["Invoice"]> {
   return fetcher("/invoices", {
     method: "POST",
     body: formData,
+    headers: getCsrfHeader(),
   });
 }
 
@@ -64,11 +65,16 @@ export function putInvoice({
   return fetcher("/invoices/" + invoiceId, {
     method: "PUT",
     body: formData,
+    headers: getCsrfHeader(),
   });
 }
 
 export async function deleteInvoice(id: string): Promise<Response> {
-  return fetch(API_BASE_URL + "/invoices/" + id, { method: "DELETE" });
+  return fetch(API_BASE_URL + "/invoices/" + id, {
+    method: "DELETE",
+    credentials: "include",
+    headers: getCsrfHeader(),
+  });
 }
 
 export function fetchCustomersFiltered(
@@ -83,17 +89,12 @@ export function fetchCustomersSummary(): Promise<
   return fetcher("/customers/summary");
 }
 
-export function login(formData: FormData) {
-  return fetcher("/auth/login", { body: formData, method: "POST" });
-}
-
 export function postLogin(
   formData: FormData,
 ): Promise<ApiSchema["AuthUserResponse"]> {
   return fetcher("/auth/login", {
     method: "POST",
     body: formData,
-    credentials: "include",
     headers: getCsrfHeader(),
   });
 }

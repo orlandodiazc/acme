@@ -13,7 +13,7 @@ import {
   postLogout,
   putInvoice,
 } from ".";
-import { useNavigate, useRouter } from "@tanstack/react-router";
+import { useAuth } from "@/auth";
 
 export const overviewQuery = () =>
   queryOptions({
@@ -81,17 +81,8 @@ export const authUserQuery = () =>
     queryKey: ["auth", "user"],
   });
 
-export const useLogoutMutation = () => {
-  return useMutation({
-    mutationKey: ["auth", "logout"],
-    mutationFn: postLogout,
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: authUserQuery().queryKey });
-    },
-  });
-};
-
 export const useLoginMutation = () => {
+  const { setUser } = useAuth();
   return useMutation({
     mutationKey: ["auth", "login"],
     mutationFn: postLogin,
@@ -99,8 +90,19 @@ export const useLoginMutation = () => {
       return error;
     },
     onSuccess(data) {
-      queryClient.setQueryData(authUserQuery().queryKey, data);
+      setUser(data.user);
     },
     throwOnError: false,
+  });
+};
+
+export const useLogoutMutation = () => {
+  const { setUser } = useAuth();
+  return useMutation({
+    mutationKey: ["auth", "logout"],
+    mutationFn: postLogout,
+    onSuccess() {
+      setUser(undefined);
+    },
   });
 };
