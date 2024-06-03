@@ -40,7 +40,8 @@ public class AuthController {
 
     @PostMapping("/login")
     private ResponseEntity<AuthUserResponse> login(
-            @RequestBody LoginRequest userRequest, HttpServletRequest request,
+            @ModelAttribute LoginRequest userRequest,
+            HttpServletRequest request,
             HttpServletResponse response) {
         authService.authenticate(userRequest, request, response);
         return ResponseEntity.ok(new AuthUserResponse(userService.findByEmail(userRequest.email(), AuthUserDto.class)));
