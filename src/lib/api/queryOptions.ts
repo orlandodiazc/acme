@@ -79,6 +79,9 @@ export const authUserQuery = () =>
   queryOptions({
     queryFn: fetchAuthUser,
     queryKey: ["auth", "user"],
+    staleTime: Infinity,
+    gcTime: Infinity,
+    throwOnError: false,
   });
 
 export const useLoginMutation = () => {
