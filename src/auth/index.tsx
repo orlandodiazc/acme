@@ -20,7 +20,7 @@ const AuthContext = React.createContext<AuthContext | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { data: authUser, error } = useQuery(authUserQuery());
   const [data, setData] = React.useState<typeof authUser>();
-  const isLoading = useSpinDelay(!!data, { delay: 500, minDuration: 200 });
+  const isLoading = useSpinDelay(!data, { delay: 500, minDuration: 200 });
 
   React.useEffect(() => {
     setData(authUser);

@@ -26,16 +26,14 @@ export default function SideNav() {
       <div className="flex grow flex-row space-x-2 md:flex-col md:space-x-0 md:space-y-2">
         <NavLinks />
         <div className="hidden grow md:block" />
-        <form>
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-1 px-2"
-            onClick={handleClick}
-          >
-            <Power className="w-6" />
-            <div className="hidden md:block">Sign Out</div>
-          </Button>
-        </form>
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-1 px-2"
+          onClick={handleClick}
+        >
+          <Power className="w-6" />
+          <div className="hidden md:block">Sign Out</div>
+        </Button>
       </div>
     </header>
   );
