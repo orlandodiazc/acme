@@ -3,7 +3,6 @@
  * Do not make direct changes to the file.
  */
 
-
 export interface paths {
   "/invoices/{invoiceId}": {
     get: operations["oneInvoice"];
@@ -197,7 +196,6 @@ export type $defs = Record<string, never>;
 export type external = Record<string, never>;
 
 export interface operations {
-
   oneInvoice: {
     parameters: {
       path: {

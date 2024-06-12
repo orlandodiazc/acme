@@ -43,7 +43,9 @@ export function fetchInvoicesFiltered(
   return fetcher("/invoices?" + recordToURLSearchParams(searchParams));
 }
 
-export function fetchInvoice(id: string): Promise<ApiSchema["Invoice"]> {
+export function fetchInvoice(
+  id: string,
+): Promise<ApiSchema["InvoiceBaseResponse"]> {
   return fetcher("/invoices/" + id);
 }
 
