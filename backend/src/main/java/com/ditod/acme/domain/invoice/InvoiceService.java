@@ -56,7 +56,8 @@ public class InvoiceService {
 
     public Invoice saveInvoice(InvoiceRequest newInvoice) {
         Customer owner = customerService.findById(newInvoice.customerId());
-        return invoiceRepository.save(new Invoice(newInvoice.amount(), newInvoice.status(), owner));
+        long amountInCents = (long) newInvoice.amount() * 100;
+        return invoiceRepository.save(new Invoice(amountInCents, newInvoice.status(), owner));
     }
 
     public void deleteById(UUID id) {
@@ -65,12 +66,13 @@ public class InvoiceService {
 
     public Invoice updateInvoice(InvoiceRequest newInvoice, UUID invoiceId) {
         Customer owner = customerService.findById(newInvoice.customerId());
+        long amountInCents = (long) newInvoice.amount() * 100;
         return invoiceRepository.findById(invoiceId)
                 .map(invoice -> {
-                    invoice.setAmount(newInvoice.amount());
+                    invoice.setAmount(amountInCents);
                     invoice.setStatus(newInvoice.status());
                     return invoiceRepository.save(invoice);
                 })
-                .orElseGet(() -> invoiceRepository.save(new Invoice(newInvoice.amount(), newInvoice.status(), owner)));
+                .orElseGet(() -> invoiceRepository.save(new Invoice(amountInCents, newInvoice.status(), owner)));
     }
 }

@@ -5,7 +5,6 @@ import com.ditod.acme.domain.customer.Customer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.ColumnTransformer;
 
 import java.util.UUID;
 
@@ -16,8 +15,7 @@ public class Invoice extends DateTimeAudit {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @NotNull
-    @ColumnTransformer(write = "?*100")
-    private int amount;
+    private long amount;
     @NotNull
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -30,7 +28,7 @@ public class Invoice extends DateTimeAudit {
     public Invoice() {
     }
 
-    public Invoice(int amount, Status status, Customer customer) {
+    public Invoice(long amount, Status status, Customer customer) {
         this.amount = amount;
         this.status = status;
         this.customer = customer;
@@ -44,11 +42,11 @@ public class Invoice extends DateTimeAudit {
         this.id = id;
     }
 
-    public int getAmount() {
+    public long getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(long amount) {
         this.amount = amount;
     }
 
