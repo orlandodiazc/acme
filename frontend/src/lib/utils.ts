@@ -33,9 +33,14 @@ export const generateYAxis = (revenue: ApiSchema["Revenue"][]) => {
   return { yAxisLabels, topLabel };
 };
 
+export const centsToDollars = (amount?: number) => {
+  if (!amount) return 0;
+  return amount / 100;
+};
+
 export const formatCurrency = (amount?: number) => {
   if (!amount) return "0";
-  return (amount / 100).toLocaleString("en-US", {
+  return centsToDollars(amount).toLocaleString("en-US", {
     style: "currency",
     currency: "USD",
   });

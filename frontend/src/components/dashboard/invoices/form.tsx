@@ -11,7 +11,7 @@ import {
 import { StatusButton } from "@/components/ui/status-button";
 import { ApiSchema } from "@/lib/api/apiSchema";
 import { customersSummaryQuery } from "@/lib/api/queryOptions";
-import { cn, formatCurrency } from "@/lib/utils";
+import { centsToDollars, cn, formatCurrency } from "@/lib/utils";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { CircleDollarSign, UserCircle } from "lucide-react";
@@ -60,11 +60,13 @@ export default function InvoiceForm({
             <Input
               id="amount"
               name="amount"
-              type="text"
-              pattern="[0-9]+([,][0-9]{1,2})?"
+              type="number"
+              step="0.01"
               placeholder="Enter USD amount"
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue={formatCurrency(invoice?.amount)}
+              defaultValue={
+                invoice ? centsToDollars(invoice?.amount) : undefined
+              }
               required
             />
             <CircleDollarSign className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
