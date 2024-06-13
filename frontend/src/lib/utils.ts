@@ -94,6 +94,7 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
 };
 
 export function getCustomerImageSrc(imageId?: string) {
+  if (!imageId) return undefined;
   return `${API_BASE_URL}/customer-image/${imageId}`;
 }
 
