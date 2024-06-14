@@ -16,19 +16,19 @@ export default function SideNav() {
     });
   }
   return (
-    <header className="flex h-full shrink-0 flex-col px-3 py-4 md:w-64 md:px-2">
+    <header className="flex shrink-0 flex-col px-2 py-3 md:w-64 md:py-2">
       <Link
         className="mb-2 flex h-20 items-end justify-start rounded-md bg-primary p-4 md:h-40"
         to="/"
       >
         <AcmeLogo />
       </Link>
-      <div className="flex grow flex-row space-x-2 md:flex-col md:space-x-0 md:space-y-2">
+      <div className="flex grow md:flex-col md:space-x-0 md:space-y-2">
         <NavLinks />
         <div className="hidden grow md:block" />
         <Button
           variant="ghost"
-          className="w-full justify-start gap-1 px-2"
+          className="h-full justify-start gap-1 sm:px-4 md:h-auto md:px-2"
           onClick={handleClick}
         >
           <Power className="w-6" />

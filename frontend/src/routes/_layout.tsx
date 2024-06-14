@@ -12,7 +12,7 @@ function DashboardLayout() {
   return (
     <div className="flex h-full flex-col md:flex-row md:overflow-hidden">
       <SideNav />
-      <div className="flex-grow p-6 md:overflow-y-auto md:p-12">
+      <div className="flex-grow px-5 py-3 md:overflow-y-auto md:px-8 md:py-10">
         <Outlet />
       </div>
     </div>

@@ -15,12 +15,12 @@ const links = [
 
 export default function NavLinks() {
   return (
-    <nav>
-      <ul>
+    <nav className="grow">
+      <ul className="flex md:flex-col">
         {links.map((link) => {
           const LinkIcon = link.icon;
           return (
-            <li key={link.name}>
+            <li className="grow" key={link.name}>
               <Link
                 to={link.href}
                 className={cn(
