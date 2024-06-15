@@ -1,13 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
- <style>
-    path {
-      stroke: black;
-      fill: black;
-    }
-    @media (prefers-color-scheme: dark) {
-      path {
-        fill: white;
-        stroke: white;
-      }
-    }
-  </style><path d="M20 6H8"/><path d="M25 12H8"/><path d="M21 18H8"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="7 5 19 14">  <path d="M20 6H8"></path><path d="M25 12H8"></path><path d="M21 18H8"></path></svg>
