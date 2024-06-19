@@ -5,6 +5,7 @@ import com.ditod.acme.domain.user.UserService;
 import com.ditod.acme.domain.user.dto.AuthUserDto;
 import com.ditod.acme.web.auth.dto.AuthUserResponse;
 import com.ditod.acme.web.auth.dto.LoginRequest;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "authentication", description = "Operations about authenticating")
 public class AuthController {
     private final AuthService authService;
     private final UserService userService;

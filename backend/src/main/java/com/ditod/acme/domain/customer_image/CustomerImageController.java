@@ -1,6 +1,9 @@
 package com.ditod.acme.domain.customer_image;
 
 import com.ditod.acme.domain.exception.EntityNotFoundException;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/customer-image")
+@Tag(name = "customer image", description = "Access customer avatar images")
 public class CustomerImageController {
     private final CustomerImageRepository userImageRepository;
 

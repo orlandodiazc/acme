@@ -2,6 +2,9 @@ package com.ditod.acme.domain.customer;
 
 import com.ditod.acme.domain.customer.dto.CustomerFilteredResponse;
 import com.ditod.acme.domain.customer.dto.CustomerSummaryResponse;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/customers")
+@Tag(name = "customer", description = "Everything about your customers")
 public class CustomerController {
     private final CustomerService customerService;
 

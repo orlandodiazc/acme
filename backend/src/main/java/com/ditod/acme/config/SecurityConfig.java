@@ -47,7 +47,7 @@ public class SecurityConfig {
                         .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class);
         http.authenticationProvider(authenticationProvider());
-        http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/*")
+        http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/*", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
                 .permitAll()
                 .anyRequest()
                 .authenticated());
