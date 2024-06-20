@@ -4,5 +4,6 @@ RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:17-jdk
 COPY --from=build /target/*.jar app.jar
+COPY src/test/java/com/ditod/acme/fixtures/images images
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar","app.jar"]
