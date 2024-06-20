@@ -1,6 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ApiSchema } from "@/lib/api/apiSchema";
-import { cn, formatCurrency, getInitials } from "@/lib/utils";
+import {
+  cn,
+  formatCurrency,
+  getCustomerImageSrc,
+  getInitials,
+} from "@/lib/utils";
 import { RefreshCcw } from "lucide-react";
 
 export default function LatestInvoices({
@@ -24,7 +29,7 @@ export default function LatestInvoices({
                 <div className="flex items-center">
                   <Avatar className="mr-4">
                     <AvatarImage
-                      src={invoice?.imageId}
+                      src={getCustomerImageSrc(invoice.imageId)}
                       alt={`${invoice?.name}'s profile picture`}
                     />
                     <AvatarFallback>
