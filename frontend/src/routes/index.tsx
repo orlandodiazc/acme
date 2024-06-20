@@ -17,11 +17,11 @@ function Home() {
       <div className="mt-4 flex grow flex-col items-center gap-2 lg:mt-4 lg:flex-row">
         <div className="flex flex-col justify-center gap-6 rounded-lg  p-5 lg:w-2/5 lg:px-20">
           <p className="max-w-md text-xl tracking-tight lg:text-3xl lg:leading-normal">
-            <strong>Welcome to Acme.</strong> This is the example for the{" "}
+            <strong>Welcome to Acme.</strong> This is a clone for{" "}
             <a href="https://nextjs.org/learn/" className="text-primary">
               Next.js Learn Course
             </a>
-            , brought to you by Vercel.
+            , designed to keep track of customer invoices.
           </p>
           <Link
             to="/login"
