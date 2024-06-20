@@ -2,7 +2,7 @@ import AcmeLogo from "@/components/acme-logo";
 import { StatusButton } from "@/components/ui/status-button";
 import { useLoginMutation } from "@/lib/api/queryOptions";
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { AlertCircle, AtSign, Key } from "lucide-react";
+import { AlertCircle, AtSign, Info, Key } from "lucide-react";
 import React, { useState } from "react";
 
 export const Route = createFileRoute("/login")({
@@ -41,12 +41,30 @@ function Login() {
           </div>
         </div>
         <form onSubmit={handleSubmit} className="space-y-3">
-          <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
+          <div className="flex-1 rounded-lg bg-gray-50 p-4">
             <h1 className="mb-3 text-2xl">Please log in to continue.</h1>
+            <div className="rounded-sm border border-blue-300 bg-blue-100/50 px-4 py-2">
+              <p className="text-sm">
+                <span className="mb-1 flex items-center gap-2">
+                  <Info size={16} strokeWidth={2.5} />
+                  Login as admin using:
+                </span>
+
+                <ul className="ms-1 list-inside list-disc marker:w-3">
+                  <li>
+                    Email:{" "}
+                    <span className="font-medium">admin@example.com</span>
+                  </li>
+                  <li>
+                    Password: <span className="font-medium">123456</span>
+                  </li>
+                </ul>
+              </p>
+            </div>
             <div className="w-full">
               <div>
                 <label
-                  className="mb-3 mt-5 block text-xs font-medium text-gray-900"
+                  className="mb-1 mt-5 block text-xs font-medium text-gray-900"
                   htmlFor="email"
                 >
                   Email
@@ -66,7 +84,7 @@ function Login() {
               </div>
               <div className="mt-4">
                 <label
-                  className="mb-3 mt-5 block text-xs font-medium text-gray-900"
+                  className="mb-1 mt-5 block text-xs font-medium text-gray-900"
                   htmlFor="password"
                 >
                   Password
