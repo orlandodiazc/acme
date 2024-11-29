@@ -19,7 +19,8 @@ public class CustomerService {
 
     public Customer findById(UUID id) {
         return customerRepository.findById(id)
-                                 .orElseThrow(() -> new EntityDoesNotExistException("customer", id));
+                                 .orElseThrow(
+                                         () -> new EntityDoesNotExistException("customer", id));
     }
 
     public List<CustomerSummaryResponse> findAllSummary() {

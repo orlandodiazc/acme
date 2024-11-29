@@ -8,10 +8,8 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-// TODO: Add CustomerImageRequest for creation
 @Entity
 public class CustomerImage extends DateTimeAudit {
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -20,6 +18,7 @@ public class CustomerImage extends DateTimeAudit {
     private String contentType;
     @NotNull
     private byte[] blob;
+
     @NotNull
     @OneToOne
     @JoinColumn(name = "customerId")
@@ -30,7 +29,7 @@ public class CustomerImage extends DateTimeAudit {
     }
 
     public CustomerImage(String altText, String contentType, byte[] blob,
-            Customer customer) {
+                         Customer customer) {
         this.contentType = contentType;
         this.blob = blob;
         this.customer = customer;

@@ -13,19 +13,21 @@ import java.util.UUID;
 
 @Entity
 public class Customer extends DateTimeAudit {
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @NotNull
     private String name;
+
     @NotNull
     @Column(unique = true)
     private String email;
 
-    @NotNull
+
     @JsonManagedReference
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Invoice> invoices = new ArrayList<>();
+    private List<Invoice> invoices;
 
     @JsonManagedReference
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)

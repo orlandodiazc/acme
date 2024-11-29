@@ -24,7 +24,7 @@ public class AuthController {
 
 
     public AuthController(AuthService authService, UserService userService,
-            UserRepository userRepository) {
+                          UserRepository userRepository) {
         this.authService = authService;
         this.userService = userService;
         this.userRepository = userRepository;
@@ -32,12 +32,12 @@ public class AuthController {
 
     @GetMapping("/user")
     ResponseEntity<AuthUserResponse> getAuthUser(Authentication auth,
-            HttpServletResponse response) {
+                                                 HttpServletResponse response) {
         if (auth == null || !auth.isAuthenticated())
             return ResponseEntity.ok(new AuthUserResponse(null));
         Optional<AuthUserDto> user = userRepository.findByEmail(auth.getName(), AuthUserDto.class);
         return user.map(authUserDto -> ResponseEntity.ok(new AuthUserResponse(authUserDto)))
-                .orElseGet(() -> ResponseEntity.ok(new AuthUserResponse(null)));
+                   .orElseGet(() -> ResponseEntity.ok(new AuthUserResponse(null)));
     }
 
     @PostMapping("/login")
@@ -46,7 +46,8 @@ public class AuthController {
             HttpServletRequest request,
             HttpServletResponse response) {
         authService.authenticate(userRequest, request, response);
-        return ResponseEntity.ok(new AuthUserResponse(userService.findByEmail(userRequest.email(), AuthUserDto.class)));
+        return ResponseEntity.ok(new AuthUserResponse(
+                userService.findByEmail(userRequest.email(), AuthUserDto.class)));
     }
 
     @PostMapping("/logout")

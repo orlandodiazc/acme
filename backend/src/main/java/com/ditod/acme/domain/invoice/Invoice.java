@@ -10,15 +10,17 @@ import java.util.UUID;
 
 @Entity
 public class Invoice extends DateTimeAudit {
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
     @NotNull
     private long amount;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private Status status;
+
     @NotNull
     @ManyToOne
     @JoinColumn(name = "ownerId")

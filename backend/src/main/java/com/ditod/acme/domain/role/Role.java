@@ -21,9 +21,9 @@ public class Role extends DateTimeAudit {
     @Column(unique = true)
     private String name;
 
-    @NotNull
     @ManyToMany(mappedBy = "roles")
     private List<User> users = new ArrayList<>();
+
     @NotNull
     @ManyToMany
     @JoinTable(name = "role_permission", joinColumns = @JoinColumn(name = "permission_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -57,12 +57,12 @@ public class Role extends DateTimeAudit {
         this.users = users;
     }
 
-    public List<Permission> getPermissions() {
+    public @NotNull List<Permission> getPermissions() {
         return permissions;
     }
 
-    public void setPermissions(List<Permission> permissions) {
+    public void setPermissions(
+            @NotNull List<Permission> permissions) {
         this.permissions = permissions;
     }
-
 }

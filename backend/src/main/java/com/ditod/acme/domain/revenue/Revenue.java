@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Revenue {
-    @NotNull
     @Id
     private String monthName;
 

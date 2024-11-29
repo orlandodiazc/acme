@@ -51,9 +51,9 @@ public class AuthUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return user.getRoles()
-                .stream()
-                .map(Role::getPermissions)
-                .flatMap(Collection::stream)
-                .toList();
+                   .stream()
+                   .map(Role::getPermissions)
+                   .flatMap(Collection::stream)
+                   .toList();
     }
 }
