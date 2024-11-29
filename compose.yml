@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres
+    environment: &env
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?error}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_DB: acme
+    ports:
+      - "5432"
+  backend:
+    image: ditod/acme-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080"
+    depends_on:
+      - db
+    environment:
+      <<: *env
+      DATABASE_URL: jdbc:postgresql://db:5432
+      PROFILES_ACTIVE: prod
+      ALLOWED_ORIGIN: ${FRONTEND_ORIGIN}
+    labels:
+      - "traefik.http.routers.acme-backend.rule=(Host(`${HOST}`) && PathPrefix(`/api`))"
+  frontend:
+    image: ditod/acme-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ${FRONTEND_ORIGIN}/api
+    depends_on:
+      - backend
+    ports:
+      - "80"
+    labels:
+      - "traefik.http.routers.acme-frontend.rule=Host(`${HOST}`)"
+
+networks:
+  default:
+    name: traefik-proxy
+    external: true
+

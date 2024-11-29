@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1
 
 # Adjust NODE_VERSION as desired
-ARG NODE_VERSION=20.11.0
+ARG NODE_VERSION=22.11.0
 FROM node:${NODE_VERSION}-slim as base
 
 ARG VITE_API_BASE_URL
@@ -14,19 +14,22 @@ WORKDIR /app
 ENV NODE_ENV="production"
 
 # Install pnpm
-ARG PNPM_VERSION=8.15.1
+ARG PNPM_VERSION=9.12.3
 RUN npm install -g pnpm@$PNPM_VERSION
-
 
 # Throw-away build stage to reduce size of final image
 FROM base as build
 
+# Install packages needed to build node modules
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
+
 # Install node modules
-COPY --link package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile --prod=false
 
 # Copy application code
-COPY --link . .
+COPY . .
 
 # Build application
 RUN pnpm run build
@@ -34,13 +37,14 @@ RUN pnpm run build
 # Remove development dependencies
 RUN pnpm prune --prod
 
+
 # Final stage for app image
 FROM nginx
 
 # Copy built application
 COPY --from=build /app/dist /usr/share/nginx/html
 
-RUN rm /etc/nginx/conf.d/default.conf
+# RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d
 
 # Start the server by default, this can be overwritten at runtime
