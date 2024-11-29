@@ -1,10 +1,15 @@
 import AcmeLogo from "@/components/acme-logo";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute, redirect } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({
+  beforeLoad: ({ context }) => {
+    if (context.auth) {
+      throw redirect({ to: "/dashboard" });
+    }
+  },
   component: Home,
 });
 
