@@ -23,7 +23,7 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
     private final JpaUserDetailsService jpaUserDetailsService;
-    @Value("cors-allowed-origin")
+    @Value("${cors-allowed-origin}")
     private String corsAllowedOrigin;
 
     public SecurityConfig(JpaUserDetailsService jpaUserDetailsService) {
