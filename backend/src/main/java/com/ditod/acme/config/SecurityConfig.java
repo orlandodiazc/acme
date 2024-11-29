@@ -33,7 +33,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         var csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-        csrfTokenRepository.setCookieCustomizer(c -> c.path("/"));
+        csrfTokenRepository.setCookieCustomizer(c -> c.path("/").secure(true));
         http.csrf((csrf) -> csrf.csrfTokenRepository(csrfTokenRepository)
                                 .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler()));
         http.userDetailsService(jpaUserDetailsService);
