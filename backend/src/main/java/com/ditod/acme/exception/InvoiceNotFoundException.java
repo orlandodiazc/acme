@@ -1,4 +1,4 @@
-package com.ditod.acme.domain.exception;
+package com.ditod.acme.exception;
 
 import java.util.UUID;
 

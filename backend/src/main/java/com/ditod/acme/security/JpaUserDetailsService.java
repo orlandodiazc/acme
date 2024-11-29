@@ -1,6 +1,6 @@
-package com.ditod.acme.auth;
+package com.ditod.acme.security;
 
-import com.ditod.acme.domain.exception.EntityNotFoundException;
+import com.ditod.acme.exception.EntityDoesNotExistException;
 import com.ditod.acme.domain.user.AuthUser;
 import com.ditod.acme.domain.user.User;
 import com.ditod.acme.domain.user.UserRepository;
@@ -22,7 +22,7 @@ public class JpaUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(
             String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email, User.class)
-                .map(AuthUser::new)
-                .orElseThrow(() -> new EntityNotFoundException("email", email));
+                             .map(AuthUser::new)
+                             .orElseThrow(() -> new EntityDoesNotExistException("email", email));
     }
 }

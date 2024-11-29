@@ -1,6 +1,6 @@
 package com.ditod.acme.domain.user;
 
-import com.ditod.acme.domain.exception.EntityNotFoundException;
+import com.ditod.acme.exception.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service

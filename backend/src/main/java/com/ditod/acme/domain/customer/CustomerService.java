@@ -1,8 +1,8 @@
 package com.ditod.acme.domain.customer;
 
-import com.ditod.acme.domain.customer.dto.CustomerFilteredResponse;
-import com.ditod.acme.domain.customer.dto.CustomerSummaryResponse;
-import com.ditod.acme.domain.exception.EntityNotFoundException;
+import com.ditod.acme.exception.EntityDoesNotExistException;
+import com.ditod.acme.web.customer.dto.CustomerFilteredResponse;
+import com.ditod.acme.web.customer.dto.CustomerSummaryResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class CustomerService {
 
     public Customer findById(UUID id) {
         return customerRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("customer", id));
+                                 .orElseThrow(() -> new EntityDoesNotExistException("customer", id));
     }
 
     public List<CustomerSummaryResponse> findAllSummary() {

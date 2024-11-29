@@ -1,4 +1,4 @@
-package com.ditod.acme.domain.exception;
+package com.ditod.acme.exception;
 
 import org.springframework.http.*;
 import org.springframework.validation.FieldError;
@@ -14,15 +14,15 @@ import java.util.List;
 
 @RestControllerAdvice
 public class RestExceptionControllerAdvice extends ResponseEntityExceptionHandler {
-    @ExceptionHandler({EntityNotFoundException.class})
+    @ExceptionHandler({EntityDoesNotExistException.class})
     public ProblemDetail exceptionDoesNotExistHandler(RuntimeException ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException ex, HttpHeaders headers,
-            HttpStatusCode status, WebRequest request) {
+            MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status,
+            WebRequest request) {
         HashMap<String, List<String>> errors = new HashMap<>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             String fieldName = error.getField();
@@ -33,14 +33,13 @@ public class RestExceptionControllerAdvice extends ResponseEntityExceptionHandle
         }
         ProblemDetail problemDetail = ex.getBody();
         problemDetail.setProperty("errors", errors);
-        return ResponseEntity.status(problemDetail.getStatus())
-                .body(problemDetail);
+        return ResponseEntity.status(problemDetail.getStatus()).body(problemDetail);
     }
 
 
-    @ExceptionHandler({EntityAlreadyExistsException.class})
+    @ExceptionHandler({com.ditod.acme.domain.exception.EntityAlreadyExistsException.class})
     public ProblemDetail exceptionAlreadyExistsHandler(
-            EntityAlreadyExistsException ex) {
+            com.ditod.acme.domain.exception.EntityAlreadyExistsException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         HashMap<String, String> errors = new HashMap<>();
         errors.put(ex.getField(), ex.getMessage());

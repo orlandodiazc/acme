@@ -3,8 +3,8 @@ package com.ditod.acme.domain.invoice;
 
 import com.ditod.acme.domain.customer.Customer;
 import com.ditod.acme.domain.customer.CustomerService;
-import com.ditod.acme.domain.exception.EntityNotFoundException;
-import com.ditod.acme.domain.invoice.dto.*;
+import com.ditod.acme.exception.EntityDoesNotExistException;
+import com.ditod.acme.web.invoice.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -43,7 +43,7 @@ public class InvoiceService {
 
     public InvoiceBaseResponse findById(UUID id) {
         return invoiceRepository.findById(id, InvoiceBaseResponse.class)
-                .orElseThrow(() -> new EntityNotFoundException("invoice", id));
+                .orElseThrow(() -> new EntityDoesNotExistException("invoice", id));
     }
 
     public InvoiceTotalByStatus findInvoiceTotalByStatus() {

@@ -1,6 +1,6 @@
 package com.ditod.acme.web.overview.dto;
 
-import com.ditod.acme.domain.invoice.dto.InvoiceSummaryResponse;
+import com.ditod.acme.web.invoice.dto.InvoiceSummaryResponse;
 import com.ditod.acme.domain.revenue.Revenue;
 import jakarta.validation.constraints.NotNull;
 

@@ -1,7 +1,8 @@
-package com.ditod.acme.domain.customer;
+package com.ditod.acme.web.customer;
 
-import com.ditod.acme.domain.customer.dto.CustomerFilteredResponse;
-import com.ditod.acme.domain.customer.dto.CustomerSummaryResponse;
+import com.ditod.acme.domain.customer.CustomerService;
+import com.ditod.acme.web.customer.dto.CustomerFilteredResponse;
+import com.ditod.acme.web.customer.dto.CustomerSummaryResponse;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 

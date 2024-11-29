@@ -1,4 +1,4 @@
-package com.ditod.acme.domain.invoice.dto;
+package com.ditod.acme.web.invoice.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;

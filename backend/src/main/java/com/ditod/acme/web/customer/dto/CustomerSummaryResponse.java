@@ -1,4 +1,4 @@
-package com.ditod.acme.domain.customer.dto;
+package com.ditod.acme.web.customer.dto;
 
 import jakarta.validation.constraints.NotNull;
 

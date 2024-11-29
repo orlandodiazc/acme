@@ -1,4 +1,4 @@
-package com.ditod.acme.domain.exception;
+package com.ditod.acme.exception;
 
 public class EntityAlreadyExistsException extends RuntimeException {
     private final String field;

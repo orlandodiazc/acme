@@ -45,12 +45,12 @@ public class DataLoader implements ApplicationRunner {
     private final RevenueRepository revenueRepository;
 
     public DataLoader(PermissionRepository permissionRepository,
-            RoleRepository roleRepository, UserRepository userRepository,
-            PasswordEncoder passwordEncoder,
-            CustomerRepository customerRepository,
-            CustomerImageRepository customerImageRepository,
-            InvoiceRepository invoiceRepository,
-            RevenueRepository revenueRepository) {
+                      RoleRepository roleRepository, UserRepository userRepository,
+                      PasswordEncoder passwordEncoder,
+                      CustomerRepository customerRepository,
+                      CustomerImageRepository customerImageRepository,
+                      InvoiceRepository invoiceRepository,
+                      RevenueRepository revenueRepository) {
         this.permissionRepository = permissionRepository;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
@@ -79,7 +79,8 @@ public class DataLoader implements ApplicationRunner {
         List<Permission> permissionsAllAccess = permissionRepository.findAll();
         Role adminRole = new Role("ROLE_ADMIN", permissionsAllAccess);
         roleRepository.save(adminRole);
-        User admin = new User("admin@example.com", passwordEncoder.encode("123456"), List.of(adminRole));
+        User admin = new User("admin@example.com", passwordEncoder.encode("123456"),
+                              List.of(adminRole));
         userRepository.save(admin);
 
         List<Invoice> invoices = new ArrayList<>();
@@ -95,14 +96,18 @@ public class DataLoader implements ApplicationRunner {
             Customer newCustomer = new Customer(name, email);
             File userImageFile = new File(IMAGES_DIRECTORY + "/customer/" + i + ".jpg");
             byte[] userImageContent = readFileBytes(userImageFile);
-            CustomerImage newCustomerImage = new CustomerImage(firstName + "'s avatar", Files.probeContentType(userImageFile.toPath()), userImageContent, newCustomer);
+            CustomerImage newCustomerImage = new CustomerImage(firstName + "'s avatar",
+                                                               Files.probeContentType(
+                                                                       userImageFile.toPath()),
+                                                               userImageContent, newCustomer);
             newCustomer.setImage(newCustomerImage);
             customers.add(newCustomer);
 
             for (int j = 0; j < faker.number().numberBetween(1, 6); j++) {
                 Invoice newInvoice = new Invoice(faker.number()
-                        .numberBetween(5, 50000), faker.options()
-                        .option(Status.class), newCustomer);
+                                                      .numberBetween(5, 50000), faker.options()
+                                                                                     .option(Status.class),
+                                                 newCustomer);
                 invoices.add(newInvoice);
             }
         }
@@ -111,6 +116,11 @@ public class DataLoader implements ApplicationRunner {
 
         customerRepository.saveAll(customers);
         invoiceRepository.saveAll(invoices);
-        revenueRepository.saveAll(List.of(new Revenue("Jan", 2000), new Revenue("Feb", 1800), new Revenue("Mar", 2200), new Revenue("Apr", 2500), new Revenue("May", 2300), new Revenue("Jun", 3200), new Revenue("Jul", 3500), new Revenue("Aug", 3700), new Revenue("Sep", 2500), new Revenue("Oct", 2800), new Revenue("Nov", 3000), new Revenue("Dec", 4800)));
+        revenueRepository.saveAll(List.of(new Revenue("Jan", 2000), new Revenue("Feb", 1800),
+                                          new Revenue("Mar", 2200), new Revenue("Apr", 2500),
+                                          new Revenue("May", 2300), new Revenue("Jun", 3200),
+                                          new Revenue("Jul", 3500), new Revenue("Aug", 3700),
+                                          new Revenue("Sep", 2500), new Revenue("Oct", 2800),
+                                          new Revenue("Nov", 3000), new Revenue("Dec", 4800)));
     }
 }

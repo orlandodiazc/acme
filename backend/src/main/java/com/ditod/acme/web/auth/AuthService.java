@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
-
-
     private final AuthenticationManager authenticationManager;
     private final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
     private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
@@ -28,9 +26,11 @@ public class AuthService {
         this.authenticationManager = authenticationManager;
     }
 
-    public void authenticate(LoginRequest userRequest,
-            HttpServletRequest request, HttpServletResponse response) {
-        UsernamePasswordAuthenticationToken token = UsernamePasswordAuthenticationToken.unauthenticated(userRequest.email(), userRequest.password());
+    public void authenticate(LoginRequest userRequest, HttpServletRequest request,
+                             HttpServletResponse response) {
+
+        UsernamePasswordAuthenticationToken token = UsernamePasswordAuthenticationToken.unauthenticated(
+                userRequest.email(), userRequest.password());
         Authentication authentication = authenticationManager.authenticate(token);
         SecurityContext context = securityContextHolderStrategy.createEmptyContext();
         context.setAuthentication(authentication);

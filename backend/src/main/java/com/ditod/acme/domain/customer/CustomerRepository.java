@@ -1,6 +1,6 @@
 package com.ditod.acme.domain.customer;
 
-import com.ditod.acme.domain.customer.dto.CustomerFilteredResponse;
+import com.ditod.acme.web.customer.dto.CustomerFilteredResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

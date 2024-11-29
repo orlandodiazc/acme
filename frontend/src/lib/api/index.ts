@@ -8,9 +8,7 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 //   return new Promise((r) => setTimeout(r, ms));
 // }
 
-function getCsrfHeader():
-  | Record<"X-XSRF-TOKEN", string>
-  | Record<string, never> {
+function getCsrfHeader(): Record<"X-XSRF-TOKEN", string> | {} {
   const token = Cookies.get("XSRF-TOKEN");
   if (!token) return {};
   return { "X-XSRF-TOKEN": token };
